@@ -1,0 +1,776 @@
+---
+title: "Preliminary Result of Paper 2; Aggregation Method B"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: word_document
+                        
+
+---
+
+<!--This version aggregate information at subwindow start date not each encounter date-->
+
+
+```{r DataManipulation, echo=FALSE, message=FALSE, warning=FALSE}
+rm(list = ls())
+## Function for loading/installing necessary package
+pkgTest <- function(x){
+  if (!is.element(x, installed.packages()[,1])){
+    install.packages(x,dep=TRUE)
+    if(!require(x,character.only = TRUE)) stop("Package not found")
+  } else{
+    if(!require(x,character.only = TRUE)) stop("Package not found")
+  }
+}
+
+## make sure you have Java installed before running the following code
+pkgTest('plyr')
+# pkgTest('xlsx')
+pkgTest('openxlsx')
+pkgTest('glmnet')
+pkgTest('pROC')
+pkgTest('corrplot')
+pkgTest('knitr')
+pkgTest('randomForest')
+pkgTest('ggplot2')
+pkgTest('wordcloud')
+
+VTM <- function(vc, dm){
+  matrix(vc, ncol = length(vc), nrow = dm, byrow = T)
+}
+
+year   = 2000:2016
+tw     = 12 # 3, 6, 12, 24 # time window in months
+tp     = 3 # tw/4, time period for sample cases and controls in months
+# too many cases happens within 6 months may lead to inflated relapse rates
+readin = TRUE # read in intermediate data tables
+sims   = 500 # number of bootstraps
+readinboot = TRUE # read in bootstrap results
+rarethresh = 0.05 # threshold for rare codes; slightly better than 0.02
+
+################################################################################
+######################            READ IN DATA            ######################
+################################################################################
+#### Data directory
+# wkpath    = "~/Box/Boston/MS CLIMB Data/"
+# wkpath2   = "~/Box/Boston/MS CLIMB Paper2 Code&Result/Step3_BuildModel/IntermediateDataResult/"
+wkpath    = "raw_data/Box/Boston/MS CLIMB Data/"
+wkpath2   = "raw_data/Box/Boston/MS CLIMB Paper2 Code&Result/Step3_BuildModel/IntermediateDataResult/"
+wkpath3   = "models/"
+
+################################################################################
+## i2b2 map of Patient Number and Patient ID
+MS_map  = read.xlsx(paste0(wkpath,"CLIMB Cohort/Spec95_i2b2_Mapping2017.xlsx"),
+                    sheet = 1); colnames(MS_map) = c("PatientNum","PatientID")
+## cohort/attack(relapse)/treatment data
+if (readin) {
+  MS_cohort = read.csv(paste0(wkpath2,"Cleaned_MS_cohort.csv"),
+                       stringsAsFactors = FALSE,
+                       colClasses = c(rep("character",4),
+                                      rep("Date",4),
+                                      rep("integer",6),
+                                      rep("numeric",3),
+                                      "integer",
+                                      rep("Date",4),
+                                      rep("numeric",3),
+                                      "integer"))
+  MS_attack = read.csv(paste0(wkpath2,"Cleaned_MS_attack.csv"),
+                       stringsAsFactors = FALSE,
+                       colClasses = c("character",
+                                      rep("integer",6),
+                                      "Date",
+                                      rep("numeric",3),
+                                      rep("character",12),
+                                      rep("Date",2),
+                                      "integer",
+                                      rep("Date",5),
+                                      rep("integer",2)))
+  MS_trt    = read.csv(paste0(wkpath2,"Cleaned_MS_treatment.csv"),
+                       stringsAsFactors = FALSE)
+} else{
+  ## cohort and relapse
+  MS_cohort = read.xlsx(paste0(wkpath, "CLIMB Cohort/ClimbCohortReviewSent081717.xlsx"),
+                        sheet = 1)
+  MS_trt    = read.xlsx(paste0(wkpath, "CLIMB Cohort/ClimbDMTAttackZongqi062817Sent.xlsx"),
+                        sheet = 1)
+  MS_attack = read.xlsx(paste0(wkpath, "CLIMB Cohort/ClimbDMTAttackZongqi062817Sent.xlsx"),
+                        sheet = 2)
+  colnames(MS_trt)[1] = colnames(MS_attack)[1] = colnames(MS_cohort)[1] = "PatientID"
+  ### remove duplicates
+  MS_cohort = MS_cohort[!duplicated(MS_cohort$PatientID),]
+  # There is one patient in the cohort data with missing enrollment date. Further checking shows all the information of this patients is missing. 
+  MS_cohort = MS_cohort[!is.na(MS_cohort$BASELINE_DATE),]
+  ## remove duplicates based on onset_year,onset_month,onset_day
+  MS_attack = MS_attack[!duplicated(MS_attack[,c("PatientID","onset_year","onset_month","onset_day")]),]
+  ## further remove 28 duplicates based on onset_year & onset_month
+  # MS_attack = MS_attack[order(MS_attack$PatientID,MS_attack$onset_year,MS_attack$onset_month,MS_attack$onset_day),]
+  MS_attack = MS_attack[!duplicated(MS_attack[,c("PatientID","onset_year","onset_month")]),]
+  
+  MS_EHR    = read.xlsx(paste0(wkpath,"EHR/MS_first_last_date_whole_list.xlsx"),
+                        sheet = 1); colnames(MS_EHR)[1] = "PatientNum"
+  MS_EHR$PatientID = MS_map$PatientID[match(MS_EHR$PatientNum, MS_map$PatientNum)]  
+  
+  ### Belongs to EHR or not
+  MS_cohort$EHR = as.numeric(MS_cohort$PatientID %in% MS_EHR$PatientID)
+  MS_attack$EHR = as.numeric(MS_attack$PatientID %in% MS_EHR$PatientID)
+  
+  ### add last code date and last date = max(last code date, last visit date) to both cohort and attack data
+  MS_cohort$LAST_CODE   = MS_EHR$Last_date[match(MS_cohort$PatientID, MS_EHR$PatientID)] # last code
+  MS_cohort$FIRST_CODE  = MS_EHR$First_date[match(MS_cohort$PatientID, MS_EHR$PatientID)] # first code
+  MS_attack$LAST_CODE   = MS_EHR$Last_date[match(MS_attack$PatientID,MS_EHR$PatientID)]
+  MS_attack$FIRST_CODE  = MS_EHR$First_date[match(MS_attack$PatientID,MS_EHR$PatientID)] # first code
+  
+  ### Impute first diagnosis date (cohort)
+  ## impute missing month/day
+  tmp                  = is.na(MS_cohort$FIRSTDIAG_MONTH)
+  MS_cohort$FIRSTDIAG_MONTH[tmp] = 7
+  MS_cohort$FIRSTDIAG_DAY[tmp]   = 1
+  tmp                  = is.na(MS_cohort$FIRSTDIAG_DAY)
+  MS_cohort$FIRSTDIAG_DAY[tmp]   = 15
+  a                    = lapply(1:nrow(MS_cohort),function(i){
+    as.Date(paste0(c(as.character(MS_cohort$FIRSTDIAG_YEAR[i]),as.character(MS_cohort$FIRSTDIAG_MONTH[i]),as.character(MS_cohort$FIRSTDIAG_DAY[i])),collapse="-"),format="%Y-%m-%d")
+  })
+  a                    = do.call(c,a)
+  ## get first/last date
+  MS_cohort$LAST_DATE  = pmax(MS_cohort$LAST_VISIT_DATE,
+                              as.Date(MS_cohort$LAST_CODE, format = "%Y-%m-%d"),
+                              na.rm = TRUE) # max(last vist, last code)
+  MS_cohort$FIRST_DATE = pmin(a, # first diagnosis date
+                              as.Date(MS_cohort$FIRST_CODE, format = "%Y-%m-%d"),
+                              as.Date(MS_cohort$BASELINE_DATE, format = "%Y-%m-%d"),
+                              na.rm = TRUE)
+  ## delete patients with first date>last date
+  tmp                  = with(MS_cohort,FIRST_DATE>LAST_DATE)
+  tmp[is.na(tmp)]      = FALSE
+  MS_cohort            = MS_cohort[!tmp,]
+  a                    = a[!tmp]
+  MS_attack            = MS_attack[MS_attack$PatientID %in% MS_cohort$PatientID &
+                                     MS_attack$onset_year %in% year,]
+  MS_trt               = MS_trt[MS_trt$PatientID %in% MS_cohort$PatientID,]
+  MS_attack$LAST_DATE  = MS_cohort$LAST_DATE[match(MS_attack$PatientID, MS_cohort$PatientID)]
+  MS_attack$FIRST_DATE = MS_cohort$FIRST_DATE[match(MS_attack$PatientID, MS_cohort$PatientID)]
+  
+  
+  ### Impute first symptom date (cohort)
+  ## impute missing month/day
+  tmp2                 = is.na(MS_cohort$FIRSTSYMP_MONTH)
+  MS_cohort$FIRSTSYMP_MONTH[tmp2] = 7
+  MS_cohort$FIRSTSYMP_DAY[tmp2]   = 1
+  tmp2                 = is.na(MS_cohort$FIRSTSYMP_DAY)
+  MS_cohort$FIRSTSYMP_DAY[tmp2]   = 15
+  
+  ## Impute onset date (attack)
+  tmp                  = is.na(MS_attack$onset_day)
+  MS_attack$onset_day[tmp] = 15
+  MS_attack$onset = with(MS_attack,as.Date(paste0(onset_year,"-",onset_month,"-",onset_day),
+                                           format = "%Y-%m-%d"))
+  
+  ### exlcudes patients with problematic entries (trt)
+  ## exclude entries with missing stop year and history == stopped 
+  ## as well as entries with missing start year but history == ever
+  tmp  = with(MS_trt,(is.na(stop_year) & history == "stopped"))
+  tmp2 = with(MS_trt,(is.na(start_year) & history == "ever"))
+  tmp3 = with(MS_trt,start_year > stop_year)
+  tmp4 = with(MS_trt,start_year == stop_year & start_month > stop_month)
+  tmp5 = with(MS_trt,
+              start_year == stop_year & start_month == stop_month & start_day > stop_day)
+  tmp3[is.na(tmp3)] = FALSE
+  tmp4[is.na(tmp4)] = FALSE
+  tmp5[is.na(tmp5)] = FALSE
+  MS_trt     = MS_trt[!(tmp | tmp2 | tmp3 | tmp4 | tmp5),]
+  ## for patient with a missing stop year but history == current, impute by 2017/7/1
+  tmp        = is.na(MS_trt$stop_year)
+  MS_trt$stop_year[tmp]   = 2017
+  MS_trt$stop_month[tmp]  = 7
+  MS_trt$stop_day[tmp]    = 1
+  ## for patient with a missing stop month, impute by 7/1
+  tmp        = is.na(MS_trt$stop_month)
+  MS_trt$stop_month[tmp]  = 7
+  MS_trt$stop_day[tmp]    = 1
+  ## for patient with a missing stop day, impute by 15
+  tmp        = is.na(MS_trt$stop_day)
+  MS_trt$stop_day[tmp]    = 15
+  ## for patient with a missing start month, impute by 7/1
+  tmp        = is.na(MS_trt$start_month)
+  MS_trt$start_month[tmp] = 7
+  MS_trt$start_day[tmp]   = 1
+  ## for patient with a missing start day, impute by 15
+  tmp        = is.na(MS_trt$start_day)
+  MS_trt$start_day[tmp]   = 15
+  ## check consistency
+  tmp3   = with(MS_trt, start_year > stop_year)
+  tmp4   = with(MS_trt, start_year == stop_year & start_month > stop_month)
+  tmp5   = with(MS_trt, 
+                start_year == stop_year & start_month == stop_month & start_day > stop_day)
+  MS_trt = MS_trt[!(tmp3 | tmp4 | tmp5),]
+  
+  ## Age at first code
+  MS_cohort$AGE_AT_FIRSTCODE = with(MS_cohort,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_CODE,format="%Y-%m-%d"),units="days"))/365)
+  
+  ## Age at sympton onset
+  MS_cohort$AGE_AT_FIRSTSYMPTOM = with(MS_cohort,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),
+                                        as.Date(paste(FIRSTSYMP_YEAR,FIRSTSYMP_MONTH,FIRSTSYMP_DAY,sep="-"),format="%Y-%m-%d"),units="days"))/365)
+  
+  ## Age at first date
+  MS_cohort$AGE_AT_FIRSTDATE = with(MS_cohort,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_DATE,format="%Y-%m-%d"),units="days"))/365)
+  
+  ## Duration of follow-up (last date - first date)
+  MS_cohort$DURA = with(MS_cohort,as.numeric(difftime(as.Date(LAST_DATE,format="%Y-%m-%d"),
+                                            as.Date(FIRST_DATE,format="%Y-%m-%d"),
+                                            units = "days"))/365)
+
+  ## Number of treatments
+  tmp    = unique(MS_trt$PatientID)
+  tmp2   = with(MS_trt,sapply(tmp,function(x){ 
+    length(unique(medication_desc[PatientID == x]))
+    }))
+  MS_cohort$NumTrt = tmp2[match(MS_cohort$PatientID, tmp)]
+  tmp    = is.na(MS_cohort$NumTrt)
+  MS_cohort$NumTrt[tmp] = 0
+  
+  ## clinical relapse and radiographic relapse
+  clinical   = names(MS_attack)[12:23]
+  radiograph = clinical[(1:12 %% 3) == 2] 
+  clinical   = clinical[(1:12 %% 3) != 2]
+  MS_attack$clinical    = sapply(1:nrow(MS_attack),function(x){
+    as.numeric(sum(MS_attack[x,clinical] == "Y", na.rm = TRUE) >= 1)
+  })
+  MS_attack$radiographic = sapply(1:nrow(MS_attack),function(x){
+    as.numeric(sum(MS_attack[x,radiograph] == "Y",na.rm = TRUE) >= 1)
+  }) 
+
+  write.csv(MS_cohort,paste0(wkpath2,"Cleaned_MS_cohort.csv"), row.names = FALSE)
+  write.csv(MS_attack,paste0(wkpath2,"Cleaned_MS_attack.csv"), row.names = FALSE)
+  write.csv(MS_trt,paste0(wkpath2,"Cleaned_MS_treatment.csv"), row.names = FALSE)
+}
+################################################################################
+## Raw ICD (PheCode)/CPT (Grouped)/ CUI
+CUIdictAll = read.xlsx(paste0(wkpath,"EHR/AllCUI_Database.xlsx"),
+                       sheet = 1); colnames(CUIdictAll) = c("ConceptCd", "Desc")
+if (readin) {
+  ICD_CPT_CUI_Comb = read.csv(paste0(wkpath2,"ICD_CPT_CUI_Comb.csv"),
+                              stringsAsFactors = FALSE)
+  ICD_CPT_CUI_Comb$StartDate = as.Date(ICD_CPT_CUI_Comb$StartDate)
+  ICD_CPT_CUI_Comb$ConceptCd = as.factor(ICD_CPT_CUI_Comb$ConceptCd)
+  ICDPheCode   = read.csv(paste0(wkpath,"EHR/MS_AllEncounters_ICD_Data_03282019.csv"),
+                          stringsAsFactors = FALSE)
+  ICDPheCode$phecode[ICDPheCode$concept_cd == "LPA268"] = "335_"
+} else{
+  ICDPheCode   = read.csv(paste0(wkpath,"EHR/MS_AllEncounters_ICD_Data_03282019.c
+                                 sv"),
+                          stringsAsFactors = FALSE)
+  ICDPheCode$phecode[ICDPheCode$concept_cd == "LPA268"] = "335_"
+  tmp = ICDPheCode[ICDPheCode$concept_cd %in% c("V700","V762"),-6]
+  ICDPheCode  = ICDPheCode[!ICDPheCode$concept_cd %in% c("V700","V762"),]
+  CPTGrouped  = read.csv(paste0(wkpath,"EHR/MS_AllEncounters_CPTCode_Data_03282019.csv"),
+                        stringsAsFactors = FALSE)
+  CPTGrouped2 = read.csv(paste0(wkpath,"EHR/MS_AllEncounters_CPTGroup_04112019.csv"),
+                         stringsAsFactors = FALSE)
+  colnames(tmp) = colnames(CPTGrouped)
+  CPTGrouped  = rbind(tmp,CPTGrouped,CPTGrouped2); rm(CPTGrouped2)
+  
+  CUISelected  = read.csv(paste0(wkpath,"EHR/MS_AllEncounters_CUI_Data_03282019.csv"),
+                          stringsAsFactors = FALSE)
+  colnames(ICDPheCode)  = c("PatientNum","EncounterNum","StartDate",
+                            "ConceptCd","PheCode","Desc")
+  colnames(CPTGrouped)  = c("PatientNum","EncounterNum","StartDate",
+                            "ConceptCd","CPTGroup")
+  colnames(CUISelected) = c("PatientNum","EncounterNum","StartDate",
+                            "ConceptCd")
+  ICDPheCode$StartDate  = as.Date(ICDPheCode$StartDate, format = "%m/%d/%y")
+  CPTGrouped$StartDate  = as.Date(CPTGrouped$StartDate, format = "%m/%d/%y")
+  CUISelected$StartDate = as.Date(CUISelected$StartDate, format = "%m/%d/%y")
+  CUISelected$Desc = CUIdictAll$Desc[match(CUISelected$ConceptCd, CUIdictAll$ConceptCd)]
+  
+  CPTGrouped$ConceptCd = toupper(CPTGrouped$ConceptCd)
+  CPTGrouped$CPTGroup  = substr(CPTGrouped$CPTGroup, 2, nchar(CPTGrouped$CPTGroup))
+  
+  CPTGrouped$CPTGroup[CPTGrouped$ConceptCd%in%c("V700","CG0463")] = "outpatient clinic visit"
+  CPTGrouped$CPTGroup[CPTGrouped$ConceptCd%in%c("V762","CG0101","CG0202","CQ0091")] = "cancer screening"
+  CPTGrouped$CPTGroup[CPTGrouped$ConceptCd%in%c("C90765","C90766","C90780","C90781","CC8950","CC8951")] = "hydration, therapeutic, prophylactic, diagnostic injections and infusions, and chemotherapy and other highly complex drug or highly complex biologic agent administration"
+  CPTGrouped$CPTGroup[CPTGrouped$ConceptCd%in%c("C70540","C70542","C70543")] = "MRI orbit"
+  CPTGrouped$CPTGroup[CPTGrouped$ConceptCd%in%c("C70551","C70552","C70553")] = "MRI brain"
+  CPTGrouped$CPTGroup[CPTGrouped$ConceptCd%in%c("C72141","C72142","C72146",
+                                                "C72147","C72156","C72157")] = "MRI spine (cervical, thoracic)"
+  
+  ICDPheCode$ConceptCd  = paste0("PheCode.", ICDPheCode$PheCode)
+  CPTGrouped$ConceptCd  = paste0("CPTGroup.", CPTGrouped$CPTGroup)
+  CUISelected$ConceptCd = paste0("CUI.", CUISelected$ConceptCd)
+  
+  ICD_CPT_CUI_Comb = rbind(ICDPheCode[,c("PatientNum","EncounterNum","StartDate","ConceptCd")],
+                           CPTGrouped[,c("PatientNum","EncounterNum","StartDate","ConceptCd")],
+                           CUISelected[,c("PatientNum","EncounterNum",
+                                          "StartDate","ConceptCd")])
+  ICD_CPT_CUI_Comb = count(ICD_CPT_CUI_Comb)[, c("PatientNum", "StartDate", "ConceptCd")]
+  ICD_CPT_CUI_Comb$PatientID = 
+    MS_map$PatientID[match(ICD_CPT_CUI_Comb$PatientNum, MS_map$PatientNum)] 
+  ICD_CPT_CUI_Comb$ConceptCd = as.factor(ICD_CPT_CUI_Comb$ConceptCd)
+  write.csv(ICD_CPT_CUI_Comb, paste0(wkpath2,"ICD_CPT_CUI_Comb.csv"), row.names = FALSE)
+}
+
+### Cohort data vs Unlabeled EMR
+# ConceptList = unique(ICD_CPT_CUI_Comb$ConceptCd)
+ICD_CPT_CUI_Comb_cohort = ICD_CPT_CUI_Comb[ICD_CPT_CUI_Comb$PatientID%in%MS_cohort$PatientID,]
+ICD_CPT_CUI_Comb_UL     = ICD_CPT_CUI_Comb[!ICD_CPT_CUI_Comb$PatientID%in%MS_cohort$PatientID,]
+
+#### Aggregate PheCode/CPT group/CUI counts
+readin = FALSE
+if (readin) {
+  CC_comb  = read.csv(paste0(wkpath2,"CC_ICD_CPT_CUI_Count_NewAggr_",tw,"mons_",tp,"mons.csv"),
+                      stringsAsFactors = FALSE)
+  CPTgroup = read.csv(paste0(wkpath2,"MS_ConceptCode_Mapping.csv"),
+                      stringsAsFactors=FALSE)
+} else{
+  tmp2 = MS_cohort[, c("PatientID")]
+  tmp2 = data.frame(PatientNum = MS_map$PatientNum[match(tmp2, MS_map$PatientID)],
+                    PatientID  = tmp2,stringsAsFactors = FALSE)
+  ## only encounters during 2010-2016 are extracted
+  tmp2$FIRST_DATE2 = pmax(MS_cohort$FIRST_DATE, "2000-01-01") 
+  tmp2$LAST_DATE2  = pmin(MS_cohort$LAST_DATE, "2016-12-31") 
+  ## delete patients who do not belong to EHR
+  tmp2 = tmp2[MS_cohort$EHR == 1,]
+  ## delete patients that were enrolled after 2016-12-31 
+  tmp2 = tmp2[tmp2$FIRST_DATE2 <= "2016-12-31",]
+  # ## delete patients that were enrolled for less than 30 days
+  # tmp2 = tmp2[difftime(tmp2$LAST_DATE2,tmp2$FIRST_DATE2)>30,]
+  ## split each patients' follow-up period into tp months subwindows
+  tmp = with(tmp2, sapply(1:nrow(tmp2), function(i){
+    seq(FIRST_DATE2[i], LAST_DATE2[i], by = 30*tp)
+  }))
+  tmp = data.frame(PatientNum = rep(tmp2[,1], sapply(tmp,length)),
+                   PatientID = rep(tmp2[,2], sapply(tmp,length)),
+                   StartDate = do.call(c, tmp))
+  ## count
+  tmp2 = sapply(1:nrow(tmp), function(i){
+    aa = MS_attack[MS_attack$PatientID == tmp$PatientID[i],]
+    CC = abs(difftime(tmp$StartDate[i], aa$onset, units = "days")/30) < tw # 
+    CR = c(any(aa$clinical[CC] >= 1), any(aa$radiographic[CC] >= 1))  # clinical & radiographic relapse
+    CC = any(CC) # case-control status
+    aa = ICD_CPT_CUI_Comb_cohort[ICD_CPT_CUI_Comb_cohort$PatientID == tmp$PatientID[i],]
+    bb = difftime(aa$StartDate, tmp$StartDate[i],units = "days")/30
+    aa = aa[bb < tw & bb >= 0,]
+    aa = c(CC, CR, table(aa$ConceptCd)); names(aa) = NULL
+    aa
+  })
+  tmp2 = t(tmp2)
+  colnames(tmp2) = c("CC","Clinical","Radiographic", levels(ICD_CPT_CUI_Comb$ConceptCd)) 
+  CC_comb = cbind(tmp, tmp2)
+  CC_comb$LAST_DATE = MS_cohort$LAST_DATE[match(CC_comb$PatientID, MS_cohort$PatientID)]
+  CC_comb$FIRST_DATE = MS_cohort$FIRST_DATE[match(CC_comb$PatientID, MS_cohort$PatientID)]
+  # order by PatientID & StartDate
+  tmpp    = order(CC_comb$PatientID, CC_comb$StartDate)
+  CC_comb = CC_comb[tmpp,]
+  # organize columns
+  CC_comb = CC_comb[, c(1:6, 229:230, 7:228)]
+  
+  CPTgroup = read.csv(paste0(wkpath2,"MS_ConceptCode_Mapping.csv"),
+                    stringsAsFactors = FALSE)
+  
+  tmp  = grep("CPTGroup.", names(CC_comb))
+  aa   = names(CC_comb)[tmp]
+  aa   = substr(aa, 10, nchar(aa))
+  indx = 1:ncol(CC_comb)
+  indx[tmp] = sort(match(aa, CPTgroup$cpt_group), index.return = TRUE)$ix + 8
+  CC_comb = CC_comb[,indx]
+
+  write.csv(CC_comb,
+            paste0(wkpath2, "CC_ICD_CPT_CUI_Count_NewAggr_",tw,"mons_",tp,"mons.csv"),
+            row.names = FALSE)
+}
+
+cohort_rate = round(mean(CC_comb$CC),3)
+
+### order the CPT groups by number
+### deal with discrepency due to special characters 
+if (readin) {
+  tmp = grep("CPTGroup.", names(CC_comb))
+  aa = names(CC_comb)[tmp]
+  aa = substr(aa, 10, nchar(aa))
+  aa = gsub("\\.", " ", aa)
+  aa = gsub("  ", " ", aa)
+  
+  bb = CPTgroup$cpt_group
+  bb = gsub("[-/(),]", " ", bb)
+  bb = gsub("  ", " ", bb)
+  
+  names(CC_comb)[tmp] = paste0("CPTGroup.", CPTgroup$cpt_group[match(aa, bb)])
+}
+
+
+## remove rare codes
+CodeFreq = data.frame(Cases = apply(CC_comb[CC_comb$CC == 1, -c(1:8)], 2, mean),
+                      Controls = apply(CC_comb[CC_comb$CC == 0, -c(1:8)], 2, mean),
+                      Overall = apply(CC_comb[, -c(1:8)], 2, mean))
+CodeFreq = round(CodeFreq, 4)
+# write.csv(CodeFreq,paste0(wkpath2,"CodeFreq_NewAggr_",tw,"mons_",tp,"mons.csv"))
+# kable(CodeFreq,caption = "Code frequency.")
+tmp = with(CodeFreq, Cases > rarethresh | Controls > rarethresh)
+CC_comb = CC_comb[, c(rep(TRUE, 8), tmp)]
+
+## remove two-digit phecode if one-digit exists
+tmp = names(CC_comb)[grep("PheCode.*_[0-9][0-9]", names(CC_comb))]
+tmp = tmp[substr(tmp, 1, nchar(tmp) - 1) %in% names(CC_comb)]
+CC_comb = CC_comb[, !names(CC_comb) %in% tmp]
+## remove zero-digit phecode if one-digit exists
+tmp = names(CC_comb)[grep("PheCode.*_[0-9]", names(CC_comb))]
+tmp = tmp[substr(tmp, 1, nchar(tmp)-1) %in% names(CC_comb)]
+tmp = substr(tmp, 1, nchar(tmp) - 1)
+CC_comb = CC_comb[, !names(CC_comb) %in% tmp]
+
+## !!!!!!!!!!!!Add baseline variables (gender, race, age at dx)!!!!!
+```
+
+## Table 1
+```{r Demographics, echo=FALSE, message=FALSE, warning=FALSE}
+## Never relapse vs ever relapse
+NeverRelapse = MS_cohort[!MS_cohort$PatientID %in% MS_attack$PatientID,]
+EverRelapse  = MS_cohort[MS_cohort$PatientID %in% MS_attack$PatientID,]
+result = c(nrow(EverRelapse), # num of patients
+           nrow(NeverRelapse), NA) 
+result = as.character(result) 
+result = c(result, with(EverRelapse, length(unique(PatientID[EHR == 1]))),
+           with(NeverRelapse, length(unique(PatientID[EHR == 1]))), NA) # num in EMR
+result = matrix(result, byrow = TRUE, nrow = 2)
+tmp = with(EverRelapse, c(sum(SEX == "F"), sum(SEX == "F" | SEX == "M"), # sex
+                                                sum(RACE_DESC=="White"),{nrow(EverRelapse)-sum(RACE_DESC=="Unknown or not reported")})) # race
+tmp = cbind(tmp,
+            with(NeverRelapse, c(sum(SEX == "F"), sum(SEX == "F" | SEX == "M"), # sex
+                                                sum(RACE_DESC=="White"),nrow(NeverRelapse)-sum(RACE_DESC=="Unknown or not reported"))) # race            
+            )
+tmp2 = rbind(tmp[1,]/tmp[2,],tmp[3,]/tmp[4,])
+tmp[2,] = tmp[2,] - tmp[1,]; tmp[4,] = tmp[4,] - tmp[3,]
+tmp2 = cbind(round(tmp2*100,1), round(c(prop.test(t(tmp[1:2,]), correct = FALSE)$p.value,
+                     prop.test(t(tmp[3:4,]), correct = FALSE)$p.value), 3))
+result = rbind(result,tmp2)
+
+
+## bootstraps for the following results
+if (readinboot) {
+  bootsims = 
+    read.table("raw_data/Box/Boston/MS CLIMB Paper2 Code&Result/Step3_BuildModel/table1_boot.dat", header = TRUE)
+} else{
+  set.seed(1234)
+  NP_EverRelapse  = length(EverRelapse$PatientID)
+  NP_NeverRelapse = length(NeverRelapse$PatientID)
+  bootsims = replicate(sims,expr={
+    EverRelapse_boot  = sample(NP_EverRelapse, NP_EverRelapse, replace = TRUE)
+    NeverRelapse_boot = sample(NP_NeverRelapse, NP_EverRelapse, replace = TRUE)
+    EverRelapse_boot  = EverRelapse[EverRelapse_boot,]
+    NeverRelapse_boot = NeverRelapse[NeverRelapse_boot,]
+    
+    tmp = with(EverRelapse_boot,median(AGE_AT_FIRSTCODE, na.rm = TRUE)) - 
+      with(NeverRelapse_boot,median(AGE_AT_FIRSTCODE, na.rm = TRUE))
+    tmp = c(tmp, with(EverRelapse_boot,median(AGE_AT_FIRSTSYMPTOM, na.rm = TRUE)) - 
+              with(NeverRelapse_boot,median(AGE_AT_FIRSTSYMPTOM, na.rm = TRUE)))
+    tmp = c(tmp, with(EverRelapse_boot,median(AGE_AT_FIRSTDATE, na.rm = TRUE)) - 
+              with(NeverRelapse_boot,median(AGE_AT_FIRSTDATE, na.rm = TRUE)))
+    tmp = c(tmp, with(EverRelapse_boot,median(DURA, na.rm = TRUE)) -
+              with(NeverRelapse_boot,median(DURA, na.rm = TRUE)))
+    tmp = c(tmp, with(EverRelapse_boot,median(NumTrt)) -
+              with(NeverRelapse_boot,median(NumTrt)))
+    
+    aa  = unlist(sapply(EverRelapse_boot$PatientID, function(x) which(MS_attack$PatientID%in%x)),use.names = FALSE)
+    num_r_EverRelapse_boot = sapply(year, function(s) with(MS_attack[aa,],length(PatientID[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) # LAST_DATE>=s does not have any effect
+    ### number of patients from cohort
+    num_p_EverRelapse_boot = sapply(year,function(s) with(EverRelapse_boot,sum(format(FIRST_DATE,"%Y")<=s & as.numeric(format(LAST_DATE,"%Y"))>=s, na.rm = TRUE)))
+    
+    c(tmp,mean(num_r_EverRelapse_boot/num_p_EverRelapse_boot))
+  })
+  bootsims = t(bootsims)
+  write.table(bootsims,paste0("table1_boot.dat"),row.names = FALSE)
+}
+
+## age at first code (Age at last visit is most complete)
+tmp    = median(EverRelapse$AGE_AT_FIRSTCODE, na.rm = TRUE)
+tmp2   = median(NeverRelapse$AGE_AT_FIRSTCODE, na.rm = TRUE)
+result = rbind(result,c(with(EverRelapse,paste0(round(tmp,1),
+                          " (", round(IQR(AGE_AT_FIRSTCODE, na.rm = TRUE),1),")")),
+                        with(NeverRelapse,paste0(round(tmp2,1),
+                          " (", round(IQR(AGE_AT_FIRSTCODE, na.rm = TRUE),1),")")),
+                        sprintf("%4.1e", 2*pnorm(-abs(tmp-tmp2)/sd(bootsims[,1])))))
+
+## age at symptom onset
+tmp    = median(EverRelapse$AGE_AT_FIRSTSYMPTOM, na.rm = TRUE)
+tmp2   = median(NeverRelapse$AGE_AT_FIRSTSYMPTOM, na.rm = TRUE)
+result = rbind(result,c(with(EverRelapse,paste0(round(tmp,1),
+                          " (", round(IQR(AGE_AT_FIRSTSYMPTOM, na.rm = TRUE),1),")")),
+                        with(NeverRelapse,paste0(round(median(tmp2, na.rm = TRUE),1),
+                          " (", round(IQR(AGE_AT_FIRSTSYMPTOM, na.rm = TRUE),1),")")),
+                        round(2*pnorm(-abs(tmp - tmp2)/sd(bootsims[,2])),3)))
+
+## age at first date
+tmp    = median(EverRelapse$AGE_AT_FIRSTDATE, na.rm = TRUE)
+tmp2   = median(NeverRelapse$AGE_AT_FIRSTDATE, na.rm = TRUE)
+result = rbind(result,c(with(EverRelapse,paste0(round(tmp,1),
+                          " (", round(IQR(AGE_AT_FIRSTDATE, na.rm = TRUE),1),")")),
+                        with(NeverRelapse,paste0(round(tmp2,1),
+                          " (", round(IQR(AGE_AT_FIRSTDATE, na.rm = TRUE),1),")")),
+                        sprintf("%4.1e", 2*pnorm(-abs(tmp-tmp2)/sd(bootsims[,3])))))
+
+## duration of follow-up (last date - first date)
+tmp    = median(EverRelapse$DURA, na.rm = TRUE)
+tmp2   = median(NeverRelapse$DURA, na.rm = TRUE)
+result = rbind(result,c(with(EverRelapse,paste0(round(tmp,1),
+                          " (",round(IQR(DURA, na.rm = TRUE),1),")")),
+                        with(NeverRelapse,paste0(round(tmp2,1),
+                          " (",round(IQR(DURA, na.rm = TRUE),1),")")),
+                        sprintf("%4.1e",2*pnorm(-abs(tmp-tmp2)/sd(bootsims[,4])))))
+
+## number of treatment
+tmp    = median(EverRelapse$NumTrt)
+tmp2   = median(NeverRelapse$NumTrt)
+result = rbind(result,
+               c(with(EverRelapse,paste0(round(tmp,1)," (",round(IQR(NumTrt),1),")")),
+                 with(NeverRelapse,paste0(round(tmp2,1)," (",round(IQR(NumTrt),1),")")),
+                 sprintf("%4.1e", 2*pnorm(-abs(tmp-tmp2)/sd(bootsims[,5])))))
+
+## % receiving treatment
+tmp    = c(sum(EverRelapse$PatientID %in% MS_trt$PatientID), nrow(EverRelapse))
+tmp    = c(tmp,sum(NeverRelapse$PatientID %in% MS_trt$PatientID), nrow(NeverRelapse))
+tmp2   = rbind(tmp[1]/tmp[2],tmp[3]/tmp[4])
+tmp[2] = tmp[2] - tmp[1]; tmp[4] = tmp[4] - tmp[3]
+tmp2   = c(round(tmp2*100,1), 
+           sprintf("%4.1e", prop.test(matrix(tmp,nrow = 2, byrow = TRUE),
+                                      correct = FALSE)$p.value))
+result = rbind(result, tmp2)
+
+############################# annualized relapse rate
+## ever treated vs never treated; 
+## different from figure 1: patients not treated this year may be treated next year
+num_r_EverRelapse = sapply(year, function(s) with(MS_attack,length(PatientID[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) # LAST_DATE>=s does not have any effect
+### number of patients from cohort
+num_p_EverRelapse = sapply(year,function(s) with(EverRelapse,sum(format(FIRST_DATE,"%Y")<=s & as.numeric(format(LAST_DATE,"%Y"))>=s, na.rm = TRUE)))
+rate_EverRelapse   = num_r_EverRelapse/num_p_EverRelapse
+
+result = rbind(result,c(paste0(round(mean(num_r_EverRelapse/num_p_EverRelapse),3)," (",round(sd(bootsims[,6]),3),")"),"0 (0)", NA))
+
+colnames(result)  = c("Ever had relapse","Never had relapse","p-value for heter")
+row.names(result) = c("Total number of patients", "Num belongs to EHR",
+                      "Sex (% female)","Race (% white)",
+                      "Median (IQR) age at first code",
+                      "Median (IQR) age at first symptom onset",
+                      "Median (IQR) age at first date",
+                      "Median (IQR) duration of follow-up",
+                      "Median (IQR) number of treatments",
+                      "% receiving treatments",
+                      "Average Annualized relapse rate 2000-2016")
+kable(result, digits=2, caption = "Demographics of the ever had relapse vs never had relapse.")
+```
+
+
+## Data Manipulation
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+## counts to log(1+counts)
+CC_comb[,-c(1:8)] = log(1 + CC_comb[, -c(1:8)])
+## Split into training and validation
+set.seed(1000)
+nval = floor(length(unique(CC_comb$PatientID))*0.3)
+val  = sample(unique(CC_comb$PatientID), nval)
+CC_comb_val = CC_comb[CC_comb$PatientID %in% val,]
+CC_comb     = CC_comb[!CC_comb$PatientID %in% val,]
+```
+
+We split each patient's follow-up period into `r tp`-month time windows. 
+We then aggregate the ICD/CPT/CUI count for each window start time in the next 
+`r tw`-month. The overall case rate is `r cohort_rate`.
+
+
+## Correlations
+
+```{r Analysis, echo=FALSE, message=FALSE, warning=FALSE, dpi=300}
+corr   = cor(CC_comb[, -c(1:8)])
+aa  = which(abs(corr-1) < 1e-8)
+aa  = aa[!aa %in% seq(1, nrow(corr)^2, nrow(corr)+1)]
+cc  = ceiling(aa/nrow(corr))
+rr  = aa - nrow(corr)*(cc - 1)
+bb  = cc < rr
+aa  = aa[bb]
+cc  = cc[bb]
+rr  = rr[bb]
+if (length(cc) > 0) {
+  for (i in length(cc)) {
+    cat("Perfect correlation between",row.names(corr)[c(cc,rr)],"\n")
+    cat(row.names(corr)[rr],"deleted.\n")
+  }
+  corr    = corr[-rr, -rr]
+  CC_comb = CC_comb[, -c(rr + 8)]
+  CC_comb_val = CC_comb_val[, -c(rr + 8)]
+}
+
+
+### CPT
+indx = grep("CPT", row.names(corr))
+tmp  = corr[indx, indx]
+row.names(tmp) = colnames(tmp) = substr(row.names(tmp), 10, 19)
+corrplot(tmp, title = "CPT Group", tl.cex = 0.5, mar = c(0,0,1,0))
+cat("Among CPT Groups:\n")
+summary(c(tmp[upper.tri(tmp)]))
+cat("CPT Group vs others:\n")
+summary(c(corr[indx,-indx]))
+
+### CUI
+indx = grep("CUI.", row.names(corr))
+tmp  = corr[indx,indx]
+row.names(tmp) = colnames(tmp) = substr(row.names(tmp), 5, nchar(row.names(tmp)))
+aa   = which(tmp > 0.85)
+aa   = aa[!aa %in% seq(1, nrow(tmp)^2, nrow(tmp)+1)]
+cc   = ceiling(aa/nrow(tmp))
+rr   = aa - nrow(tmp)*(cc - 1)
+bb   = cc < rr
+aa   = aa[bb]
+cc   = cc[bb]
+rr   = rr[bb]
+aa   = data.frame(row.names(tmp)[cc], row.names(tmp)[rr], round(tmp[aa], 3))
+colnames(aa) = c("CUI", "CUI", "Corr")
+bb   = sort(aa$Corr, index.return = TRUE)$ix
+aa   = aa[bb,]; row.names(aa) = NULL
+kable(aa)
+corrplot(tmp, title = "CUI", tl.cex = 0.5, mar = c(0,0,1,0))
+cat("Among CUIs:\n")
+summary(c(tmp[upper.tri(tmp)]))
+cat("CUI vs others:\n")
+summary(c(corr[indx,-indx]))
+
+### PheCode
+indx = grep("PheCode.",row.names(corr))
+tmp  = corr[indx,indx]
+if (is.null(dim(tmp))) {
+  names(tmp) = substr(row.names(corr)[indx], 9, nchar(row.names(corr)[indx]))
+  cat("Only one phecode left: ", names(tmp),"; no corrplot returned.\n")
+} else {
+  row.names(tmp) = colnames(tmp) = substr(row.names(tmp), 9, nchar(row.names(tmp)))
+  corrplot(tmp,title = "PheCode", tl.cex = 0.5, mar = c(0,0,1,0))
+}
+cat("Among PheCodes:\n")
+summary(c(tmp[upper.tri(tmp)]))
+cat("PheCode vs others:\n")
+summary(c(corr[indx,-indx]))
+
+# Model
+readin = FALSE
+if (readin) {
+  load(paste0(wkpath3, "glmnet_cv_deviance_NewAggr_", tw, "mons_", tp, "mons_", 
+              rarethresh, "rarethresh.rda"))
+} else {
+  glmnet.fit = cv.glmnet(as.matrix(CC_comb[,-c(1:8)]),unlist(CC_comb$CC),
+                         family = "binomial", type.measure = "deviance")
+  save(glmnet.fit, file = 
+         paste0(wkpath3, "glmnet_cv_deviance_NewAggr_", tw, "mons_", tp, "mons_", 
+                rarethresh,"rarethresh.rda"))
+}
+
+glmnet.coef = data.frame(Code = c("Intercept",colnames(CC_comb)[-c(1:8)]),
+                         Lambda.min = as.numeric(coef(glmnet.fit, s = "lambda.min")),
+                         Lambda.1se = as.numeric(coef(glmnet.fit, s = "lambda.1se")),
+                         stringsAsFactors = FALSE)
+glmnet.coef = glmnet.coef[-1,]
+glmnet.coef[,2:3] = round(glmnet.coef[,2:3], 3)
+glmnet.coef$Desc = NA
+
+# Fix Code name formatting
+## CPT
+tmp = grep("CPTGroup.", glmnet.coef$Code)
+glmnet.coef$Desc[tmp] = substr(glmnet.coef$Code[tmp], 10, nchar(glmnet.coef$Code[tmp]))
+## CUI
+tmp = grep("CUI.", glmnet.coef$Code)
+glmnet.coef$Desc[tmp] = substr(glmnet.coef$Code[tmp], 5, nchar(glmnet.coef$Code[tmp]))
+glmnet.coef$Desc[tmp] = CUIdictAll$Desc[match(glmnet.coef$Desc[tmp], CUIdictAll$ConceptCd)]
+## PheCode
+tmp = grep("PheCode.", glmnet.coef$Code)
+glmnet.coef$Desc[tmp] = substr(glmnet.coef$Code[tmp], 9, nchar(glmnet.coef$Code[tmp]))
+# Add code descriptions
+glmnet.coef$Desc[tmp] = ICDPheCode$phecode_description[match(glmnet.coef$Desc[tmp],
+                                                             ICDPheCode$phecode)]
+```
+
+## LASSO model with optimal (in the sense of minimize deviance) lambda (tuning parameter)
+```{r Lambda.min, echo=FALSE, message=FALSE, warning=FALSE,dpi=300}
+glmnet.prob = predict(glmnet.fit, newx = as.matrix(CC_comb_val[, -c(1:8)]),
+                      type = "response", s = glmnet.fit$lambda.min)
+glmnet.roc  = roc(unlist(CC_comb_val$CC), as.numeric(glmnet.prob))
+plot(glmnet.roc, 
+     main = paste0("LASSO, lambda.min; AUC=", round(glmnet.roc$auc,4)), 
+     cex.main = 0.7)
+```
+
+## LASSO model with optimal (in the sense of minimize deviance) lambda (tuning parameter) + one standard error
+```{r Lambda.1se, echo=FALSE, message=FALSE, warning=FALSE,dpi=300}
+glmnet.prob = predict(glmnet.fit, newx = as.matrix(CC_comb_val[,-c(1:8)]),
+                      type = "response", s = glmnet.fit$lambda.1se)
+glmnet.roc  = roc(unlist(CC_comb_val$CC), as.numeric(glmnet.prob))
+plot(glmnet.roc, 
+     main = paste0("LASSO, lambda.1se; AUC=", round(glmnet.roc$auc,4)),
+     cex.main = 0.7)
+```
+
+
+## Random forest
+```{r RF, echo=FALSE, message=FALSE, warning=FALSE,dpi=300}
+# tmp = tuneRF(x = CC_comb[,which(coef(glmnet.fit,s="lambda.min")!=0)[-1]+6], 
+#                     y = factor(CC_comb$CC,levels = c(0,1)), trace=FALSE)
+# tmp = tmp[which.min(tmp[,2]),1] 
+if (readin) {
+  load(paste0(wkpath3, "randomForest_NewAggr_", tw, "mons_", tp,"mons_",
+              rarethresh,"rarethresh.rda"))
+} else{
+  set.seed(110)
+  RF.fit  = randomForest(x = CC_comb[,-c(1:8)], 
+                         y = factor(CC_comb$CC,levels = c(0,1)),
+                         mtry = round(sqrt(ncol(CC_comb[,-c(1:8)]))),
+                         importance = TRUE)
+  save(RF.fit,
+       file = paste0(wkpath3, "randomForest_NewAggr_", tw, "mons_", tp, "mons_", 
+                     rarethresh, "rarethresh.rda"))
+}
+glmnet.coef = cbind(glmnet.coef, RF.fit$importance)
+# Write results
+write.csv(glmnet.coef,
+          paste0(wkpath3, "glmnet_rf_NewAggr_", tw, "mons_", tp, "mons_", 
+                 rarethresh,"rarethresh.csv"),
+          row.names = FALSE)
+# Predict
+RF.prob = predict(RF.fit,
+        newdata = CC_comb_val[, -c(1:8)],
+        type = "prob")
+RF.roc  = roc(unlist(CC_comb_val[,4]), RF.prob[,2])
+plot(RF.roc, main = paste0("Random forest; AUC=", round(RF.roc$auc,4)),
+     cex.main = 0.7)
+
+RF.importance = importance(RF.fit)
+tmp = row.names(RF.importance)
+tmp = substr(tmp,1,20)
+wordcloud(tmp, RF.importance[,3], min.freq = 16, scale = c(2,0.1))
+
+RF.prob = data.frame(RF.prob,class = NA); colnames(RF.prob) = c("prob0","prob1","class")
+tmp = with(CC_comb_val,Clinical == 1); RF.prob$class[tmp] = "Clinical"
+tmp = with(CC_comb_val,Clinical == 0 & Radiographic == 1); RF.prob$class[tmp] = "Radiographic only"
+tmp = with(CC_comb_val, CC == 1 & Clinical == 0 & Radiographic == 0); RF.prob$class[tmp] = "No record"
+tmp = with(CC_comb_val,CC == 0 ); RF.prob$class[tmp] = "Control"
+ggplot(RF.prob,aes(x = prob1)) + 
+  geom_histogram(aes(y = ..density..,fill=class), alpha = 0.2)
+
+Clinical = CC_comb_val$Clinical
+Clinical[with(CC_comb_val, CC == 1 & Clinical == 0 & Radiographic == 0)] = 1
+tmp = with(CC_comb_val, CC == 1 & Clinical == 0 & Radiographic == 1)
+RF.Clinical.prob = RF.prob[!tmp,]
+RF.Clinical.roc  = roc(Clinical[!tmp], RF.Clinical.prob[,2])
+plot(RF.Clinical.roc,
+     main = paste0("Random forest, radiographic but not clinical relapse\n removed, no record treated as clinical; AUC=", round(RF.Clinical.roc$auc,4)),
+     cex.main = 0.7)
+```
+
+
+## Ensemble logistic regression (LASSO) with random forest
+```{r Ensemble, echo=FALSE, message=FALSE, warning=FALSE,dpi=300}
+ensemble.prob = as.numeric({glmnet.prob + RF.prob[,2]}/2)
+ensemble.roc  = roc(unlist(CC_comb_val[,4]), ensemble.prob)
+plot(ensemble.roc,main=paste0("Ensemble (LASSO+RF); AUC=", round(ensemble.roc$auc,4)),
+     cex.main = 0.7)
+
+ensemble.Clinical.prob = ensemble.prob[!tmp]
+ensemble.Clinical.roc  = roc(Clinical[!tmp], ensemble.Clinical.prob)
+plot(ensemble.Clinical.roc, 
+     main = paste0("Ensemble (LASSO+RF), radiographic but not clinical relapse\n removed, no record treated as clinical; AUC=", round(ensemble.Clinical.roc$auc,4)), 
+     cex.main = 0.7)
+```
+
+
