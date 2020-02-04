@@ -1,0 +1,840 @@
+---
+title: Comparative Effectiveness of Disease Modifying Therapies in Multiple Sclerosis
+  using Electronic Health Record Data
+author: "Nicole Kim, Tianxi Cai, ScD, Zeling He, Zongqi Xia, PhD, MD"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: word_document
+---
+
+## Abstract
+__Background__: Disease-modifying treatments (DMT) reduce relapse rates in multiple sclerosis (MS).
+
+__Objective__: To compare the effectiveness of different DMTs in reducing the risk of relapse in people with MS. 
+
+__Design, Setting, and Participants__: We analyzed an EHR cohort of MS patients from Partners Healthcare Systems, a subset of which also belongs to the Comprehensive Longitudinal Investigation of Multiple Sclerosis at Brigham and Women’s Hospital (CLIMB) registry.
+
+__Main Outcomes and Measures__: We performed estimation of the average treatment effects of two different pairs of DMTs on the one- and two-year risk of relapse using a doubly robust estimator in the semi-supervised setting. 
+
+__Results__: 
+
+__Conclusion and Relevance__: 
+
+__Trial Registration__:  N/A
+
+__Funding__: 
+
+## Introduction
+Multiple sclerosis (MS) is a chronic neurological disease with a high socioeconomic burden [@noteworthy2000medical;@compston2008multiple;@asche2010all;@hartung2015cost]. Since the approval of the first disease-modifying therapy (DMT) in 1993, MS treatment has shifted from primarily managing acute relapses to reducing disease activity and delaying disability as DMTs have become the standard of care for people with MS[@hartung2015cost]. The current approach to MS management emphasizes early DMT initiation to mitigate disease activity and to prevent or postpone long-term disability. However, with over 15 DMTs currently approved by national and international regulatory agencies, each with distinct mechanisms of action, risk profiles, and monitoring requirements, it becomes crucial to perform studies comparing the effectiveness of different DMTs in the treatment of MS.
+
+In this study, we compare the effectiveness of two pairs of DMTs in reducing the two-year relapse rate since DMT initiation among MS patients. We previously integrated research data from the Comprehensive Longitudinal Investigation of Multiple Sclerosis at Brigham and Women’s Hospital (CLIMB) cohort with electronic health records (EHR) data to develop models of MS outcomes using EHR data (Source). Since EHR data contain evidence of disease activity as well as records of electronic prescriptions, we can harness such information for treatment outcome comparison with the appropriate analytical methods. 
+
+### Justification for Drug Comparison
+For this study, we compared two pairs of DMTs: (1) rituximab vs. natalizumab, and (2) dimethyl fumarate vs. fingolimod. We chose pairs of drugs that were roughly similar to each other to ensure most equal probability of treatment assignment, given baseline covariates. We justify these two pairs of drugs using the following: (1) rituximab and natalizumab are both infusion drugs and considered "high-efficacy"; (2) dimethyl fumarate and fingolimod are both oral drugs and considered "standard-efficacy."  
+
+## Methods
+
+### Study Population
+In this study, we obtained electronic health record data of over 5000 patients from Partners Healthcare Systems with at least one MS-related International Classification of Disease 9th/10th edition (ICD-9/10) code (340, 323, or 341). A subset of the patients also belongs to the Comprehensive Longitudinal Investigation of Multiple Sclerosis at Brigham and Women’s Hospital (CLIMB) registry, containing additional adjudicated outcomes of 2380 patients including relapse status over time. 
+
+### Treatment Assignment and Baseline Covariates
+For both CLIMB and non-CLIMB patients, we defined treatment group and date of treatment initiation to be the drug and encounter date, respectively, corresponding to the first codified RxNorm prescription appearance of either drug within a pair in the EHR. We then compiled demographic information (i.e., race and sex), other clinical variables (i.e., age at first MS ICD code, follow-up duration, duration of prior DMT treatment), and occurrence counts of MS-related codified variables derived from diagnostic billing codes (ICD-9/10), procedural codes (Current Procedural Terminology, CPT), and concept unique identifiers (CUI) as a measure of healthcare utilization (i.e., total number of ICD codes during entire follow-up duration, total number of ICD codes in the 3 months prior to treatment initiation, adjusted frequency of ICD code and CUI for MS in the 3 months prior to DMT start). Follow-up duration was defined as the time period between date of occurrence of first of any ICD code in EHR and time of treatment initiation. 
+
+**We also included derivatives of billing codes (e.g., annualized ICD-9 code for MS) - edit this
+
+### Statistical Analysis
+To estimate average causal treatment effect, we utilized the doubly-robust, semi-supervised estimator outlined in Cheng et al. (2018). To do this, we fit a propensity score model, to model the probability of treatment, and a regression model, to model the two-year relapse probability, both including the baseline covariates outlined above. For patients not included in the CLIMB cohort, we imputed their two-year relapse probabilities using the LASSO-Hidden Markov logistic regression model built **via previous research in our group, which takes ICD codes, CPT codes, and CUIs as covariates. 
+
+
+## Results
+### Demographics
+
+## Discussion
+
+## Acknowledgments
+
+## Funding
+
+```{r SetUp, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+``` 
+
+```{r Parameters}
+rm(list = ls())
+## Function for loading/installing necessary package
+pkgTest <- function(x){
+  if (!is.element(x, installed.packages()[,1])) {
+    install.packages(x, dep = TRUE)
+    if (!require(x,character.only = TRUE)) stop("Package not found")
+  } else{
+    if (!require(x,character.only = TRUE)) stop("Package not found")
+  }
+}
+pkgTest('tidyverse')
+pkgTest('openxlsx')
+pkgTest('zoo')
+pkgTest('lubridate')
+pkgTest('glmnet')
+pkgTest('gridExtra')
+
+readin     = TRUE # if read in combined data
+readinboot = FALSE # if read in bootstrapped data
+tw = 24 # follow-up period in months (1 vs 2 year relapse risk)
+tp = 3 # time-window in months for HC utilization/frequency (tuning parameter, 3 vs 6 months)
+aggregate = FALSE # if aggregate imputation EHR data
+
+wkpath  = "raw_data/Box/Boston/MS CLIMB Data/"
+wkpath2 = "raw_data/Box/Boston/MS CLIMB Paper2 Code&Result/Step3_BuildModel/IntermediateDataResult/"
+```
+
+
+```{r DataManipulation}
+if (!readin) {
+  ##########################################################################################
+  ##########################             READ IN DATA             ##########################
+  ##########################################################################################
+  MS_map  = read.xlsx(paste0(wkpath,"CLIMB Cohort/Spec95_i2b2_Mapping2017.xlsx"), sheet = 1)
+  colnames(MS_map) = c("PatientNum","PatientID")
+  # CLIMB Data
+  MS_cohort = read.csv(paste0(wkpath2,"Cleaned_MS_cohort.csv"), stringsAsFactors = FALSE,
+                     colClasses = c(rep("character",4),rep("Date",4),rep("integer",6),
+                                    rep("numeric",3),"integer",rep("Date",4),
+                                    rep("numeric",3),"integer"))
+  MS_cohort$PatientNum <- sapply(MS_cohort$PatientID, function(p_id) {
+    MS_map$PatientNum[MS_map$PatientID == p_id][1]
+  })
+  MS_attack = read.csv(paste0(wkpath2,"Cleaned_MS_attack.csv"), stringsAsFactors = FALSE,
+                       colClasses = c("character",rep("integer",6),"Date",rep("numeric",3),
+                                      rep("character",12),rep("Date",2),"integer",
+                                      rep("Date",5),rep("integer",2)))
+  MS_trt    = read.csv(paste0(wkpath2,"Cleaned_MS_treatment.csv"), stringsAsFactors = FALSE)
+  MS_trt$start_date <- as.Date(with(MS_trt, paste(start_year, start_month, start_day,sep="-")), "%Y-%m-%d")
+  MS_trt$stop_date <- as.Date(with(MS_trt, paste(stop_year, stop_month, stop_day,sep="-")), "%Y-%m-%d")
+  # EHR data
+  MS_EHR    = read.xlsx(paste0(wkpath,"EHR/MS_first_last_date_whole_list.xlsx"),
+                        sheet = 1); colnames(MS_EHR)[1] = "PatientNum"
+  MS_EHR$First_date <- convertToDate(MS_EHR$First_date)
+  MS_EHR$Last_date <- convertToDate(MS_EHR$Last_date)
+  MS_EHR$PatientID = MS_map$PatientID[match(MS_EHR$PatientNum,MS_map$PatientNum)]
+  # Demographics data
+  MS_demographics <- read.xlsx(paste0(wkpath, "EHR/ms_demographics.xlsx"))
+  MS_demographics <- MS_demographics %>% 
+    dplyr::select(PATIENT_NUM, BIRTH_DATE, SEX_CD, RACE_CD)
+  MS_demographics$BIRTH_DATE <- convertToDate(MS_demographics$BIRTH_DATE)
+  # RXNORM data
+  RXNORM_EHR <- read.xlsx(paste0(wkpath,"MS DMT/MS_RxNorm_data_withRXGenericName.xlsx"), sheet = 5)
+  RXNORM_interferon_EHR <- read.xlsx(paste0(wkpath,"MS DMT/MS_AdditionalRXNorm_data.xlsx"), sheet = 7)
+  RXNORM_addl_EHR <- read.xlsx(paste0(wkpath,"MS DMT/MS_AdditionalRXNorm_data.xlsx"), sheet = 5)
+  RXNORM_comb <- rbind(RXNORM_EHR, RXNORM_addl_EHR, RXNORM_interferon_EHR)
+  rm(RXNORM_EHR, RXNORM_addl_EHR, RXNORM_interferon_EHR)
+  RXNORM_comb$start_date <- convertToDate(RXNORM_comb$start_date)
+  # ICD Codes
+  ICDPheCode   = read.csv(paste0(wkpath,"EHR/MS_AllEncounter_ICDCodes_08072019.csv"),
+                          stringsAsFactors = FALSE)
+  ICDPheCode$phecode[ICDPheCode$concept_cd == "LPA268"] = "335_"
+  ICDPheCode$start_date  = as.Date(ICDPheCode$start_date,format = "%m/%d/%y")
+  # CUIs
+  # CUISelected  = read_csv(paste0(wkpath,"EHR/MS_AllEncounters_CUIs_08072019.csv"),
+  #                         col_names = FALSE)
+  # colnames(CUISelected) <- c("PatientNum", "EncounterNum", "StartDate", "ConceptCd")
+  # CUISelected$StartDate <- format(as.POSIXct(CUISelected$StartDate,format='%Y-%m-%d %H:%M:%S'),format='%Y-%m-%d')
+  # CUISelected$StartDate <- as.Date(CUISelected$StartDate)
+  # 
+  
+  CUISelected  = read.csv(paste0(wkpath,"EHR/MS_AllEncounters_CUIs_08072019.csv"),
+                          stringsAsFactors = FALSE, header = FALSE,
+                          col.names = c('patient_num', 'encounter_num', 'start_date',
+                                        'concept_cd'))
+  CUISelected$start_date <- format(as.POSIXct(CUISelected$start_date, format = '%Y-%m-%d %H:%M:%S'), format = '%Y-%m-%d')
+  CUISelected$start_date <- as.Date(CUISelected$start_date)
+  CUISelected <- CUISelected %>% filter(start_date >= as.Date("1980-01-01"))
+  # CUI dictionary
+  CUIdictAll = read.xlsx(paste0(wkpath,"EHR/AllCUI_Database.xlsx"), sheet = 1)
+  colnames(CUIdictAll) = c("ConceptCd","Desc")
+  # Combined codes data
+  ICD_CPT_CUI_Comb = read.csv(paste0("intermediate_data/ICD_CPT_CUI_Comb.csv"), stringsAsFactors = FALSE)
+  ICD_CPT_CUI_Comb$StartDate = base::as.Date.character(ICD_CPT_CUI_Comb$StartDate)
+  ICD_CPT_CUI_Comb$ConceptCd = as.factor(ICD_CPT_CUI_Comb$ConceptCd)
+  
+  
+  ##########################################################################################
+  ######################  Define treatment assignment and start date   #####################
+  ##########################################################################################
+  trt_patients <- unique(RXNORM_comb$patient_num[RXNORM_comb$RX_Generic_Name %in%
+                                                     c("Rituximab","Natalizumab")])
+  trt_subset <- data.frame(PatientNum = trt_patients)
+  options <- rep(NA, length(trt_patients)) # keep track of what options are applying to patients
+  
+  trt_subset$medication_desc <- ""
+  trt_subset$start_date <- ""
+  keep_cols <- c("patient_num","RX_Generic_Name", "start_date")
+  
+  
+  # First RXNORM appearance of either drug ----------------------------------
+  # trt_subset$medication_desc <- ""
+  # trt_subset$start_date <- ""
+  # # Use first codified Rx of meds as start date
+  # for (p_num in trt_subset$PatientNum) {
+  #   p_subset <- RXNORM_comb %>% filter(patient_num == p_num)
+  #   p_subset <- p_subset[order(p_subset$start_date),]
+  #   p_ritux <- p_subset %>% filter(RX_Generic_Name == "Rituximab")
+  #   p_nataliz <- p_subset %>% filter(RX_Generic_Name == "Natalizumab")
+  #   # For patients only on one drug
+  #   if (nrow(p_nataliz) == 0) {
+  #     trt_subset[trt_subset$PatientNum == p_num, c("medication_desc","start_date")] <- 
+  #       c("Rituximab", as.character(p_ritux[1,"start_date"]))
+  #   } else if (nrow(p_ritux) == 0) {
+  #     trt_subset[trt_subset$PatientNum == p_num, c("medication_desc","start_date")] <- 
+  #       c("Natalizumab", as.character(p_nataliz[1,"start_date"]))
+  #   } else {
+  #     # For patients ever on both drugs: assign treatment based on whichever drug comes first
+  #     if (as.Date(p_ritux[1, "start_date"]) >= as.Date(p_nataliz[1, "start_date"])) {
+  #       trt_subset[trt_subset$PatientNum == p_num, c("medication_desc","start_date")] <- 
+  #         c("Rituximab", as.character(p_ritux[1,"start_date"]))
+  #     } else {
+  #       trt_subset[trt_subset$PatientNum == p_num, c("medication_desc","start_date")] <- 
+  #         c("Natalizumab", as.character(p_nataliz[1,"start_date"]))
+  #     }
+  #   }
+  # }
+  # trt_subset$start_date <- as.Date(trt_subset$start_date)
+  
+  
+  # High-efficacy criteria using RXNORM data ---------------------------------------
+  RXNORM_comb$start_date <- as.character(RXNORM_comb$start_date)
+  for (i in 1:length(trt_patients)) {
+    pnum <- trt_patients[i]
+    p_subset <- RXNORM_comb %>% filter(patient_num == pnum) %>% plyr::arrange(start_date)
+    first_line <- p_subset %>% filter(RX_Generic_Name %in% c("Interferon-beta", "Glatiramer Acetate"))
+
+    # If patient was never on a first line drug, assign patient to first of 2 drugs patient was on
+    if (nrow(first_line) == 0) {
+      trt_subset[i,] <- (p_subset %>% filter(RX_Generic_Name %in% c('Rituximab','Natalizumab')))[1, keep_cols]
+      options[i] <- 'Option 1'
+    } else if (p_subset %>%
+               filter(RX_Generic_Name %in% c('Rituximab','Natalizumab')) %>%
+               filter(start_date > first_line[1,'start_date']) %>%
+               nrow != 0) {
+      # If patient was on first line drug AND eventually switched to one of 2 drugs,
+      # assign patient to first of 2 drugs that patient switched to
+      trt_subset[i,] <- (p_subset %>% filter(RX_Generic_Name %in% c('Rituximab','Natalizumab')) %>%
+                            filter(start_date > first_line[1,'start_date']))[1,keep_cols]
+      options[i] <- 'Option 2'
+    } else {
+      # If patient was on first line drug BUT did not switch to one of 2 drugs afterwards
+      # assign patient to first of 2 drugs patient was on
+      trt_subset[i,] <- (p_subset %>% filter(RX_Generic_Name %in% c('Rituximab','Natalizumab')))[1, keep_cols]
+      options[i] <- 'Option 3'
+    }
+  }
+  RXNORM_comb$start_date <- as.Date(RXNORM_comb$start_date)
+  trt_subset$start_date <- as.Date(trt_subset$start_date)
+  
+  
+  # Filter pre-2006 
+  tmp <- trt_subset$start_date >= as.Date("2006-01-01")
+  options <- options[tmp]
+  trt_subset <- trt_subset[tmp, ]
+
+  ##########################################################################################
+  ##########################        Add clinical variables        ##########################
+  ##########################################################################################
+  # PatientID (for later use)
+  trt_subset$PatientID <- sapply(trt_subset$PatientNum, function(p_num) {
+    MS_map$PatientID[MS_map$PatientNum == p_num][1]
+  })
+  trt_subset <- trt_subset %>% dplyr::select(PatientID, PatientNum, everything())
+  # Sex
+  trt_subset$FEMALE <- ifelse(trt_subset$PatientNum %in% MS_demographics$PATIENT_NUM[MS_demographics$SEX_CD == 'F'], 1, 0)
+  # Race
+  trt_subset$RACE <- ifelse(trt_subset$PatientNum %in% MS_demographics$PATIENT_NUM[MS_demographics$RACE_CD == 'WHITE'], 1, 0)
+  # Age at first MS code (MS ICD: 'PheCode.335_')
+  trt_subset$FIRSTMSICD_DATE <- sapply(trt_subset$PatientNum, function(pnum) {
+    tmp <- ICDPheCode %>% filter(patient_num == pnum & phecode == '335_')
+    tmp <- tmp[order(tmp$start_date), ]
+    return(tmp$start_date[1])
+  })
+  trt_subset$FIRSTMSICD_DATE <- as.Date(trt_subset$FIRSTMSICD_DATE)
+  
+  trt_subset$BIRTHDAY <- sapply(trt_subset$PatientNum, function(p_num) {
+    MS_demographics$BIRTH_DATE[MS_demographics$PATIENT_NUM == p_num] %>% as.character()
+  })
+  trt_subset$BIRTHDAY <- as.Date(trt_subset$BIRTHDAY)
+  trt_subset$AGE_AT_FIRSTMSICD <- with(trt_subset, difftime(FIRSTMSICD_DATE,BIRTHDAY,units='weeks')/52.25) %>% as.numeric()
+
+  
+  # Follow-up duration: (in years): time period between date of occurrence of first of any ICD code in EHR and time of treatment initiation
+  trt_subset$FIRSTICD_DATE <- sapply(trt_subset$PatientNum, function(pnum) {
+    tmp <- ICDPheCode %>% filter(patient_num == pnum)
+    tmp <- tmp[order(tmp$start_date),]
+    return(tmp$start_date[1])
+  })
+  trt_subset$FIRSTICD_DATE <- as.Date(trt_subset$FIRSTICD_DATE)
+  trt_subset$FOLLOWUP_DURA <- 
+    with(trt_subset, as.numeric(difftime(start_date, FIRSTICD_DATE, units='weeks')/52.25))
+
+  
+  # Disease duration proxy: Age at the time of DMT start - age at first MS ICD code (in years)
+  trt_subset$DISEASE_DURA <- with(trt_subset, as.numeric(difftime(start_date, BIRTHDAY)/365)) - 
+    trt_subset$AGE_AT_FIRSTMSICD
+  
+  # Healthcare utilization, overall: total number of all ICD codes during entire f/u duration
+  trt_subset$HCUTIL_OVERALL <- sapply(trt_subset$PatientNum, function(pnum) {
+    tmp <- ICDPheCode %>% filter(patient_num == pnum)
+    tmp <- tmp[order(tmp$start_date),]
+    tmp <- tmp %>% filter(start_date >= trt_subset$FIRSTICD_DATE[trt_subset$PatientNum == pnum] & 
+                            start_date <= trt_subset$start_date[trt_subset$PatientNum == pnum])
+    return(nrow(tmp))
+  })
+  
+  # Healthcare utilization, in the tp months prior to DMT start
+  trt_subset$HCUTIIL_tp_MONS <- sapply(trt_subset$PatientNum, function(pnum) {
+    tmp <- ICDPheCode %>% filter(patient_num == pnum)
+    tmp <- tmp[order(tmp$start_date),]
+    tmp <- tmp %>% 
+      filter(start_date >= trt_subset$start_date[trt_subset$PatientNum == pnum] - months(tp) & 
+               start_date <= trt_subset$start_date[trt_subset$PatientNum == pnum])
+    return(nrow(tmp))
+  })
+
+  # Adjusted frequency of ICD code for MS, in tp months prior to DMT start: 
+  ## number of ICD code for MS divided by healthcare utilization
+  trt_subset$MSICDFREQ_ADJ_tp_MONS <- sapply(trt_subset$PatientNum, function(pnum) {
+    tmp <- ICDPheCode %>% filter(patient_num == pnum)
+    tmp <- tmp[order(tmp$start_date),]
+    tmp <- tmp %>% 
+      filter(start_date >= trt_subset$start_date[trt_subset$PatientNum == pnum] - months(tp) & 
+               start_date <= trt_subset$start_date[trt_subset$PatientNum == pnum])
+    if (nrow(tmp) != 0) {
+      x <- (tmp %>% filter(phecode == '335_') %>% nrow)/nrow(tmp)
+      return(x)
+    } else {
+      return(0)
+    }
+  })
+  
+  # Adjusted frequency of CUI code for “multiple sclerosis” (MS: 'CUI.C0026769'), in the tp months prior to DMT start: 
+  ## number of CUI code for MS divided by healthcare utilization
+  trt_subset$MSCUIFREQ_ADJ_tp_MONS <- sapply(trt_subset$PatientNum, function(pnum) {
+    tmp <- CUISelected %>% filter(patient_num == pnum)
+    tmp <- tmp[order(tmp$start_date),]
+    tmp <- tmp %>% 
+      filter(start_date >= trt_subset$start_date[trt_subset$PatientNum == pnum] - months(tp) & 
+               start_date <= trt_subset$start_date[trt_subset$PatientNum == pnum])
+    if (nrow(tmp) != 0) {
+      x <- (tmp %>% filter(concept_cd == 'C0026769') %>% nrow)/nrow(tmp)
+      return(x)
+    } else {
+      return(0)
+    }
+  })
+  
+  # Duration of prior DMT treatment (in months): sum of 
+  # (1) time between first and last RxNorm prescription of any DMT, and 
+  # (2) time between first and last appears of any DMT CUI
+  dmt_cui <- c("C0058218", "C3556178", "C1699926", "C2938762", "C0717787", "C0289884", "C0528175",
+               "C4027077", "C0015980", "C0244713", "C0254119", "C0284968", "C0594372", "C0752980",
+               "C2719461", "C3848580", "C3848664", "C1718383", "C3497721")
+  dmt_cui <- paste0("CUI.", dmt_cui)
+  
+  # Subset for EHR patients only
+  ICD_CPT_CUI_Comb <- ICD_CPT_CUI_Comb[ICD_CPT_CUI_Comb$PatientNum%in%MS_EHR$PatientNum, ]
+
+  # (1) RxNorm 
+  tmp <- sapply(trt_subset$PatientNum, function(pnum) {
+    start_dte <- as.Date(trt_subset$start_date[trt_subset$PatientNum == pnum])
+    tmp <- RXNORM_comb %>% filter(patient_num == pnum & start_date >= start_dte)
+    tmp <- tmp[order(tmp$start_date),]
+    if (nrow(tmp) == 0) {
+      return(0)
+    } else {
+      # Calculate difference between first and last DMT prescription
+      tmp2 <- difftime(tmp$start_date[length(tmp$start_date)], tmp$start_date[1], units = 'weeks')/4
+      return(as.numeric(tmp2))
+    }
+  })
+  # (2) CUI 
+  tmp2 <- sapply(trt_subset$PatientNum, function(pnum) {
+    start_dte <- as.Date(trt_subset$start_date[trt_subset$PatientNum == pnum])
+    tmp <- ICD_CPT_CUI_Comb %>% filter(PatientNum == pnum & StartDate >= start_dte) %>%
+      filter(ConceptCd %in% dmt_cui)
+    tmp <- tmp[order(tmp$StartDate),]
+    if (nrow(tmp) == 0) {
+      return(0)
+    } else {
+      # Calculate difference between first and last DMT code mention
+      tmp2 <- difftime(tmp$StartDate[length(tmp$StartDate)], tmp$StartDate[1], units = 'weeks')/4
+      return(as.numeric(tmp2))
+    }
+  })
+  trt_subset$PRIORDMT_DURA <- (tmp + tmp2)
+
+  
+  # Relapse Response: 
+  trt_subset$COHORT <- ifelse(trt_subset$PatientID %in% MS_cohort$PatientID, 1, 0)
+  # If member of CLIMB, indicator for relapse within tw months or not
+  trt_subset$RELAPSE[trt_subset$COHORT == 1] <- 
+    sapply(trt_subset$PatientID[trt_subset$COHORT == 1], function(pid) {
+      # Account for possible NAs from non-CLIMB patients
+      tmp <- trt_subset %>% filter(PatientID == pid)
+      tx_start_date <- tmp$start_date
+      tmp <- MS_attack %>% 
+        filter(PatientID == pid) %>% 
+        filter(onset >= tx_start_date &
+                 onset <= tx_start_date + months(tw))
+      if (nrow(tmp) != 0) {
+        return(1)
+      } else {
+        return(0)
+      }
+    })
+  
+  # Set Response = 0 for unlabeled data (arbitrary value)
+  trt_subset$RELAPSE[trt_subset$COHORT == 0] <- 0
+  
+  ##########################################################################################
+  ##########################    PREDICT RELAPSE PROBABILITY       ##########################
+  ##########################################################################################
+  
+  # Aggregate imputation data
+  if (aggregate) {
+    # Subset for patients at hand
+    ICD_CPT_CUI_Comb_trt <- ICD_CPT_CUI_Comb %>% filter(PatientNum %in% trt_subset$PatientNum)
+    
+    tmp = ICD_CPT_CUI_Comb_trt[,c("PatientNum",  "PatientID", "StartDate")]
+    tmp = plyr::count(tmp)[,-4]
+    tmp = tmp[order(tmp$PatientNum,tmp$StartDate),]
+    tmp2 = sapply(1:nrow(tmp),function(i){
+      # Progress tracker
+      if (i %% 500 == 0) {print(i)}
+      # Aggregate codes
+      aa = ICD_CPT_CUI_Comb_trt[ICD_CPT_CUI_Comb_trt$PatientNum == tmp$PatientNum[i],]
+      bb = difftime(aa$StartDate,tmp$StartDate[i],units = "days")/30
+      aa = aa[bb < tw & bb >= 0,]
+      aa = table(aa$ConceptCd); names(aa) = NULL
+      aa
+    })
+    tmp2 = t(tmp2)
+    colnames(tmp2) = levels(ICD_CPT_CUI_Comb_trt$ConceptCd)
+    CC_comb = cbind(tmp,tmp2)
+    CC_comb$StartDate <- as.Date(CC_comb$StartDate)
+    # Add FirstDate/LastDate: date of first/last recorded EHR encounter
+    CC_comb$FirstDate <- sapply(CC_comb$PatientNum, function(pnum) {
+      MS_EHR$First_date[MS_EHR$PatientNum == pnum]
+    })
+    CC_comb$LastDate <- sapply(CC_comb$PatientNum, function(pnum) {
+      MS_EHR$Last_date[MS_EHR$PatientNum == pnum]
+    })
+    
+    # Add time period to FirstDate by tp months
+    tmpp = tapply(CC_comb$StartDate,CC_comb$PatientNum,min)
+    tmpp = tmpp[match(CC_comb$PatientNum,names(tmpp))]
+    tmpp = pmax(CC_comb$FirstDate, as.Date(tmpp,origin = "1970-01-01"))
+    tmpp = data.frame(CC_comb[,c(1:3)],FIRST_DATE2 = tmpp,stringsAsFactors = FALSE)
+    tmpp$FIRST_DATE2 = as.Date(tmpp$FIRST_DATE2)
+    CC_comb$Period = as.numeric(difftime(tmpp$StartDate,tmpp$FIRST_DATE2,units="days")/30/tp)
+    CC_comb = CC_comb[CC_comb$Period >= 0,]
+    CC_comb$Period = ceiling(CC_comb$Period)
+    # organize columns
+    CC_comb = CC_comb %>% dplyr::select(PatientNum, PatientID, StartDate, FirstDate, LastDate,
+                                        Period, everything())
+    # Order by PatientID & StartDate
+    CC_comb = CC_comb[order(CC_comb$PatientNum, CC_comb$StartDate),]
+    # Save intermediate data
+    write.csv(CC_comb,
+              paste0("intermediate_data/RN_ICD_CPT_CUI_Count_",tw,"mons_",tp,"mons.csv"),
+              row.names = FALSE)
+  } else {
+    CC_comb = read.csv(paste0("intermediate_data/RN_ICD_CPT_CUI_Count_",tw,"mons_",tp,"mons.csv"))
+  
+    CPTgroup = read.csv(paste0(wkpath2,"MS_ConceptCode_Mapping.csv"),stringsAsFactors = FALSE)
+    tmp = grep("CPTGroup.", names(CC_comb))
+    aa = names(CC_comb)[tmp]
+    aa = substr(aa, 10, nchar(aa))
+    aa = gsub("\\."," ",aa)
+    aa = gsub("  "," ",aa)
+    bb = CPTgroup$cpt_group
+    bb = gsub("[-/(),]"," ",bb)
+    bb = gsub("  "," ",bb)
+    names(CC_comb)[tmp] = paste0("CPTGroup.", CPTgroup$cpt_group[match(aa,bb)])
+    
+    tmp <- readRDS(paste0("modeling_data/test", tw, "_", tp, ".rds"))
+    # Keep only variables in final modeling data
+    CC_comb <- CC_comb[, intersect(names(tmp), names(CC_comb))]
+    
+    ## Add clinical variables for imputation
+    # Sex
+    tmp <- trt_subset$PatientNum[trt_subset$FEMALE == 1]
+    CC_comb$FEMALE <- ifelse(CC_comb$PatientNum %in% tmp, 1, 0)
+    # Race
+    tmp <- trt_subset$PatientNum[trt_subset$RACE == 1]
+    CC_comb$RACE <- ifelse(CC_comb$PatientNum %in% tmp, 1, 0)
+    # Follow-up duration
+    CC_comb$FOLLOWUP_DURA <- sapply(CC_comb$PatientNum, function(pnum) {
+      return(trt_subset$FOLLOWUP_DURA[trt_subset$PatientNum == pnum])
+    })
+    # Disease duration proxy: duration between encounter date and 1st MS ICD Code (in years)
+    CC_comb$DISEASE_DURA <- NA
+    for (i in 1:nrow(CC_comb)) {
+      first_ms_icd_date <- trt_subset[trt_subset$PatientNum == CC_comb$PatientNum[i], "FIRSTMSICD_DATE"]
+      CC_comb$DISEASE_DURA[i] <- as.numeric(difftime(CC_comb$StartDate[i], first_ms_icd_date)/365)
+    }
+    CC_comb$StartDate <- as.Date(CC_comb$StartDate)
+    
+    # Log transform
+    # Do not transform ID/date columns and clinical vars 
+    no_transform <- c(1:3, (length(names(CC_comb)) - 3):length(names(CC_comb)))
+    CC_comb[,-no_transform] = log(1 + CC_comb[,-no_transform])
+    
+    # Remove data before 2006
+    CC_comb <- CC_comb %>% filter(StartDate >= as.Date('2006-01-01'))
+    
+    # Save imputation data
+    saveRDS(CC_comb, paste0("modeling_data/causalRN_impute_", tw,"_", tp, "mons.rds"))
+  }
+  
+  ## Fit Lasso-HMM model
+  # Use all CLIMB data as training data
+  train <- readRDS(paste0("modeling_data/train", tw, "_", tp, ".rds"))
+  test <- readRDS(paste0("modeling_data/test", tw, "_", tp, ".rds"))
+  CLIMB_comb <- rbind(train, test); rm(train, test)
+  # Remove all data before 2006
+  CLIMB_comb <- CLIMB_comb %>% filter(StartDate >= as.Date('2006-01-01'))
+  
+  # CC_comb <- readRDS(paste0("modeling_data/causalRN_impute_", tw,"_", tp, "mons.rds"))
+  
+  predictors <- readRDS("intermediate_data/model_predictors.rds")
+  # set.seed(12345)
+  # lasso <- cv.glmnet(as.matrix(CLIMB_comb[,predictors]), CLIMB_comb$CC,
+  #                      family = "binomial", type.measure = "auc")
+  ## LASSO-HMM 
+  source("scripts/modeling/lasso_hmm_v2.R")
+  
+  # Debugging ---------------------------------------------------------------
+  # options <- rep(NA, nrow(trt_subset))
+  # pred_idx_vec <- rep(NA, nrow(trt_subset))
+  # for (i in 1:length(trt_subset$PatientNum)) {
+  #   pnum <- trt_subset$PatientNum[i]
+  #   start_date <- trt_subset$start_date[trt_subset$PatientNum == pnum]
+  #   pred_idx <- which(CC_comb$PatientNum == pnum & CC_comb$StartDate == start_date)
+  #   options[i] <- 1
+  #   if (length(pred_idx) == 0) {
+  #     tmp <- which(CC_comb$PatientNum == pnum &
+  #                         (CC_comb$StartDate >= start_date - months(1) &
+  #                            CC_comb$StartDate <= start_date + months(1)))
+  #     pred_idx <- tmp[1]
+  #     options[i] <- options[i] + 1
+  #   }
+  #   if (is.na(pred_idx)) {
+  #     tmp <- which(CC_comb$PatientNum == pnum &
+  #                         (CC_comb$StartDate >= start_date - months(3) &
+  #                            CC_comb$StartDate <= start_date + months(3)))
+  #     pred_idx <- tmp[1]
+  #     options[i] <- options[i] + 1
+  #   }
+  #   if (is.na(pred_idx)) {
+  #     print(pnum)
+  #     # Problematic patient: 86252
+  #   }
+  #   pred_idx_vec[i] <- pred_idx
+  # }
+  # 
+  # pred_idx_vec <- pred_idx_vec[!is.na(pred_idx_vec)]
+  # t2 <- CC_comb[pred_idx_vec,]
+  # output <- runAllSS(CLIMB_comb, t2)
+  # trt_subset <- trt_subset %>% filter(PatientNum != 86252)
+  # trt_subset$PROB_RELAPSE <- output
+  
+  # LASSO-HMM model ---------------------------------------------------------------
+  # set.seed(1234)
+  # output <- runAllSS(CLIMB_comb, CC_comb)
+  # tmp <- sapply(trt_subset$PatientNum, function(pnum) {
+  #   start_date <- trt_subset$start_date[trt_subset$PatientNum == pnum]
+  #   pred_idx <- which(CC_comb$PatientNum == pnum & CC_comb$StartDate == start_date)
+  #   if (length(pred_idx) == 0) {
+  #     tmp <- which(CC_comb$PatientNum == pnum &
+  #                         (CC_comb$StartDate >= start_date - months(1) &
+  #                            CC_comb$StartDate <= start_date + months(1)))
+  #     pred_idx <- tmp[length(tmp)]
+  #   }
+  #   if (length(pred_idx) == 0) {
+  #     tmp <- which(CC_comb$PatientNum == pnum &
+  #                         (CC_comb$StartDate >= start_date - months(3) &
+  #                            CC_comb$StartDate <= start_date + months(3)))
+  #     pred_idx <- tmp[length(tmp)]
+  #   }
+  #   return(output[pred_idx])
+  # })
+  # trt_subset$PROB_RELAPSE <- as.numeric(tmp)
+  # 
+  # png("plots/causal/hist_imputed_probs.png", units="in", width=7, height=5, res=300)
+  # hist(trt_subset$PROB_RELAPSE,
+  #      main = "Histogram of Imputed 2-Year Relapse Probability",
+  #      xlab = "Relapse Probability")
+  # dev.off()
+  
+  # LASSO only model ---------------------------------------------------------------
+  trt_subset$PROB_RELAPSE <- sapply(trt_subset$PatientNum, function(pnum) {
+    start_date <- trt_subset$start_date[trt_subset$PatientNum == pnum]
+    pred_data <- CC_comb %>% filter(PatientNum == pnum & StartDate == start_date)
+    if (nrow(pred_data) == 0) {
+      pred_data <- CC_comb %>%
+        filter(PatientNum == pnum) %>%
+        filter(StartDate >= start_date - months(1) & StartDate <= start_date + months(1))
+    }
+
+    if (nrow(pred_data) == 0) {
+      pred_data <- CC_comb %>%
+        filter(PatientNum == pnum) %>%
+        filter(StartDate >= start_date - months(3) & StartDate <= start_date + months(3))
+    }
+    pred <- predict(lasso, newx = as.matrix(pred_data[1, predictors]),
+                    type = "response", s = lasso$lambda.1se)
+    return(pred)
+  })
+  
+  # Remove patients without predicted relapse probability
+  trt_subset <- trt_subset[!is.na(trt_subset$PROB_RELAPSE),]
+  ## Move all non-modeling variables to first few columns of dataframe
+  trt_subset <- trt_subset %>% dplyr::select(PatientID, PatientNum, medication_desc, start_date,
+                                      BIRTHDAY, FIRSTICD_DATE, FIRSTMSICD_DATE, 
+                                      RELAPSE, PROB_RELAPSE, COHORT,everything())
+  # First 9 columns are non-modeling, 10th column is outcome
+  saveRDS(trt_subset, paste0('modeling_data/causalRN_trt_', tw,'_', tp, 'mons_.rds'))
+} else {
+  trt_subset <- readRDS(paste0('modeling_data/causalRN_trt_', tw,'_', tp, 'mons_.rds'))
+  
+  MS_trt    = read.csv(paste0(wkpath2,"Cleaned_MS_treatment.csv"), stringsAsFactors = FALSE)
+  MS_trt$start_date <- as.Date(with(MS_trt, paste(start_year, start_month, start_day,sep="-")), "%Y-%m-%d")
+  MS_trt$stop_date <- as.Date(with(MS_trt, paste(stop_year, stop_month, stop_day,sep="-")), "%Y-%m-%d")
+}
+  
+```
+
+
+## Results
+
+### Estimation of Average Treatment Effects
+
+```{r CausalEstimation}
+# David's causal methods script
+source('scripts/causal/causalmethods.R')
+
+# Labeled-only setting (using only CLIMB) ------------------------------------------------------
+
+trt_subsubset <- trt_subset %>% filter(COHORT == 1)
+
+n <- nrow(trt_subsubset)
+set.seed(1234)
+pihat.dips <- dips(Yi = trt_subsubset$RELAPSE,
+                   Ti = ifelse(trt_subsubset$medication_desc == 'Natalizumab', 1, 0),
+                   Xi = as.matrix(trt_subsubset[,-c(1:10)]),
+                   Gi = rep(1,n),
+                   fam = "binomial")
+
+print("Estimate using only CLIMB:")
+print(ipw(Yi = trt_subsubset$RELAPSE,
+          Ti = ifelse(trt_subsubset$medication_desc == 'Natalizumab', 1, 0),
+          pihat.dips))
+
+# Bootstrap
+if (!readinboot) {
+  bootsims <- 10000
+  boot_ests <- rep(NA, bootsims)
+  
+  set.seed(1234)
+  for (i in 1:bootsims) {
+    if (i %% 50 == 0) {
+      print(i)
+    }
+    
+    boot_idx <- sample(1:nrow(trt_subsubset), replace = T)
+    boot_data <- trt_subsubset[boot_idx, ]
+    
+    pihat.dips <- dips(Yi = boot_data$RELAPSE,
+                       Ti = ifelse(boot_data$medication_desc == 'Natalizumab', 1, 0),
+                       Xi = as.matrix(boot_data[,-c(1:10)]),
+                       Gi = rep(1,n),
+                       fam = "binomial")
+    boot_ests[i] <- ipw(Yi = boot_data$RELAPSE,
+                        Ti = ifelse(boot_data$medication_desc == 'Natalizumab', 1, 0),
+                        pihat.dips)
+  }
+  write.csv(boot_ests, paste0("causal_output/boot_ests_RN_", tw, "_", tp, "mons_CLIMB.csv"))
+} else {
+  boot_ests <- read.csv(paste0("causal_output/boot_ests_RN_", tw, "_", tp, "mons_CLIMB.csv"))
+  boot_ests <- boot_ests$x
+}
+
+# Check for significance 
+ci_bounds <- quantile(boot_ests, probs = c(0.025, 0.975), na.rm = TRUE)
+print("95% confidence interval")
+print(ci_bounds)
+print("Significance")
+print(ci_bounds[1] > 0 | ci_bounds[2] < 0)
+
+# Graph distribution
+print("Empirical distribution summary")
+print(summary(boot_ests))
+
+png("plots/causal/hist_boot_ests_RN_CLIMB.png", units="in", width=7, height=5, res=300)
+hist(boot_ests, 
+     main = "Empirical Distribution of Rituximab vs. Natalizumab ATE (CLIMB only)",
+     xlab = "Bootstrap ATE")
+dev.off()
+
+# Semi-supervised setting (CLIMB val vs not) ---------------------------------------------------
+# Consider "validated" CLIMB data as labeled data
+
+trt_subsubset_val <- trt_subsubset
+MS_trt_subset <- MS_trt %>% filter(medication_desc %in% c("RITUXAN", "TYSABRI"))
+
+
+trt_subsubset_val$COHORT <- sapply(trt_subsubset_val$PatientID, function(pid) {
+  MS_trt_pt <- MS_trt_subset %>% filter(PatientID == pid)
+  if (nrow(MS_trt_pt) == 0) {
+    return(0)
+  } else {
+    start_dte <- trt_subsubset_val$start_date[trt_subsubset_val$PatientID == pid]
+    if (all(is.na(MS_trt_pt$val_start) & is.na(MS_trt_pt$val_stop))) {
+      return(0)
+    } else {
+      MS_trt_pt <- MS_trt_pt %>% filter(!is.na(val_start) & !is.na(val_stop))
+      if (any((rep(start_dte, nrow(MS_trt_pt)) >= MS_trt_pt$val_start) & 
+              (rep(start_dte, nrow(MS_trt_pt)) <= MS_trt_pt$val_stop))) {
+        return(1)
+      } else {
+        return(0)
+      }
+    }
+  }
+}, USE.NAMES = F)
+
+n <- nrow(trt_subsubset_val)
+set.seed(1234)
+est <- dips.ss(Yi = trt_subsubset_val$RELAPSE,
+               Ti = ifelse(trt_subsubset_val$medication_desc == 'Natalizumab', 1, 0),
+               Ri = trt_subsubset_val$COHORT,
+               Wi = trt_subsubset_val$PROB_RELAPSE, 
+               Xi = as.matrix(trt_subsubset_val[,-c(1:10)]), 
+               Gi = rep(1, n),
+               fam = "binomial")
+
+print("Estimate using only CLIMB (Validated-defined Semi-Supervised):")
+print(est)
+
+# Bootstrap
+if (!readinboot) {
+  bootsims <- 10000
+  boot_ests <- rep(NA, bootsims)
+  
+  set.seed(12345)
+  for (i in 1:bootsims) {
+    if (i %% 50 == 0) {
+      print(i)
+    }
+    
+    boot_idx <- sample(1:nrow(trt_subsubset_val), replace = T)
+    boot_data <- trt_subsubset_val[boot_idx, ]
+    
+    boot_ests[i] <- dips.ss(Yi = boot_data$RELAPSE,
+                            Ti = ifelse(boot_data$medication_desc == 'Natalizumab', 1, 0),
+                            Ri = boot_data$COHORT,
+                            Wi = boot_data$PROB_RELAPSE, 
+                            Xi = as.matrix(boot_data[,-c(1:10)]), 
+                            Gi = rep(1, n),
+                            fam = "binomial")
+    
+  }
+  write.csv(boot_ests, paste0("causal_output/boot_ests_RN_", tw, "_", tp, "mons_CLIMB_val.csv"))
+} else {
+  boot_ests <- read.csv(paste0("causal_output/boot_ests_RN_", tw, "_", tp, "mons_CLIMB_val.csv"))
+}
+
+# Check for significance 
+ci_bounds <- quantile(boot_ests, probs = c(0.025, 0.975), na.rm = TRUE)
+print("95% confidence interval")
+print(ci_bounds)
+print("Significance")
+print(ci_bounds[1] > 0 | ci_bounds[2] < 0)
+
+# Graph distribution
+print("Empirical distribution summary")
+print(summary(boot_ests))
+
+png("plots/causal/hist_boot_ests_RN_CLIMB_val.png", units="in", width=7, height=5, res=300)
+hist(boot_ests, 
+     main = "Empirical Distribution of Rituximab vs. Natalizumab ATE (SS Validated)",
+     xlab = "Bootstrap ATE")
+dev.off()
+
+# Semi-supervised setting (using all data) ------------------------------------------------------
+n <- nrow(trt_subset)
+set.seed(1234)
+est <- dips.ss(Yi = trt_subset$RELAPSE,
+               Ti = ifelse(trt_subset$medication_desc == 'Natalizumab', 1, 0),
+               Ri = trt_subset$COHORT,
+               Wi = trt_subset$PROB_RELAPSE, 
+               Xi = as.matrix(trt_subset[,-c(1:10)]), 
+               Gi = rep(1, n),
+               fam = "binomial")
+
+print("Estimate using all data:")
+print(est)
+
+# Bootstrap
+if (!readinboot) {
+  bootsims <- 10000
+  boot_ests <- rep(NA, bootsims)
+  
+  set.seed(1234)
+  for (i in 1:bootsims) {
+    if (i %% 50 == 0) {
+      print(i)
+    }
+    
+    boot_idx <- sample(1:nrow(trt_subset), replace = T)
+    boot_data <- trt_subset[boot_idx, ]
+    
+    boot_ests[i] <- dips.ss(Yi = boot_data$RELAPSE,
+                            Ti = ifelse(boot_data$medication_desc == 'Natalizumab', 1, 0),
+                            Ri = boot_data$COHORT,
+                            Wi = boot_data$PROB_RELAPSE, 
+                            Xi = as.matrix(boot_data[,-c(1:10)]), 
+                            Gi = rep(1, n),
+                            fam = "binomial")
+  }
+  write.csv(boot_ests, paste0("causal_output/boot_ests_RN_", tw, "_", tp, "mons_SS.csv"))
+} else {
+  boot_ests <- read.csv(paste0("causal_output/boot_ests_RN_", tw, "_", tp, "mons_SS.csv"))
+}
+
+# Check for significance 
+ci_bounds <- quantile(boot_ests, probs = c(0.025, 0.975), na.rm = TRUE)
+print("95% confidence interval")
+print(ci_bounds)
+print("Significance")
+print(ci_bounds[1] > 0 | ci_bounds[2] < 0)
+
+# Graph distribution
+print("Empirical distribution summary")
+print(summary(boot_ests))
+
+png("plots/causal/hist_boot_ests_RN_SS.png", units="in", width=7, height=5, res=300)
+hist(boot_ests, 
+     main = "Empirical Distribution of Rituximab vs. Natalizumab ATE (Semi-Supervised)",
+     xlab = "Bootstrap ATE")
+dev.off()
+
+```
+
+
+
+
+
+
+
+
+
+
+
+

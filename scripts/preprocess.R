@@ -44,6 +44,8 @@ if (readin) {
   
   MS_EHR    = read.xlsx(paste0(wkpath,"EHR/MS_first_last_date_whole_list.xlsx"),
                         sheet = 1); colnames(MS_EHR)[1] = "PatientNum"
+  MS_EHR$First_date <- convertToDate(MS_EHR$First_date)
+  MS_EHR$Last_date <- convertToDate(MS_EHR$Last_date)
   MS_EHR$PatientID = MS_map$PatientID[match(MS_EHR$PatientNum,MS_map$PatientNum)]  
   
   ### Belongs to EHR or not
@@ -184,7 +186,7 @@ CUIdictAll = read.xlsx(paste0(wkpath,"EHR/AllCUI_Database.xlsx"), sheet = 1)
 colnames(CUIdictAll) = c("ConceptCd","Desc")
 if (readin) {
   ICD_CPT_CUI_Comb = read.csv(paste0(wkpath2,"ICD_CPT_CUI_Comb.csv"), stringsAsFactors = FALSE)
-  ICD_CPT_CUI_Comb$StartDate = as.Date(ICD_CPT_CUI_Comb$StartDate)
+  ICD_CPT_CUI_Comb$StartDate = base::as.Date(ICD_CPT_CUI_Comb$StartDate)
   ICD_CPT_CUI_Comb$ConceptCd = as.factor(ICD_CPT_CUI_Comb$ConceptCd)
   ICDPheCode   = read.csv(paste0(wkpath,"EHR/MS_AllEncounter_ICDCodes_08072019.csv"), stringsAsFactors = FALSE)
   ICDPheCode$phecode[ICDPheCode$concept_cd == "LPA268"] = "335_"
@@ -204,9 +206,10 @@ if (readin) {
   colnames(ICDPheCode)  = c("PatientNum","EncounterNum","StartDate","ConceptCd","PheCode","Desc")
   colnames(CPTGrouped)  = c("PatientNum","EncounterNum","StartDate","ConceptCd","CPTGroup")
   colnames(CUISelected) = c("PatientNum","EncounterNum","StartDate","ConceptCd")
-  ICDPheCode$StartDate  = as.Date(ICDPheCode$StartDate,format = "%m/%d/%y")
-  CPTGrouped$StartDate  = as.Date(CPTGrouped$StartDate,format = "%m/%d/%y")
+  ICDPheCode$StartDate  = base::as.Date(ICDPheCode$StartDate,format = "%m/%d/%y")
+  CPTGrouped$StartDate  = base::as.Date(CPTGrouped$StartDate,format = "%m/%d/%y")
   CUISelected$StartDate = format(as.POSIXct(CUISelected$StartDate, format = '%Y-%m-%d %H:%M:%S'), format = '%Y-%m-%d')
+  CUISelected <- CUISelected %>% filter(StartDate >= as.Date("1980-01-01"))
   # Add Code descriptions
   CUISelected$Desc = CUIdictAll$Desc[match(CUISelected$ConceptCd,CUIdictAll$ConceptCd)]
   # Format
@@ -229,13 +232,12 @@ if (readin) {
   ICD_CPT_CUI_Comb = rbind(ICDPheCode[,c("PatientNum","EncounterNum","StartDate","ConceptCd")],
                            CPTGrouped[,c("PatientNum","EncounterNum","StartDate","ConceptCd")],
                            CUISelected[,c("PatientNum","EncounterNum","StartDate","ConceptCd")])
-  ICD_CPT_CUI_Comb = count(ICD_CPT_CUI_Comb)[,c("PatientNum", "StartDate", "ConceptCd")]
+  ICD_CPT_CUI_Comb = plyr::count(ICD_CPT_CUI_Comb)[,c("PatientNum", "StartDate", "ConceptCd")]
   ICD_CPT_CUI_Comb$PatientID = MS_map$PatientID[match(ICD_CPT_CUI_Comb$PatientNum, MS_map$PatientNum)] 
   ICD_CPT_CUI_Comb$ConceptCd = as.factor(ICD_CPT_CUI_Comb$ConceptCd)
   
-  write.csv(ICD_CPT_CUI_Comb, paste0(wkpath2,"ICD_CPT_CUI_Comb.csv"),row.names = FALSE)
+  write.csv(ICD_CPT_CUI_Comb, paste0("intermediate_data/ICD_CPT_CUI_Comb.csv"),row.names = FALSE)
 }
-
 
 
 
@@ -250,20 +252,21 @@ tp_list     = rep(c(1, 3, 6), 3) # tw/4, time period for sample cases and contro
 
 
 if (!readin) {
+  MS_Enct_Uniq = read.csv(paste0("raw_data/HSPH/Data From Partners MS Center/MS_Encounter_Date_PatientID.csv"), stringsAsFactors = FALSE)
+  MS_Enct_Uniq = MS_Enct_Uniq[MS_Enct_Uniq$PatientID%in%MS_cohort$PatientID,]
+  MS_Enct_Uniq$StartDate = as.Date(MS_Enct_Uniq$StartDate,format = "%m/%d/%y")
+  tmp = plyr::count(MS_Enct_Uniq[,c("PatientNum","PatientID","StartDate")])[,-4]
   for (i in 1:length(tw_list)) {
     tw = tw_list[i]; tp = tp_list[i]
+    # tw = 24; tp = 3
     print(paste('tw:', tw, 'tp:',tp))
-    
-    MS_Enct_Uniq = read.csv(paste0("raw_data/HSPH/Data From Partners MS Center/MS_Encounter_Date_PatientID.csv"), stringsAsFactors = FALSE)
-    MS_Enct_Uniq = MS_Enct_Uniq[MS_Enct_Uniq$PatientID%in%MS_cohort$PatientID,]
-    MS_Enct_Uniq$StartDate = as.Date(MS_Enct_Uniq$StartDate,format = "%m/%d/%y")
-    tmp = plyr::count(MS_Enct_Uniq[,c("PatientNum","PatientID","StartDate")])[,-4]
     tmp2 = sapply(1:nrow(tmp),function(i){
       aa = MS_attack[MS_attack$PatientID == tmp$PatientID[i],]
       CC = abs(difftime(tmp$StartDate[i], aa$onset, units = "days")/30) < tw # 
       CR = c(any(aa$clinical[CC] >= 1),any(aa$radiographic[CC] >= 1))  # clinical & radiographic relapse
       CC = any(CC) # case-control status
-      aa = ICD_CPT_CUI_Comb_cohort[ICD_CPT_CUI_Comb_cohort$PatientID == tmp$PatientID[i],]
+      # aa = ICD_CPT_CUI_Comb_cohort[ICD_CPT_CUI_Comb_cohort$PatientID == tmp$PatientID[i],]
+      aa = ICD_CPT_CUI_Comb[ICD_CPT_CUI_Comb$PatientID == tmp$PatientID[i],]
       bb = difftime(aa$StartDate,tmp$StartDate[i],units = "days")/30
       aa = aa[bb < tw & bb >= 0,]
       aa = c(CC,CR,table(aa$ConceptCd));names(aa) = NULL
@@ -302,6 +305,9 @@ if (!readin) {
     write.csv(CC_comb,
               paste0("intermediate_data/CC_ICD_CPT_CUI_Count_",tw,"mons_",tp,"mons.csv"),
               row.names = FALSE)
+    # write.csv(CC_comb,
+    #           paste0("intermediate_data/CC_ICD_CPT_CUI_Count_",tw,"mons_",tp,"mons_EHR.csv"),
+    #           row.names = FALSE)
   }
 }
 
@@ -394,7 +400,7 @@ for (i in 1:length(tw_list)) {
   CC_comb$BIRTHDAY <- NULL; CC_comb$AGE_AT_FIRSTSYMPTOM <- NULL; CC_comb$AGE_AT_VISIT <- NULL
   CC_comb$FOLLOWUP_DURA <- NA 
   for (pt in unique(CC_comb$PatientID)) {
-    # DURA variable is equivalent to the follow-up duration taht we want
+    # DURA variable is equivalent to the follow-up duration that we want
     CC_comb[CC_comb$PatientID == pt, 'FOLLOWUP_DURA'] <- cohort_data[cohort_data$PatientID == pt, 'DURA']
   }
   # Remove visits with negative disease duration: this does not affect number of patients
@@ -424,7 +430,7 @@ for (i in 1:length(tw_list)) {
   no_transform <- c(1:9, (length(names(CC_comb)) - 3):length(names(CC_comb)))
   CC_comb[,-no_transform] = log(1 + CC_comb[,-no_transform])
   
-  # Sample (Yuri Edits: )
+  # Sample (Edited by Yuri)
   group   = paste(CC_comb$PatientID,CC_comb$Period,sep=".")
   indices = tapply(1:nrow(CC_comb), group, function(x){ifelse(length(x) == 1, x, sample(x,1))})
   counts = tapply(1:nrow(CC_comb), group, function(x){length(x)})

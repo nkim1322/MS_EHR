@@ -1,0 +1,2565 @@
+---
+title: "Trends of Disease Activity among People with Multiple Sclerosis in the Age of Disease-Modifying Therapy: an analysis of a prospective  clinic cohort, 2000-2016"
+author: "Liang Liang PhD, Tianrun Cai, Howard Weiner, MD, Tanuja Chitnis, MD, Tianxi Cai, ScD, Zongqi Xia, PhD, MD"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: 
+  word_document: 
+    # reference_docx: MS_RMD_word_style.docx
+# bibliography: MS_ref.bib
+# biblio-style: "abbrv"
+---
+
+
+<!--Changed normalized code to adjusted (notes, any ICD, baseline) and adjusted 2 (notes, any ICD)-->
+
+## Abstract
+__Background__: Disease-modifying treatments (DMT) reduce relapse rates in multiple sclerosis (MS).
+
+__Objective__: To investigate the temporal trend of disease activity over time in people with MS in relation to DMT usage. 
+
+__Design, Setting, and Participants__:  We analyzed prospectively collected research registry data from a well-characterized clinic cohort based in Boston from 2000 to 2016, and integrated with electronic health records data.
+
+__Main Outcomes and Measures__: We assessed the temporal trend of relapse rate (any, clinical or radiographic), percentage of the cohort receiving any DMT.  We additionally assessed the trend of average 25-OH vitamin D level, average disease duration, average number of diagnostic code for MS and average number of any diagnostic code. 
+
+__Results__: We assessed the research registry data of xx people with MS between 2000 and 2016: mean age = xx years, mean disease duration = xx years, female to male ratio = xx :1. We found...
+
+__Conclusion and Relevance__: This detailed examination of relapse rate in relation to MS treatments confirms the benefit of DMT, and...
+
+__Trial Registration__:  N/A
+
+__Funding__: NINDS NS098023
+
+## Introduction 
+Multiple sclerosis (MS) is a chronic neurological disease with a high socioeconomic burden [@noteworthy2000medical;@compston2008multiple;@asche2010all;@hartung2015cost]. Since the approval of the first disease-modifying therapy (DMT) in 1993, MS treatment has shifted from primarily managing acute relapses to reducing disease activity and delaying disability as DMTs have become the standard of care for people with MS[@hartung2015cost]. Currently, there are at least 15 Food and Drug Administration (FDA) approved DMTs, including injectable, oral and infusion options[@hartung2015cost].
+
+...
+
+In this study, we report the trends of disease activity among people with MS in a prospective clinic cohort from 2000-2016...
+
+## Methods
+
+### Study Population
+In this study, we obtained research registry data from the Comprehensive Longitudinal Investigation of Multiple Sclerosis at the Brigham and Women's Hospital (CLIMB) study based at Boston MA, from 2000-2016. We additionally obtained electronic health records data for patients in the CLIMB study from the Partners HealthCare[@xia2013modeling].  The Institutional Review Board of Partners HealthCare approved the use of research registry data and electronic health records data. 
+
+### Analysis of incidence relapse rate, DMT usage and other trends
+Relapse included clinical, radiographic, or either. We examined all available DMTs during the study period: injectable [interferon-beta (including all brands), glatiramer acetate], oral [fingolimod, dimethyl fumarate, teriflunomide], and infusion [mitoxantrone, natalizumab, alemtuzumab]. Due to the small sample size in our data set, we excluded the following drugs: alemtuzumab, anti-CD20, daclizumab, and mitoxantrone. The trend of median vitamin D level, estimated incident relapse rate relative to the placebo, average disease duration, MS diagnostic code, and any diagnostic code are calculated as comparisons to the trend of the incident relapse rate.
+
+### Statistical Analysis
+Information from the EHR data are extracted and mapped to the CLIMB data with the help of the i2b2 mapping table to improve the accuracy of the CLIMB data. Specifically, the first and last ICD code dates from the EHR data in combination with the enrollment/first diagnosis date and last visit date from the CLIMB data lead to a more precise estimation on follow-up period. The resulting start/end of follow-up period are further manipulated using the standard rules, i.e., entries with missing years are deleted while the entries with missing months and days are imputed by July and 15th, respectively. Besides, vitamin data are extracted and analyzed to explore its potential relationship with MS.
+
+The patients characteristics, such as total number of patients, percentage of females, and median and IQR duration of follow-up, are calcuted among CLIMB data and EHR data, separately. Missing values in sex and race are excluded in the calculation as the missing rates are 0.4% and 2.9%, respectively. 
+
+The incident, clinical, and radiographic relapse rates over 2000-2016 and the corresponding 95% normal CIs were computed. The former one is given in Figure 1 while the later two are provided in the supplimentary material. The 95% CI for the overall anualized relapse rate during 2000-2016 are calculated using the bootstrap method and provided in Table 1.
+
+The trend of any DMT usage and each of the DMT usage, along with the normal CIs, are summarized in Figure 1 and 2, respectively. Table 2 listed the mean treatment duration and corresponding normal CIs for each of the DMT of interest.
+
+The trend of estimated incident relapse rate relative to the placebo is given in Figure 1. There are two factors influence the relative relapse rate. The effectiveness of and the proportion of patients under each DMT. Specifically, 
+patients under a more effective drug will have a lower chance of replase compared to that under a less effective drug. Besides, the higher proportion of patients under an effective drug in the cohort it is, the fewer relapses there will be. Let $r_i$ be the reduction rate of the $i$th DMT and $p_i$ be the proportion of the patients under the $i$th DMT. The overall incident relapse rate is estimated by 
+$$\sum_i (1-r_i)p_i.$$
+Here, the $r_i$ is obtained by extracting the reduction rates of all the DMTs from various literatures and then taking the average. See Table 3 for the specific values of $r_i$ used in the calculation.
+
+The trend of median vitamin D level and median disease duration are provided in Figure 1, along with the normal CIs, due to the heavy skewness in the data.
+
+The average number of MS diagnostic code and any diagnostic code are calculated as comparisons to the trend of the incident relapse rate, and are shown in Figure 3.
+
+All the data analysis are performed using R version 3.4.2 (? do we need to specify the version?).
+
+
+## Results
+### Demographics
+From 2000 to 2016, xx enrolled in the CLIMB cohort. The CLIMB cohort represents a predominant subset of a "virtual cohort" of MS derived from the electronic health records data.  The patient characteristics are shown in Table 1.  Consistent with the EHR cohort, the mean age in the CLIMB cohort was xx years old, and the female to male ratio was xx:1.  The mean disease duration in the CLIMB cohort was xx.  The mean follow-up duration was xx in the CLIMB cohort and xx in the EHR cohort.
+
+### Trend of Incident Relapse Rate
+.... 
+
+### Trend of Disease-Modifying Treatment Prescription 
+...
+
+### Trend of 25-OH Vitamin D Level
+...
+
+### Trend of Diagnostic Code for MS
+...
+
+
+## Discussion
+In this study , we examined the temporal trends of relapse rate in a large well-characterized prospective clinic-based cohort of MS. Our main findings are...
+
+Our analyses have several limitations. First, .... 
+
+
+## Acknowledgments
+We thank xx. 
+
+## Funding
+Dr. Xia was a recipient of the Clinician Scientist Development Award from the National Multiple Sclerosis Society and the American Academy of Neurology and is supported by NIH K08-NS079493. The funding organizations and sponsors played no role in any of the following: design and conduct of the study; collection, management, analysis, and interpretation of the data; and preparation, review, or approval of the manuscript; and decision to submit the manuscript for publication.
+
+
+```{r DataManipulation, echo=FALSE, message=FALSE, warning=FALSE}
+######################################################################
+## Feb 14. Log transformation is only done on VD and Disease Duration
+######################################################################
+rm(list = ls())
+## Function for loading/installing necessary package
+pkgTest <- function(x){
+  if (!is.element(x, installed.packages()[,1])){
+    install.packages(x,dep=TRUE)
+    if(!require(x,character.only = TRUE)) stop("Package not found")
+  } else{
+    if(!require(x,character.only = TRUE)) stop("Package not found")
+  }
+}
+
+## make sure you have Java installed before running the following code
+# pkgTest('xlsx')
+pkgTest('plyr')
+pkgTest('knitr')
+pkgTest('grid')
+pkgTest('ggplot2')
+pkgTest('reshape2')
+pkgTest('gridExtra')
+pkgTest('pander')
+pkgTest('openxlsx')
+# pkgTest('dplyr')
+# devtools::install_github("baptiste/egg")
+library(egg)
+
+VTM<-function(vc, dm){
+  matrix(vc, ncol=length(vc), nrow=dm, byrow=T)
+}
+
+## remember we cannot take log on zero
+readin     = FALSE # if read in combined data
+readincomb = TRUE # if read in combined data mart
+readinboot = TRUE # if read in bootstrap results
+year       = 2000:2016
+
+addNA<-function(df){
+  rbind(c(year[1]-1,rep(NA,ncol(df-1))),df,
+        c(year[length(year)]+1,rep(NA,ncol(df-1))))
+}
+
+################################################################################
+######################            READ IN DATA            ######################
+################################################################################
+#### Data directory
+wkpath    = "raw_data/Box/Boston/MS CLIMB Data/"
+
+#### MS cohort data
+MS_trt    = read.xlsx(paste0(wkpath,"CLIMB Cohort/ClimbDMTAttackZongqi062817Sent.xlsx"),
+                      sheet = 1)
+MS_trt[c('val_start', 'val_stop')] <- lapply(MS_trt[c('val_start', 'val_stop')],FUN = convertToDate)
+MS_attack = read.xlsx(paste0(wkpath,"CLIMB Cohort/ClimbDMTAttackZongqi062817Sent.xlsx"),
+                      sheet = 2)
+MS_attack[c('baseline_date', 'val_start', 'val_stop')] <- lapply(MS_attack[c('baseline_date', 'val_start', 'val_stop')], FUN = convertToDate)
+## remove duplicates based on onset_year,onset_month,onset_day
+MS_attack = MS_attack[!duplicated(MS_attack[,c("code","onset_year","onset_month","onset_day")]),]
+## further remove 28 duplicates based on onset_year & onset_month
+MS_attack = MS_attack[order(MS_attack$code,MS_attack$onset_year,MS_attack$onset_month,MS_attack$onset_day),]
+MS_attack = MS_attack[!duplicated(MS_attack[,c("code","onset_year","onset_month")]),]
+
+### check MS_attack, patients can have multiple attacks in the same day
+# BWH-489307       2005           3        16    4
+# BWH-494933       2013           9        25    4
+# BWH-515852       2012          11         7    4
+# MS_attack[MS_attack$code=="BWH-515852",-c(2:8)]
+
+MS_cohort = read.xlsx(paste0(wkpath,"CLIMB Cohort/ClimbCohortReviewSent081717.xlsx"),
+                      sheet = 1)
+date_cols <- c("BASELINE_DATE", "FINISH_DATE", "LAST_VISIT_DATE", "LAST_SCHEDULED_VISIT")
+MS_cohort[date_cols] <- lapply(MS_cohort[date_cols], FUN = convertToDate)
+
+#### EHR data and i2b2 mapping
+MS_map    = read.xlsx(paste0(wkpath,"CLIMB Cohort/Spec95_i2b2_Mapping2017.xlsx"),
+                      sheet = 1)
+MS_EHR    = read.xlsx(paste0(wkpath,"EHR/MS_first_last_date_whole_list.xlsx"),
+                      sheet = 1)
+MS_EHR[c("First_date","Last_date")] <- lapply(MS_EHR[c("First_date","Last_date")], FUN = convertToDate)
+MS_EHR_demo = read.xlsx(paste0(wkpath,"EHR/ms_demographics.xlsx"),
+                        sheet = 1)
+date_cols <- c("BIRTH_DATE","DEATH_DATE","UPDATE_DATE","DOWNLOAD_DATE","IMPORT_DATE")
+MS_EHR_demo[date_cols] <- lapply(MS_EHR_demo[date_cols], FUN = convertToDate)
+if(!readin){
+  MS_VD     = read.csv(paste0(wkpath,"EHR/25_OH_Vit_D_result_D2_excluded_20171018.csv"), 
+                       sep = "|", stringsAsFactors = FALSE)
+  MS_VD     = MS_VD[,-c(2:3)]
+  names(MS_VD) = c("PatientNum","StartDate","Value")
+  MS_VD$StartDate = as.Date(MS_VD$StartDate,"%Y-%m-%d %H:%M:%S")
+  # raw note data, each row each record; each patient multiple records; contains CUI, used for mentions of MS, relapses, ... 
+  MS_NLP    = read.csv(paste0(wkpath,"EHR/NLP_note_level_using_code_from_zq_raw_DocTimeRel_excluded_20180604.csv"),
+                       header=FALSE,skip=1,sep = "|",stringsAsFactors = FALSE)
+  MS_NLP    = MS_NLP[,c(1:3,6)]
+  colnames(MS_NLP)  = c("PatientNum","EncounterNum","CUI","StartDate")
+  MS_NLP$StartDate  = as.Date(MS_NLP$StartDate,"%Y-%m-%d %H:%M:%S")
+  tmp  = count.fields(paste0(wkpath,"EHR/note_count_per_year_new_notes_20180410.csv"),sep="|")
+  tmp  = {max(tmp)-1}/2
+  tmp2 = read.csv(paste0(wkpath,"EHR/note_count_per_year_new_notes_20180410.csv"),
+                  header=FALSE,skip=1,sep = "|",stringsAsFactors = FALSE,
+                  col.names = c("PatientNum",paste0(rep(c("Year","Count"),tmp),"_",rep(1:tmp,each=2))))
+  # note level NLP, each patient one row
+  MS_NLP_note = data.frame(PatientNum = tmp2$PatientNum)
+  MS_NLP_note[,paste0("year.",year)] = t(sapply(1:nrow(MS_NLP_note),function(i){
+    tmp3 = as.integer(tmp2[i,seq(1,tmp*2,2)+1])
+    tmp4 = as.integer(tmp2[i,seq(1,tmp*2,2)+2])
+    tmp4[match(year,tmp3)]
+  }))
+  MS_NLP_note = reshape(MS_NLP_note,v.names = "year",idvar = "PatientNum",direction = "long",varying = paste0("year.",year),times = year)
+  colnames(MS_NLP_note)[2:3] = c("Year","Notes"); row.names(MS_NLP_note) = NULL
+  MS_Enct   = read.csv(paste0(wkpath,"EHR/encounter_inf_20180426.csv"),
+                       header=FALSE,skip=1,sep = "|",stringsAsFactors = FALSE)
+  colnames(MS_Enct) = c("PatientNum","EncounterNum","StartDate")
+  MS_Enct$StartDate = as.Date(MS_Enct$StartDate,"%Y-%m-%d %H:%M:%S")
+  MS_ICD    = read.csv(paste0(wkpath,"EHR/full_icd_data_converted.csv"),
+                       sep = "|",stringsAsFactors = FALSE)[,-4]
+  colnames(MS_ICD)  = c("PatientNum","ICD_code","StartDate")
+  MS_ICD$StartDate  = as.Date(MS_ICD$StartDate,"%Y-%m-%d %H:%M:%S")
+  MS_ICD    = plyr::count(MS_ICD,vars = c("PatientNum","ICD_code","StartDate"))[,-4]
+  MS_code   = MS_ICD[MS_ICD$ICD_code=="340"|MS_ICD$ICD_code=="0340"|MS_ICD$ICD_code=="ICD10:G35",]
+  colnames(MS_code)[1] = "PatientNum"
+  MS_CPT    = read.csv(paste0(wkpath,"EHR/CPT_of_interest_data.csv"),header=FALSE,skip=1,sep = "|",stringsAsFactors = FALSE)
+  MS_CPT    = MS_CPT[,-4]
+  colnames(MS_CPT)  = c("PatientNum","EncounterNum","Concept_cd","StartDate")
+  MS_CPT$StartDate  = as.Date(MS_CPT$StartDate,"%Y-%m-%d %H:%M:%S")
+  MS_CPT$Concept_cd     = toupper(MS_CPT$Concept_cd)
+  MS_Interferon     = read.csv(paste0(wkpath,"EHR/interferon_beta_20180723.csv"),header=TRUE,sep = "|",stringsAsFactors = FALSE)
+  MS_Interferon     = MS_Interferon[,-c(3,5:6)]
+  colnames(MS_Interferon) = c("PatientNum","MedicationCode","StartDate")
+  MS_Interferon$StartDate = as.Date(MS_Interferon$StartDate,"%Y-%m-%d %H:%M:%S")
+  MS_Interferon$MedicationCode = toupper(MS_Interferon$MedicationCode)
+}
+
+### other information
+trt_group = read.xlsx(paste0(wkpath,"MS DMT/MS Drugs Mechanism.xlsx"),
+                      sheet = 1)
+NLP_list  = read.csv(paste0(wkpath,"EHR/NLP_list.csv"),stringsAsFactors = FALSE,fileEncoding="latin1")
+NLP_list$CodeFound = NLP_list$CUI%in%MS_NLP$CUI
+CPT_list  = read.csv(paste0(wkpath,"EHR/CPT_codelist_of_interest.csv"),header=FALSE,skip=1,sep = "|",stringsAsFactors = FALSE)
+colnames(CPT_list) = c("CPT_code","Category","Description")
+CPT_list$Category = sapply(CPT_list$Category,function(x){
+  if(x=="ED visit"){
+    "ED"
+  } else if(x=="Hospital Discharge"){
+    "HD"
+  } else if(x=="Solumedrol (methylprednisolone)"){
+    "Solu"
+  } else{
+    "MRI"
+  }
+})
+CPT_list$CodeFound    = CPT_list$CPT_code%in%unique(MS_CPT$Concept_cd)
+
+Interferon_list = read.xlsx(paste0(wkpath,"EHR/interferon_candidate_codes_20180723.xlsx"),
+                      sheet = 2)
+Interferon_list$CodeFound = Interferon_list$C_BASECODE%in%unique(MS_Interferon$MedicationCode)
+################################################################################
+######################         DATA MANIPULATION          ######################
+################################################################################
+### make the patient ID consistent
+colnames(MS_trt)[1] = colnames(MS_attack)[1] = colnames(MS_cohort)[1] = colnames(MS_map)[2] = "PatientID"
+colnames(MS_EHR)[1] = colnames(MS_EHR_demo)[1] = "PatientNum"
+### remove duplicates
+MS_cohort = MS_cohort[!duplicated(MS_cohort$PatientID),]
+# There is one patient in the cohort data with missing enrollment date. Further checking shows all the information of this patients is missing. 
+MS_cohort = MS_cohort[!is.na(MS_cohort$BASELINE_DATE),]
+### check consistencty of cohort & attack
+cohort_names = names(MS_cohort)[c(5,9:14)]
+attack_names = names(MS_attack)[c(8,2:7)]
+tmp          = sapply(seq_along(cohort_names), function(i) {
+  all(na.omit(MS_cohort[match(MS_attack$PatientID,MS_cohort$PatientID),cohort_names[i]] == MS_attack[,attack_names[i]]))
+})
+if(!all(tmp)) stop("Error: inconsistent information in cohort and attack file.") 
+### MS_EHR_demo has 5 more patients (BWH-483871, BWH-486178, BWH-491645, BWH-489071, BWH-490941), among which the fisrt 4 belongs to cohort 
+MS_EHR_demo = MS_EHR_demo[MS_EHR_demo$PatientNum%in%MS_EHR$PatientNum,] 
+### add PatientID to EHR
+MS_EHR$PatientID      = MS_map$PatientID[match(MS_EHR$PatientNum,MS_map$i2b2)]  
+MS_EHR_demo$PatientID = MS_map$PatientID[match(MS_EHR_demo$PatientNum,MS_map$i2b2)]  
+if(!readin){
+  MS_VD$PatientID       = MS_map$PatientID[match(MS_VD$PatientNum,MS_map$i2b2)] 
+  MS_code$PatientID     = MS_map$PatientID[match(MS_code$PatientNum,MS_map$i2b2)]
+  MS_NLP$PatientID      = MS_map$PatientID[match(MS_NLP$PatientNum,MS_map$i2b2)]
+  MS_NLP_note$PatientID = MS_map$PatientID[match(MS_NLP_note$PatientNum,MS_map$i2b2)]
+  MS_ICD$PatientID      = MS_map$PatientID[match(MS_ICD$PatientNum,MS_map$i2b2)]
+  MS_CPT$PatientID      = MS_map$PatientID[match(MS_CPT$PatientNum,MS_map$i2b2)]
+  MS_Enct$PatientID     = MS_map$PatientID[match(MS_Enct$PatientNum,MS_map$i2b2)]
+  MS_Interferon$PatientID = MS_map$PatientID[match(MS_Interferon$PatientNum,MS_map$i2b2)]
+}
+### add last code date and last date = max(last code date, last visit date) to both cohort and attack data
+MS_cohort$LAST_CODE   = MS_EHR$Last_date[match(MS_cohort$PatientID,MS_EHR$PatientID)] # last code
+MS_cohort$FIRST_CODE  = MS_EHR$First_date[match(MS_cohort$PatientID,MS_EHR$PatientID)] # first code
+MS_attack$LAST_CODE   = MS_EHR$Last_date[match(MS_attack$PatientID,MS_EHR$PatientID)]
+MS_attack$FIRST_CODE  = MS_EHR$First_date[match(MS_attack$PatientID,MS_EHR$PatientID)] # first code
+if(sum(with(MS_cohort,FIRST_CODE>LAST_CODE),na.rm=TRUE)>0) stop("Error: first code date > last code date.")
+### extract CPT/NLP/codified data: only in cohort & only from 2000-2016
+# Encounter
+if(!readin){
+  MS_Enct$Year          = as.numeric(format(MS_Enct$StartDate,"%Y"))
+  MS_Enct               = MS_Enct[MS_Enct$PatientID%in%MS_cohort$PatientID & MS_Enct$Year%in%year,]
+  MS_Enct               = plyr::count(MS_Enct,vars=c("StartDate","Year","PatientID","EncounterNum"))[,-5]
+  MS_Enct               = plyr::count(MS_Enct,vars=c("Year","PatientID"))
+  colnames(MS_Enct)[3]  = "Encounters"
+  # code 340
+  MS_code$Year          = as.numeric(format(MS_code$StartDate,"%Y"))
+  MS_code               = MS_code[MS_code$PatientID%in%MS_cohort$PatientID & MS_code$Year%in%year,]
+  MS_code               = plyr::count(MS_code,vars=c("Year","PatientID"))
+  colnames(MS_code)[3]  = "Code340_count"
+  # ICD code
+  MS_ICD                = MS_ICD[MS_ICD$PatientID%in%MS_cohort$PatientID,]
+  MS_ICD$Year           = as.numeric(format(MS_ICD$StartDate,"%Y"))
+  MS_ICD                = MS_ICD[MS_ICD$Year%in%year,]
+  MS_ICD                = plyr::count(MS_ICD,vars=c("Year","PatientID"))
+  colnames(MS_ICD)[3]   = "ICD_count"
+  # CPT code
+  MS_CPT$Year           = as.numeric(format(MS_CPT$StartDate,"%Y"))
+  MS_CPT                = MS_CPT[with(MS_CPT, PatientID%in%MS_cohort$PatientID & Year%in%year & Concept_cd%in%CPT_list$CPT_code),]
+  MS_CPT$Category       = CPT_list$Category[match(MS_CPT$Concept_cd,CPT_list$CPT_code)]
+  MS_CPT                = plyr::count(MS_CPT,vars=c("PatientID","Category","StartDate","Year"))[,-5]
+  MS_CPT                = plyr::count(MS_CPT,vars=c("PatientID","Category","Year"))
+  colnames(MS_CPT)[4]   = "CPT_count"
+  MS_CPT                = reshape(MS_CPT,v.names = "CPT_count",idvar = c("PatientID","Year"),timevar="Category",direction = "wide")
+  MS_CPT[is.na(MS_CPT)] = 0
+  colnames(MS_CPT)[-c(1:2)] = sapply(colnames(MS_CPT)[-c(1:2)],function(x) substr(x,11,nchar(x)),
+                                     USE.NAMES = FALSE)
+  MS_CPT                = dplyr::left_join(MS_CPT,MS_Enct,by=c("PatientID","Year"))
+  # NLP
+  MS_NLP                = MS_NLP[MS_NLP$PatientID%in%MS_cohort$PatientID,]
+  MS_NLP$Year           = as.numeric(format(MS_NLP$StartDate,"%Y"))
+  MS_NLP                = MS_NLP[MS_NLP$Year%in%year,]
+  ### aggregate NLP and CPT data by group, then make them as data frame
+  MS_NLP$Group          = NLP_list$GroupAbbr[match(MS_NLP$CUI,NLP_list$CUI)]
+  # MS_NLP2               = cbind(count(MS_NLP,vars=c("PatientID","EncounterNum","StartDate","Year","Group"))[,-c(3,6)],value=1) 
+  # MS_NLP2               = reshape(MS_NLP2, idvar = c("PatientID","EncounterNum",
+  #                                                    "StartDate","Year"), 
+  #                                 timevar = "Group", direction = "wide")
+  # MS_NLP2[is.na(MS_NLP2)] = 0
+  # colnames(MS_NLP2)[4:6]  = c("MultiSc","Relapse","DMT") 
+  # MS_NLP2$MultiScRelapse = apply(MS_NLP2[,c("MultiSc","Relapse")],1,all)
+  # MS_NLP2$MultiScDMT    = apply(MS_NLP2[,c("MultiSc","DMT")],1,all)
+  # write.csv(MS_NLP2,paste0(wkpath,"EHR/NLP_wide.csv"))
+  MS_NLP_Raw            = plyr::count(MS_NLP,vars=colnames(MS_NLP))[,-(ncol(MS_NLP)+1)]
+  MS_NLP_Raw            = plyr::count(MS_NLP_Raw,vars=c("PatientID","Year","Group"))
+  MS_NLP_Raw$Group      = paste0(MS_NLP_Raw$Group,".Raw")
+  colnames(MS_NLP_Raw)[4] = "NLP_Raw_count" 
+  MS_NLP_Raw            = reshape(MS_NLP_Raw,v.names = "NLP_Raw_count",idvar = c("PatientID","Year"),timevar="Group",direction = "wide")
+  colnames(MS_NLP_Raw)[-c(1:2)] = sapply(colnames(MS_NLP_Raw)[-c(1:2)],function(x) substr(x,15,nchar(x)),
+                                     USE.NAMES = FALSE)
+  MS_NLP                = plyr::count(MS_NLP,vars=c("PatientID","Group","Year"))
+  MS_NLP[,4]            = 1
+  colnames(MS_NLP)[4]   = "NLP_count"
+  MS_NLP                = reshape(MS_NLP,v.names = "NLP_count",idvar = c("PatientID","Year"),timevar="Group",direction = "wide")
+  colnames(MS_NLP)[-c(1:2)] = sapply(colnames(MS_NLP)[-c(1:2)],function(x) substr(x,11,nchar(x)),
+                                     USE.NAMES = FALSE)
+  ## intersection of Multiple Sclerosis & Relapse/DMT
+  MS_NLP2               = read.csv(paste0(wkpath,"EHR/NLP_wide.csv"))
+  tmp                   = aggregate(MS_NLP2$MultiScRelapse,by=list(MS_NLP2$PatientID,MS_NLP2$Year),FUN=sum)
+  tmp                   = tmp[tmp[,3]>0,]
+  tmp[,3]               = 1
+  colnames(tmp)         = c("PatientID","Year","MultiScRelapse")
+  MS_NLP                = dplyr::left_join(MS_NLP,tmp,by=c("PatientID","Year"))
+  tmp                   = aggregate(MS_NLP2$MultiScDMT,by=list(MS_NLP2$PatientID,MS_NLP2$Year),FUN=sum)
+  tmp                   = tmp[tmp[,3]>0,]
+  tmp[,3]               = 1
+  colnames(tmp)         = c("PatientID","Year","MultiScDMT")
+  MS_NLP                = dplyr::left_join(MS_NLP,tmp,by=c("PatientID","Year"))
+  MS_NLP                = dplyr::left_join(MS_NLP,MS_NLP_Raw,by=c("PatientID","Year"))
+  MS_NLP                = dplyr::left_join(MS_NLP,MS_Enct,by=c("PatientID","Year"))
+  MS_NLP[is.na(MS_NLP)] = 0
+  MS_NLP_note$PatientNum = NULL
+  MS_Interferon         = MS_Interferon[!is.na(MS_Interferon$PatientID),]
+  MS_Interferon$Year    = as.numeric(format(MS_Interferon$StartDate,"%Y"))
+  MS_Interferon[MS_Interferon$PatientID%in%MS_cohort$PatientID & MS_Interferon$Year%in%year,]
+  MS_Interferon         = plyr::count(MS_Interferon,vars=c("PatientID","StartDate","Year"))[,-4]
+  MS_Interferon         = plyr::count(MS_Interferon,vars=c("PatientID","Year"))
+  colnames(MS_Interferon)[3] = "Interferon_count"
+}
+
+### Impute first diagnosis date (cohort)
+## impute missing month/day
+tmp                  = is.na(MS_cohort$FIRSTDIAG_MONTH)
+MS_cohort$FIRSTDIAG_MONTH[tmp] = 7
+MS_cohort$FIRSTDIAG_DAY[tmp]   = 1
+tmp                  = is.na(MS_cohort$FIRSTDIAG_DAY)
+MS_cohort$FIRSTDIAG_DAY[tmp]   = 15
+a                    = lapply(1:nrow(MS_cohort),function(i){
+  as.Date(paste0(c(as.character(MS_cohort$FIRSTDIAG_YEAR[i]),as.character(MS_cohort$FIRSTDIAG_MONTH[i]),as.character(MS_cohort$FIRSTDIAG_DAY[i])),collapse ="-"),format="%Y-%m-%d")
+})
+a                    = do.call(c,a)
+## get first/last date
+MS_cohort$LAST_DATE  = pmax(MS_cohort$LAST_VISIT_DATE,
+                            as.Date(MS_cohort$LAST_CODE,format = "%Y-%m-%d"),
+                            na.rm = TRUE) # max(last vist, last code)
+MS_cohort$FIRST_DATE = pmin(a, # first diagnosis date
+                            as.Date(MS_cohort$FIRST_CODE,format = "%Y-%m-%d"),
+                            as.Date(MS_cohort$BASELINE_DATE,format = "%Y-%m-%d"),
+                            na.rm = TRUE)
+## delete patients with first date>last date
+tmp                  = with(MS_cohort,FIRST_DATE>LAST_DATE)
+tmp[is.na(tmp)]      = FALSE
+MS_cohort            = MS_cohort[!tmp,]
+a                    = a[!tmp]
+MS_cohort$DiseaseDur = as.numeric(difftime(MS_cohort$LAST_DATE,a,units="days"))
+MS_cohort$DiseaseDur[which(MS_cohort$DiseaseDur<0)] = NA
+MS_attack            = MS_attack[MS_attack$PatientID%in%MS_cohort$PatientID,]
+MS_trt               = MS_trt[MS_trt$PatientID%in%MS_cohort$PatientID,]
+MS_attack$LAST_DATE  = MS_cohort$LAST_DATE[match(MS_attack$PatientID,MS_cohort$PatientID)]
+MS_attack$FIRST_DATE = MS_cohort$FIRST_DATE[match(MS_attack$PatientID,MS_cohort$PatientID)]
+
+
+### Impute first symptom date (cohort)
+## impute missing month/day
+tmp2                 = is.na(MS_cohort$FIRSTSYMP_MONTH)
+MS_cohort$FIRSTSYMP_MONTH[tmp2] = 7
+MS_cohort$FIRSTSYMP_DAY[tmp2]   = 1
+tmp2                 = is.na(MS_cohort$FIRSTSYMP_DAY)
+MS_cohort$FIRSTSYMP_DAY[tmp2]   = 15
+
+### exlcudes patients with problematic entries (trt)
+## exclude entries with missing stop year and history == stopped 
+## as well as entries with missing start year but history == ever
+tmp  = with(MS_trt,(is.na(stop_year)&history=="stopped"))
+tmp2 = with(MS_trt,(is.na(start_year)&history=="ever"))
+tmp3 = with(MS_trt,start_year>stop_year)
+tmp4 = with(MS_trt,start_year==stop_year & start_month>stop_month)
+tmp5 = with(MS_trt,start_year==stop_year & start_month==stop_month & start_day > stop_day)
+tmp3[is.na(tmp3)] = FALSE
+tmp4[is.na(tmp4)] = FALSE
+tmp5[is.na(tmp5)] = FALSE
+MS_trt     = MS_trt[!(tmp|tmp2|tmp3|tmp4|tmp5),]
+## for patient with a missing stop year but history == current, impute by 2017/7/1
+tmp        = is.na(MS_trt$stop_year)
+MS_trt$stop_year[tmp]   = 2017
+MS_trt$stop_month[tmp]  = 7
+MS_trt$stop_day[tmp]    = 1
+## for patient with a missing stop month, impute by 7/1
+tmp        = is.na(MS_trt$stop_month)
+MS_trt$stop_month[tmp]  = 7
+MS_trt$stop_day[tmp]    = 1
+## for patient with a missing stop day, impute by 15
+tmp        = is.na(MS_trt$stop_day)
+MS_trt$stop_day[tmp]    = 15
+## for patient with a missing start month, impute by 7/1
+tmp        = is.na(MS_trt$start_month)
+MS_trt$start_month[tmp] = 7
+MS_trt$start_day[tmp]   = 1
+## for patient with a missing start day, impute by 15
+tmp        = is.na(MS_trt$start_day)
+MS_trt$start_day[tmp]   = 15
+## check consistency
+tmp3   = with(MS_trt,start_year>stop_year)
+tmp4   = with(MS_trt,start_year==stop_year & start_month>stop_month)
+tmp5   = with(MS_trt,start_year==stop_year & start_month==stop_month & start_day > stop_day)
+MS_trt = MS_trt[!(tmp3|tmp4|tmp5),]
+```
+
+
+<!--Get Combined Data-->
+```{r CombineData, echo = FALSE, message=FALSE, warning=FALSE}
+########################################################################
+#########################    COMBINED DATA    ##########################
+########################################################################
+### clinical/radiographic relapse rate
+clinical   = names(MS_attack)[12:23]
+radiograph = clinical[(1:12%%3)==2] 
+clinical   = clinical[(1:12%%3)!=2]
+MS_attack$clinical    = sapply(1:nrow(MS_attack),function(x){
+  as.numeric(sum(MS_attack[x,clinical]=="Y",na.rm = TRUE)>=1)
+})
+MS_attack$radiographic = sapply(1:nrow(MS_attack),function(x){
+  as.numeric(sum(MS_attack[x,radiograph]=="Y",na.rm = TRUE)>=1)
+}) ## not mutually exclusive
+### combine data into a big mat
+PatientID  = unique(MS_cohort$PatientID)
+# year       = 2000:2016
+trt_group$Treatment_Brand = toupper(trt_group$Treatment_Brand)
+trt_group$Treatment_Name = trt_group$Treatment_Category
+trt_group$Treatment_Name[trt_group$Treatment_Brand == "RITUXAN"] = "rituximab"
+trt_group$Treatment_Name[trt_group$Treatment_Brand == "OCREVUS"] = "ocrelizumab"
+
+#############################
+######### Table 2 preparation
+## number of unique patients under all treatment options
+a = plyr::count(MS_trt,c("PatientID","medication_desc")) # get unique combination of patients and their treatment
+NeverTr = MS_cohort[!MS_cohort$PatientID%in%a$PatientID,]
+EverTr  = MS_cohort[MS_cohort$PatientID%in%a$PatientID,]
+a = as.data.frame(table(a$medication_desc),stringsAsFactors = FALSE)
+names(a) = c("Treatment","Num of Patients")
+a = data.frame(a,trt_group[,2:3],stringsAsFactors = FALSE)
+a = a[,c(1,3,4,2)]
+
+a_copy <- a
+a_copy$Treatment_name <- a_copy$Treatment_Category
+a_copy$Treatment_name[a_copy$Treatment == "RITUXAN"] <- "rituximab"
+a_copy$Treatment_name[a_copy$Treatment == "OCREVUS"] <- "ocrelizumab"
+
+## FDA approved with more than 100 ***OR rituximab (NICOLE EDITS)***
+fda_trt  = trt_group$FDA_Approval_Year!="N/A" | trt_group$Treatment_Generic == 'rituximab'
+b = aggregate(a[fda_trt,4],by = list(a[fda_trt,3]),FUN=sum)
+names(b) = c("Treatment_Category","Num of Patients")
+b = b[b[,2]>=100,]
+
+b_copy = aggregate(a_copy[fda_trt,4],by = list(a_copy[fda_trt,5]),FUN=sum)
+names(b_copy) = c("Treatment_Category","Num of Patients")
+
+Trt_brand  = lapply(b[,1],function(x){
+  with(trt_group,Treatment_Brand[Treatment_Category==x])
+}) # only extract treatment with >=100 patients
+
+Trt_brand_copy  = lapply(b_copy[,1],function(x){
+  with(trt_group,Treatment_Brand[Treatment_Name==x])
+})
+
+
+FDA_app_res  = c("rituximab", "dimethyl_fumarate", "fingolimod","glatiramer_acetate", 
+                 "interferon","natalizumab","teriflunomide")
+Trt_Used     = FDA_app_res
+Trt_Used_Table2 <- b_copy$Treatment_Category
+
+#### Specify vars
+ICDvars = "Code340_count"
+NLPvars = c("MultiSc","Relapse","DMT","MultiScRelapse","MultiScDMT") 
+NLPvarsRaw = paste0(c("MultiSc","Relapse","DMT"),".Raw")
+CPTvars = c("MRI","HD","ED","Solu")
+ITFvars = "Interferon_count"
+wkpath2  = "raw_data/Box/Boston/MS CLIMB Paper1 Code&Result/"
+# readincomb = FALSE
+if (readincomb){
+  Combined = read.csv("paper1/CombinedData.csv",stringsAsFactors = FALSE)
+  Combined$FirstDate = as.Date(Combined$FirstDate,format = "%Y-%m-%d")
+  Combined$LastDate  = as.Date(Combined$LastDate,format = "%Y-%m-%d")
+  PatientID_EHR      = intersect(MS_EHR$PatientID,MS_cohort$PatientID)
+  ICDvars     = c(ICDvars,"ICD_count")
+  ICDvars_adj = paste0("Code340_Adj_Year",year)
+  NLPvars_adj = paste0(rep(NLPvars,each=length(year)),"_Adj_Year",year)
+  CPTvars_adj = paste0(rep(CPTvars,each=length(year)),"_Adj_Year",year)
+  ITFvars_adj = paste0("Interferon_Adj_Year",year)
+  # ICDvars = c(ICDvars,"ICD_count","Code340_Adj")
+  # NLPvars = c(NLPvars,paste0(NLPvars,"_Adj"))
+  # CPTvars = c(CPTvars,paste0(CPTvars,"_Adj"))
+  # ITFvars  = c("Interferon_count","Interferon_Adj")
+} else{
+  ### treatment names in the grouping file and treatment file are different, be careful
+  ### patients can be on different treatments at the same time? e.g., BWH-479730
+  Treatment  = NULL
+  for(i in 1:sum(b[,2]>=100)){
+    Treatment= cbind(Treatment,c(sapply(PatientID,function(x){
+      tmp2 = MS_trt[MS_trt$PatientID==x,]
+      tmp3 = logical(dim(tmp2)[1])
+      for(j in 1:length(Trt_brand[[i]])){
+        tmp3 = tmp3 | grepl(Trt_brand[[i]][j],tmp2$medication_desc)
+      }
+      tmp  = numeric(length(year))
+      if(sum(tmp3)>0){
+        tmp2 = tmp2[tmp3,c(3,6,9:11)]
+        for(j in 1:dim(tmp2)[1]){
+          if(is.na(tmp2[j,'stop_year']) & tmp2[j,'history']=="current"){
+            tmp = tmp + (year>=tmp2[j,'start_year'])
+          } else{
+            tmp = tmp + (year<=tmp2[j,'stop_year'] & year>=tmp2[j,'start_year'])
+          }
+        }
+      }
+      as.numeric(tmp>0)
+    })))
+  }
+  colnames(Treatment) = Trt_Used
+  
+  VD         = c(sapply(PatientID, function(x){
+    tmp2 = MS_VD[MS_VD$PatientID%in%x,]
+    tmp  = rep(NA_real_,length(year))
+    if(dim(tmp2)[1]>0){
+      tmp2 = aggregate(tmp2$Value,list(format(tmp2$StartDate,"%Y")),mean)
+      tmp2 = tmp2[sort(tmp2$Group.1,index.return=TRUE)$ix,]
+      tmp[year%in%tmp2$Group.1]  = tmp2$x[tmp2$Group.1%in%year] 
+      tmp
+    }else{
+      tmp
+    }
+  }))
+  VD[VD==0] = NA_real_  ### only one measure = 0
+  
+  Enroll     = c(sapply(PatientID,function(x){
+    tmp      = MS_cohort$PatientID==x
+    as.numeric((year >= as.numeric(format(MS_cohort$FIRST_DATE[tmp],"%Y"))) & (year <= as.numeric(format(MS_cohort$LAST_DATE[tmp],"%Y"))))
+  }))
+  
+  DiseaseDur = c(sapply(PatientID,function(x){
+    tmp      = MS_cohort$PatientID==x
+    tmp2     = rep(NA_real_,length(year))
+    if(!any(is.na(MS_cohort[tmp,c("FIRSTSYMP_YEAR","LAST_DATE")]))){
+      startyear = MS_cohort[tmp,"FIRSTSYMP_YEAR"]
+      endyear   = as.numeric(format(MS_cohort[tmp,"LAST_DATE"],"%Y")) #### all last date >=2001
+      if(startyear<=endyear & endyear<=year[1]){ ## impossible
+        ##########################################
+      } else if(startyear<=year[1] & year[1]<endyear & endyear<=year[length(year)]){
+        ##########################################
+        tmp2[1]  = difftime(as.Date(paste0(c(year[1],12,31),collapse = "-"),format = "%Y-%m-%d"),as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days") 
+        tmp2[endyear-year[1]+1] = difftime(MS_cohort[tmp,"LAST_DATE"],as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days") 
+        if(endyear-year[1]>=2){
+          tmp2[2:(endyear-year[1])] = tmp2[1]+cumsum(as.numeric(year[2:(endyear-year[1])]%%4<1 & year[2:(endyear-year[1])]%%400>0) + 365) 
+        }
+      } else if(startyear<=year[1] & endyear>year[length(year)]){
+        ##########################################
+        tmp2[1]  = difftime(as.Date(paste0(c(year[1],12,31),collapse = "-"),format = "%Y-%m-%d"),as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days") 
+        tmp2[-1] = tmp2[1]+cumsum(as.numeric(year[-1]%%4<1 & year[-1]%%400>0) + 365) 
+      } else if(year[1]<startyear & startyear<=endyear & endyear<=year[length(year)]){
+        ##########################################
+        if(startyear==endyear){
+          tmp2[startyear-year[1]+1] = difftime(MS_cohort[tmp,"LAST_DATE"],as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days")
+        } else{
+          tmp2[startyear-year[1]+1] = difftime(as.Date(paste0(c(startyear,12,31),collapse = "-"),format = "%Y-%m-%d"),as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days")
+          tmp2[endyear-year[1]+1] = difftime(MS_cohort[tmp,"LAST_DATE"],as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days")
+          if(endyear-startyear>=2){
+            tmp2[(startyear-year[1]+2):(endyear-year[1])] = tmp2[startyear-year[1]+1]+cumsum(as.numeric(year[(startyear-year[1]+2):(endyear-year[1])]%%4<1 & year[(startyear-year[1]+2):(endyear-year[1])]%%400>0) + 365) 
+          }
+        }
+      } else if(year[1]<startyear & startyear<=year[length(year)] & endyear> year[length(year)]){
+        ##########################################
+        tmp2[startyear-year[1]+1] = difftime(as.Date(paste0(c(startyear,12,31),collapse = "-"),format = "%Y-%m-%d"),as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days")
+        if(startyear<year[length(year)]){
+          tmp2[length(year)] = difftime(as.Date(paste0(c(year[length(year)],12,31),collapse = "-"),format = "%Y-%m-%d"),as.Date(paste0(MS_cohort[tmp,c("FIRSTSYMP_YEAR","FIRSTSYMP_MONTH","FIRSTSYMP_DAY")],collapse = "-"),format = "%Y-%m-%d"),units = "days")
+        }
+        if(startyear<year[length(year)]-1){
+          tmp2[(startyear-year[1]+2):(length(year)-1)] = tmp2[startyear-year[1]+1]+cumsum(as.numeric(year[(startyear-year[1]+2):(length(year)-1)]%%4<1 & year[(startyear-year[1]+2):(length(year)-1)]%%400>0) + 365)
+        }
+      } else if(startyear>year[length(year)]){ ### impossible
+        ##########################################
+      } else{ ### check if exists
+        ##########################################
+      }
+    } 
+    
+    tmp2
+  }))/365
+  
+  Combined   = data.frame(PatientID  = rep(PatientID, each = length(year)), 
+                          Year       = rep(year,length(PatientID)),
+                          relapse    = c(sapply(PatientID,function(x){
+                            tmp  = plyr::count(MS_attack$onset_year[MS_attack$PatientID == x & MS_attack$onset_year>=min(year) & MS_attack$onset_year<=max(year)])
+                            tmp2 = numeric(length(year))
+                            tmp2[match(tmp$x,year)] = tmp$freq
+                            tmp2
+                          })),
+                          cli_relapse = c(sapply(PatientID,function(x){
+                            tmp  = MS_attack[MS_attack$PatientID == x & MS_attack$onset_year>=min(year) & MS_attack$onset_year<=max(year),c("onset_year","clinical")]
+                            if(nrow(tmp)==0){
+                              numeric(length(year))
+                            } else{
+                              tmp  = aggregate(tmp$clinical,by=list(tmp$onset_year),FUN = sum)
+                              tmp2 = numeric(length(year))
+                              tmp2[match(tmp$Group.1,year)] = tmp$x
+                              tmp2
+                            }
+                          })),
+                          rad_relapse = c(sapply(PatientID,function(x){
+                            tmp  = MS_attack[MS_attack$PatientID == x & MS_attack$onset_year>=min(year) & MS_attack$onset_year<=max(year),c("onset_year","radiographic")]
+                            if(nrow(tmp)==0){
+                              numeric(length(year))
+                            } else{
+                              tmp  = aggregate(tmp$radiographic,by=list(tmp$onset_year),FUN = sum)
+                              tmp2 = numeric(length(year))
+                              tmp2[match(tmp$Group.1,year)] = tmp$x
+                              tmp2
+                            }
+                          })),
+                          Treatment,
+                          FirstDate  = rep(MS_cohort$FIRST_DATE, each = length(year)),
+                          LastDate   = rep(MS_cohort$LAST_DATE, each = length(year)),
+                          VD         = VD, # VD_m = VD_m, 
+                          Sex        = rep(MS_cohort$SEX=="F",each = length(year)),
+                          Race       = rep(MS_cohort$RACE_DESC=="White",each = length(year)),  # White vs non-white+unknown
+                          Ethnicity  = rep(MS_cohort$ETHNICITY_DESC!="Not hispanic or latino",each=length(year)), # Hispanic+unknown vs non-hispanic
+                          Age        = c(with(MS_cohort,sapply(1:nrow(MS_cohort),function(i){
+                            AGE_AT_LASTVISIT[i]-as.numeric(difftime(LAST_VISIT_DATE[i],as.Date(paste0(year[1],"-01-01"),format="%Y-%m-%d"),units="days"))/365+seq_along(year)-1
+                          }))),
+                          DiseaseDur = DiseaseDur,
+                          Enroll     = Enroll,
+                          stringsAsFactors = FALSE)
+  
+  #### patient with a first symptom year (after the 2000) 
+  Combined$FSYear =  MS_cohort$FIRSTSYMP_YEAR[match(Combined$PatientID,MS_cohort$PatientID)]
+  Combined$DiseaseDur[with(Combined, Enroll==1 & {!is.na(FSYear)} & is.na(DiseaseDur))] = 0
+  
+  #### add codified data
+  MS_NLP$Encounters = MS_CPT$Encounters = NULL # MS_code$Encounters = 
+  
+  ## code 340 & any ICD
+  Combined     = dplyr::left_join(Combined,MS_code,by=c("Year","PatientID"))
+  Combined     = dplyr::left_join(Combined,MS_ICD,by=c("Year","PatientID"))
+  
+  ## Health utilization
+  Combined    = dplyr::left_join(Combined,MS_CPT,by=c("Year","PatientID"))
+  
+  ## NLP
+  Combined    = dplyr::left_join(Combined,MS_NLP,by=c("Year","PatientID"))
+  
+  ## Interferon-beta
+  Combined    = dplyr::left_join(Combined,MS_Interferon,by=c("Year","PatientID"))
+  
+  ## Encounters
+  Combined    = dplyr::left_join(Combined,MS_Enct,by=c("Year","PatientID"))
+  
+  ## Notes (unused)
+  Combined    = dplyr::left_join(Combined,MS_NLP_note,by=c("Year","PatientID"))
+  
+  ## merge creates some NAs, for patients in EHR and are enrolled but with no records, NAs should be converted to 0
+  ## enrolled  = FirstDate <= that year & LastDate >= that year, i.e., Combined$Enroll=1
+  PatientID_EHR     = intersect(MS_EHR$PatientID,MS_cohort$PatientID)
+  mergevars         = c(ICDvars,NLPvars,CPTvars,NLPvarsRaw,
+                        "ICD_count","Interferon_count","Encounters","Notes")
+  tmp               = is.na(Combined[,mergevars]) 
+  tmp2              = with(Combined, PatientID%in%PatientID_EHR & Enroll==1)
+  tmp               = apply(tmp,2,function(x) x&tmp2)
+  Combined[,mergevars][tmp] = 0
+  
+  ## Get Adjusted Result
+  ## More NAs then unadjusted because some patients (not in EHR) do not have note/ICD counts
+  BASEvars = c("Age","Race","Ethnicity","Sex","DiseaseDur")
+  fitf     = as.formula(paste0(c("Code340_count~log(1+Notes)+log(1+ICD_count)",BASEvars),collapse = "+"))
+  ## code 340 adjusted by notes & ICD count + other baseline variables
+  CombEn   = Combined$Enroll == 1
+  tmp      = sapply(year,function(i){
+    tmp  = Combined$Year == i
+    fit  = glm(fitf,data = Combined[tmp&CombEn,],family = poisson())
+    predict(fit,newdata = Combined,type="response")
+  })
+  colnames(tmp) = paste0("Code340_Adj_Year",year)
+  Combined = cbind(Combined,tmp)
+  ## NLP
+  for(i in seq_along(NLPvars)){
+    fitf = paste0(c(paste0(NLPvars[i],"~log(1+Notes)+log(1+ICD_count)"),BASEvars),collapse = "+")
+    # NLP variables adjusted by notes & ICD count + other baseline variables
+    txt  = paste0("tmp = sapply(year,function(i){
+                 tmp  = Combined$Year == i
+                 fit  = glm(",fitf,",
+                    data = Combined[tmp&CombEn,],family = binomial())
+                 predict(fit,newdata = Combined,type='response')
+    })")
+    eval(parse(text = txt))
+    colnames(tmp) = paste0(NLPvars[i],"_Adj_Year",year)
+    Combined = cbind(Combined,tmp)
+  }
+  # CPT
+  for(i in seq_along(CPTvars)){
+    fitf = paste0(c(paste0(CPTvars[i],"~log(1+Notes)+log(1+ICD_count)"),BASEvars),collapse = "+")
+    # CPT variables adjusted by notes & ICD count + other baseline variables
+    txt  = paste0("tmp = sapply(year,function(i){
+                 tmp  = Combined$Year == i
+                 fit  = glm(",fitf,",
+                    data = Combined[tmp&CombEn,],family = poisson())
+                 predict(fit,newdata = Combined,type='response')
+    })")
+    eval(parse(text = txt))
+    colnames(tmp) = paste0(CPTvars[i],"_Adj_Year",year)
+    Combined = cbind(Combined,tmp)
+  }
+  # Interferon
+  fitf     = as.formula(paste0(c("Interferon_count~log(1+Notes)+log(1+ICD_count)",BASEvars),collapse = "+"))
+  ## Interferon-beta adjusted by notes & ICD count + other baseline variables
+  tmp      = sapply(year,function(i){
+    tmp  = Combined$Year == i
+    fit  = glm(fitf,data = Combined[tmp&CombEn,],family = poisson())
+    predict(fit,newdata = Combined,type="response")
+  })
+  colnames(tmp) = paste0("Interferon_Adj_Year",year)
+  Combined = cbind(Combined,tmp)
+
+  ICDvars     = c(ICDvars,"ICD_count")
+  ICDvars_adj = paste0("Code340_Adj_Year",year)
+  NLPvars_adj = paste0(rep(NLPvars,each=length(year)),"_Adj_Year",year)
+  CPTvars_adj = paste0(rep(CPTvars,each=length(year)),"_Adj_Year",year)
+  ITFvars_adj = paste0("Interferon_Adj_Year",year)
+  # NLPvars = c(NLPvars,paste0(NLPvars,"_Adj"))
+  # CPTvars = c(CPTvars,paste0(CPTvars,"_Adj"))
+  # ITFvars  = c("Interferon_count","Interferon_Adj")
+  
+  write.csv(Combined,"paper1/CombinedData.csv",row.names = FALSE)
+}
+```
+
+<!--Table 1. Demographics of the Study Population.-->
+
+```{r Demograhpics, echo = FALSE, message = FALSE, warning=FALSE}
+result        = with(MS_cohort,c(nrow(MS_cohort), # num of patients
+                                 sum(unique(MS_map$i2b2[match(MS_cohort$PatientID,MS_map$PatientID)])%in%unique(MS_EHR$PatientNum)) # in EHR
+))
+result        = as.character(result) 
+result        = c(result,with(MS_cohort,round(c(sum(SEX=="F")/sum(SEX=="F"|SEX=="M"), # sex
+                                                sum(RACE_DESC=="White")/{nrow(MS_cohort)-sum(RACE_DESC=="Unknown or not reported")})*100,1))) # race
+
+## age at first code (Age at last visit is most complete)
+tmp    = with(MS_cohort,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_CODE,format="%Y-%m-%d"),units="days"))/365)
+result = c(result,paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"))
+
+## age at sympton on set
+# tmp    = with(MS_cohort,AGE_AT_FIRSTSYMPTOM)
+tmp    = with(MS_cohort,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),
+                                                             as.Date(paste(FIRSTSYMP_YEAR,FIRSTSYMP_MONTH,FIRSTSYMP_DAY,sep="-"),format="%Y-%m-%d"),units="days"))/365)
+result = c(result,paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"))
+
+## age at first date
+tmp    = with(MS_cohort,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_DATE,format="%Y-%m-%d"),units="days"))/365)
+result = c(result,paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"))
+
+## duration of follow-up (last date - first date)
+# impute missing month/day using Zongqi's rule
+tmp    = with(MS_cohort,as.numeric(difftime(as.Date(LAST_DATE,format="%Y-%m-%d"),
+                                            as.Date(FIRST_DATE,format="%Y-%m-%d"),
+                                            units = "days"))/365)
+result = c(result,paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"))
+
+## number of treatment
+tmp    = unique(MS_trt$PatientID)
+tmp2   = with(MS_trt,sapply(tmp,function(x){
+  length(unique(medication_desc[PatientID==x]))
+}))
+tmp2   = c(tmp2,numeric(nrow(MS_cohort)-length(tmp2)))
+result = c(result,paste0(round(median(tmp2),1)," (",round(IQR(tmp2),1),")"))
+## % receiving treatment
+result = c(result,round(100*length(unique(MS_trt$PatientID))/nrow(MS_cohort),1))
+
+
+### EHR
+result = cbind(result, NA)
+result[1:2,2] = c(nrow(MS_EHR),nrow(MS_EHR))
+
+result[3:4,2] = round(with(MS_EHR_demo,c(sum(SEX_CD=="F")/sum(SEX_CD=="F"|SEX_CD=="M"),sum(RACE_CD%in%c("WHITE","W","WHITE@HISPANIC"))/{nrow(MS_EHR_demo)-sum(RACE_CD%in%c("DECLINED","NOT GIVEN","NOT REPORTED","U","UNK","UNKNOWN"))})*100),1)
+
+MS_EHR$Birth_date = as.Date(MS_EHR_demo$BIRTH_DATE[match(MS_EHR$PatientNum,MS_EHR_demo$PatientNum)],format="%Y-%m-%d")
+tmp           = with(MS_EHR,difftime(First_date,Birth_date,units="days")/365)
+result[5,2]   = paste0(round(c(median(tmp)),1)," (",round(IQR(tmp),1),")")
+
+tmp           = with(MS_EHR,difftime(Last_date,First_date,units="days")/365)
+result[8,2]   = paste0(round(c(median(tmp)),1)," (",round(IQR(tmp),1),")")
+
+colnames(result) = c("CLIMB","EHR")
+
+
+############################# annualized relapse rate
+num_r = sapply(year, function(s) with(MS_attack,length(PatientID[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) # LAST_DATE>=s does not have any effect
+num_r_total = sapply(year, function(s) with(MS_attack,length(PatientID[onset_year==s])))
+### number of patients from cohort
+num_p = sapply(year,function(s) with(MS_cohort,sum(format(FIRST_DATE,"%Y")<=s & as.numeric(format(LAST_DATE,"%Y"))>=s, na.rm = TRUE)))
+rate  = num_r/num_p
+### bootstrap
+sims     = 500
+if (readinboot) {
+  meanrate = read.table(paste0(wkpath2,"BootstrapResult/meanrate.dat"),header = TRUE)
+} else{
+  set.seed(1234)
+  ############!!!!!!!!!!
+  NP = length(PatientID)
+  meanrate = replicate(sims,expr={
+    resam            = sample(NP,NP,replace = TRUE)
+    Combined_boot = Combined[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NP),]
+    num_r_boot      = sapply(1:length(year),function(i) with(Combined_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                             sum(relapse[Enroll==1], na.rm =TRUE)))
+    num_p_boot      = sapply(1:length(year),function(i) with(Combined_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                             sum(Enroll==1, na.rm =TRUE)))
+    num_r_clin_boot = sapply(1:length(year),function(i) with(Combined_boot[0:(length(PatientID)-1)*length(year)+i,],sum(cli_relapse[Enroll==1], na.rm =TRUE))) 
+    num_r_radi_boot = sapply(1:length(year),function(i) with(Combined_boot[0:(length(PatientID)-1)*length(year)+i,],sum(rad_relapse[Enroll==1], na.rm =TRUE))) 
+    rate_boot       = num_r_boot/num_p_boot
+    rate_overall    = mean(rate_boot)
+    rate_gold       = mean(rate_boot[year%in%c(2000:2010)])
+    clin_rate_boot  = num_r_clin_boot/num_p_boot
+    radi_rate_boot  = num_r_radi_boot/num_p_boot
+    return(c(overall = rate_overall,gold = rate_gold,yearly=rate_boot,
+             yearly_clin = clin_rate_boot,yearly_radi = radi_rate_boot))
+  })
+  meanrate = t(meanrate)
+  write.table(meanrate,paste0("paper1/","BootstrapResult/meanrate.dat"))
+}
+
+
+result = rbind(result,c(paste0(round(mean(rate),3)," (",
+                               round(qnorm(0.975)*sd(meanrate[,1]),3),")"),
+                        NA))
+
+
+row.names(result) = c("Total number of patients", "Num belongs to EHR",
+                      "Sex (% female)","Race (% white)",
+                      "Median (IQR) age at first code",
+                      "Median (IQR) age at first symptom onset",
+                      "Median (IQR) age at first date",
+                      "Median (IQR) duration of follow-up",
+                      "Median (IQR) number of treatments",
+                      "% receiving treatments",
+                      "Average Annualized relapse rate 2000-2016")
+
+kable(result, digits = 2, caption = "Table 1: Demographics of the Study Population")
+```
+
+
+<!--Supp Table. Demographics of the ever treated vs never treated.-->
+
+```{r Demographics, echo = FALSE, message = FALSE, warning=FALSE}
+result = c(nrow(EverTr), # num of patients
+           nrow(NeverTr),NA) 
+result = as.character(result) 
+result = c(result,sum(unique(MS_map$i2b2[match(EverTr$PatientID,MS_map$PatientID)])%in%unique(MS_EHR$PatientNum)),sum(unique(MS_map$i2b2[match(NeverTr$PatientID,MS_map$PatientID)])%in%unique(MS_EHR$PatientNum)),NA) # num in EMR
+result = matrix(result,byrow=TRUE,nrow=2)
+tmp = with(EverTr,c(sum(SEX=="F"),sum(SEX=="F"|SEX=="M"), # sex
+                                                sum(RACE_DESC=="White"),{nrow(EverTr)-sum(RACE_DESC=="Unknown or not reported")})) # race
+tmp = cbind(tmp,
+            with(NeverTr,c(sum(SEX=="F"),sum(SEX=="F"|SEX=="M"), # sex
+                                                sum(RACE_DESC=="White"),nrow(NeverTr)-sum(RACE_DESC=="Unknown or not reported"))) # race            
+            )
+tmp2 = rbind(tmp[1,]/tmp[2,],tmp[3,]/tmp[4,])
+tmp[2,]=tmp[2,]-tmp[1,]; tmp[4,]=tmp[4,]-tmp[3,]
+tmp2 = cbind(round(tmp2*100,1), round(c(prop.test(t(tmp[1:2,]),correct = FALSE)$p.value,
+                     prop.test(t(tmp[3:4,]),correct = FALSE)$p.value),3))
+result = rbind(result,tmp2)
+
+## bootstrap of the above four statistics
+# readinboot = F
+sims     = 500
+if (readinboot) {
+  tmp  = read.table(paste0(wkpath2,"BootstrapResult/median_age_dur2.dat"),header = TRUE)
+  tmp  = array(unlist(tmp),dim=c(4,2,sims))
+} else{
+  set.seed(1234)
+  tmp = replicate(sims,expr={
+    NP_EverTr  = length(EverTr$PatientID)
+    NP_NeverTr = length(NeverTr$PatientID)
+    ## age at first code (Age at last visit is most complete)
+    EverTr_boot  = EverTr[sample(NP_EverTr,replace = TRUE),]
+    NeverTr_boot = NeverTr[sample(NP_NeverTr,replace = TRUE),]
+    tmp    = with(EverTr_boot,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_CODE,format="%Y-%m-%d"),units="days"))/365)
+    tmp2   = with(NeverTr_boot,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_CODE,format="%Y-%m-%d"),units="days"))/365)
+    
+    boot = c(median(tmp, na.rm = TRUE),median(tmp2, na.rm = TRUE))
+    
+    ## age at sympton on set
+    # tmp    = with(MS_cohort,AGE_AT_FIRSTSYMPTOM)
+    tmp    = with(EverTr_boot,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),
+                                                                   as.Date(paste(FIRSTSYMP_YEAR,FIRSTSYMP_MONTH,FIRSTSYMP_DAY,sep="-"),format="%Y-%m-%d"),units="days"))/365)
+    tmp2   = with(NeverTr_boot,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),
+                                                                    as.Date(paste(FIRSTSYMP_YEAR,FIRSTSYMP_MONTH,FIRSTSYMP_DAY,sep="-"),format="%Y-%m-%d"),units="days"))/365)
+    boot = rbind(boot,c(median(tmp, na.rm = TRUE),median(tmp2, na.rm = TRUE)))
+    ## age at first date
+    tmp    = with(EverTr_boot,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_DATE,format="%Y-%m-%d"),units="days"))/365)
+    tmp2   = with(NeverTr_boot,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_DATE,format="%Y-%m-%d"),units="days"))/365)
+    
+    boot = rbind(boot,c(median(tmp, na.rm = TRUE),median(tmp2, na.rm = TRUE)))
+    
+    ## duration of follow-up (last date - first date)
+    # impute missing month/day using Zongqi's rule
+    tmp    = with(EverTr_boot,as.numeric(difftime(as.Date(LAST_DATE,format="%Y-%m-%d"),
+                                                  as.Date(FIRST_DATE,format="%Y-%m-%d"),
+                                                  units = "days"))/365)
+    tmp2   = with(NeverTr_boot,as.numeric(difftime(as.Date(LAST_DATE,format="%Y-%m-%d"),
+                                                   as.Date(FIRST_DATE,format="%Y-%m-%d"),
+                                                   units = "days"))/365)
+    boot = rbind(boot,c(median(tmp, na.rm = TRUE),median(tmp2, na.rm = TRUE)))
+    boot
+  })
+  write.table(tmp,paste0(wkpath2,"BootstrapResult/median_age_dur2.dat"),row.names = FALSE)
+}
+tmpsd = apply(tmp[,1,]-tmp[,2,],1,sd)
+
+## age at first code (Age at last visit is most complete)
+tmp    = with(EverTr,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_CODE,format="%Y-%m-%d"),units="days"))/365)
+tmp2   = with(NeverTr,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_CODE,format="%Y-%m-%d"),units="days"))/365)
+
+result = rbind(result,c(paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"),
+                        paste0(round(median(tmp2, na.rm = TRUE),1)," (",round(IQR(tmp2, na.rm = TRUE),1),")"),
+                        round(pnorm(-abs(median(tmp,na.rm = TRUE)-median(tmp2,na.rm = TRUE))/tmpsd[1])*2,3)
+               ))
+
+## age at sympton onset
+# tmp    = with(MS_cohort,AGE_AT_FIRSTSYMPTOM)
+tmp    = with(EverTr,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),
+                                                             as.Date(paste(FIRSTSYMP_YEAR,FIRSTSYMP_MONTH,FIRSTSYMP_DAY,sep="-"),format="%Y-%m-%d"),units="days"))/365)
+tmp2   = with(NeverTr,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),
+                                                             as.Date(paste(FIRSTSYMP_YEAR,FIRSTSYMP_MONTH,FIRSTSYMP_DAY,sep="-"),format="%Y-%m-%d"),units="days"))/365)
+result = rbind(result,c(paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"),
+                        paste0(round(median(tmp2, na.rm = TRUE),1)," (",round(IQR(tmp2, na.rm = TRUE),1),")"),
+                        round(pnorm(-abs(median(tmp,na.rm = TRUE)-median(tmp2,na.rm = TRUE))/tmpsd[2])*2,3)))
+
+## age at first date
+tmp    = with(EverTr,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_DATE,format="%Y-%m-%d"),units="days"))/365)
+tmp2   = with(NeverTr,AGE_AT_LASTVISIT-as.numeric(difftime(as.Date(LAST_VISIT_DATE,format="%Y-%m-%d"),as.Date(FIRST_DATE,format="%Y-%m-%d"),units="days"))/365)
+
+result = rbind(result,c(paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"),
+                        paste0(round(median(tmp2, na.rm = TRUE),1)," (",round(IQR(tmp2, na.rm = TRUE),1),")"),
+                        round(pnorm(-abs(median(tmp,na.rm = TRUE)-median(tmp2,na.rm = TRUE))/tmpsd[3])*2,3)))
+
+## duration of follow-up (last date - first date)
+# impute missing month/day using Zongqi's rule
+tmp    = with(EverTr,as.numeric(difftime(as.Date(LAST_DATE,format="%Y-%m-%d"),
+                                            as.Date(FIRST_DATE,format="%Y-%m-%d"),
+                                            units = "days"))/365)
+tmp2   = with(NeverTr,as.numeric(difftime(as.Date(LAST_DATE,format="%Y-%m-%d"),
+                                            as.Date(FIRST_DATE,format="%Y-%m-%d"),
+                                            units = "days"))/365)
+result = rbind(result,c(paste0(round(median(tmp, na.rm = TRUE),1)," (",round(IQR(tmp, na.rm = TRUE),1),")"),
+                        paste0(round(median(tmp2, na.rm = TRUE),1)," (",round(IQR(tmp2, na.rm = TRUE),1),")"),
+                        sprintf("%4.1e",pnorm(-abs(median(tmp,na.rm = TRUE)-median(tmp2,na.rm = TRUE))/tmpsd[4])*2)))
+
+## number of treatment
+tmp    = unique(MS_trt$PatientID)
+tmp2   = with(MS_trt,sapply(tmp,function(x){
+  length(unique(medication_desc[PatientID==x]))
+}))
+result = rbind(result,c(paste0(round(median(tmp2),1)," (",round(IQR(tmp2),1),")"),"0 (0)","NA"))
+## % receiving treatment
+result = rbind(result,c("100%","0%","NA"))
+
+colnames(result) = c("Ever Treated","Never Treated","p-value for heter")
+
+
+############################# annualized relapse rate
+## ever treated vs never treated; 
+## different from figure 1: patients not treated this year may be treated next year
+num_r_EverTr = sapply(year, function(s) with(MS_attack[MS_attack$PatientID%in%EverTr$PatientID,],length(PatientID[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) # LAST_DATE>=s does not have any effect
+### number of patients from cohort
+num_p_EverTr = sapply(year,function(s) with(EverTr,sum(format(FIRST_DATE,"%Y")<=s & as.numeric(format(LAST_DATE,"%Y"))>=s, na.rm = TRUE)))
+num_r_NeverTr = sapply(year, function(s) with(MS_attack[MS_attack$PatientID%in%NeverTr$PatientID,],length(PatientID[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) # LAST_DATE>=s does not have any effect
+### number of patients from cohort
+num_p_NeverTr = sapply(year,function(s) with(NeverTr,sum(format(FIRST_DATE,"%Y")<=s & as.numeric(format(LAST_DATE,"%Y"))>=s, na.rm = TRUE)))
+rate_EverTr   = num_r_EverTr/num_p_EverTr
+rate_NeverTr  = num_r_NeverTr/num_p_NeverTr
+### bootstrap
+sims     = 500
+if(readinboot){
+  meanrate  = read.table(paste0("paper1/","BootstrapResult/meanrate_EverTr_NeverTr2.dat"),header = TRUE)
+} else{
+  set.seed(1234)
+  ############!!!!!!!!!!
+  NP_EverTr  = length(EverTr$PatientID)
+  NP_NeverTr = length(NeverTr$PatientID)
+  tmp = Combined$PatientID%in%EverTr$PatientID
+  meanrate = replicate(sims,expr={
+    resam         = sample(NP_EverTr,NP_EverTr,replace = TRUE)
+    Combined_EverTr_boot = Combined[tmp,][rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NP_EverTr),]
+    num_r_EverTr_boot      = sapply(1:length(year),function(i) with(Combined_EverTr_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                             sum(relapse[Enroll==1], na.rm =TRUE)))
+    num_p_EverTr_boot      = sapply(1:length(year),function(i) with(Combined_EverTr_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                             sum(Enroll==1, na.rm =TRUE)))
+    rate  = mean(num_r_EverTr_boot/num_p_EverTr_boot)
+    resam = sample(NP_NeverTr,NP_NeverTr,replace = TRUE)
+    Combined_NeverTr_boot = Combined[!tmp,][rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NP_NeverTr),]
+    num_r_NeverTr_boot      = sapply(1:length(year),function(i) with(Combined_NeverTr_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                             sum(relapse[Enroll==1], na.rm =TRUE)))
+    num_p_NeverTr_boot      = sapply(1:length(year),function(i) with(Combined_NeverTr_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                             sum(Enroll==1, na.rm =TRUE)))
+    rate = c(rate,mean(num_r_NeverTr_boot/num_p_NeverTr_boot))
+    rate
+  })
+  meanrate = t(meanrate)
+  write.table(meanrate,paste0("paper1/","BootstrapResult/meanrate_EverTr_NeverTr2.dat"))
+}
+
+
+result = rbind(result,c(paste0(round(mean(rate_EverTr),3)," (",
+                               round(qnorm(0.975)*sd(meanrate[,1]),3),")"),
+                        paste0(round(mean(rate_NeverTr),3)," (",
+                               round(qnorm(0.975)*sd(meanrate[,2]),3),")"),
+                        sprintf("%4.1e",pnorm(-abs(mean(rate_EverTr)-mean(rate_NeverTr))/sd(meanrate[,1]-meanrate[,2]))*2)))
+
+
+row.names(result) = c("Total number of patients", "Num belongs to EHR",
+                      "Sex (% female)","Race (% white)",
+                      "Median (IQR) age at first code",
+                      "Median (IQR) age at first symptom onset",
+                      "Median (IQR) age at first date",
+                      "Median (IQR) duration of follow-up",
+                      "Median (IQR) number of treatments",
+                      "% receiving treatments",
+                      "Average Annualized relapse rate 2000-2016")
+kable(result, digits=2,caption = "Supplementary Table: Demographics of the ever treated vs never treated.")
+```
+
+<!-- Table 2: Prescription pattern of disease-modifying treatments. -->
+
+```{r prescription, echo = FALSE, message=FALSE, warning=FALSE}
+### Mean/Median duration of treatment
+tmp = sapply(PatientID,function(x){
+  tmp2 = MS_trt[MS_trt$PatientID==x,]
+  if(dim(tmp2)[1]>0){
+    sapply(1:length(Trt_brand),function(j){
+      a   = 0
+      for(k in 1:length(Trt_brand[[j]])){
+        tmp3 = tmp2[grepl(Trt_brand[[j]][k],tmp2$medication_desc),]
+        a = a+sum(with(tmp3,(stop_year-start_year)*12+(stop_month-start_month)+(stop_day-start_day)/30)) 
+      }
+      a
+    })
+  } else{numeric(length(Trt_brand))}
+})
+Trt_dura = data.frame(PatientID=PatientID,t(tmp),stringsAsFactors=FALSE)
+
+### median CI
+tmp  = apply(Trt_dura[,-1],2,function(x) median(x[x>0]))
+tmp2 = apply(Trt_dura[,-1],2,function(x) IQR(x[x>0]))
+b    = cbind(b,paste0(round(tmp,2),
+                      " (",round(tmp2,2),")"))
+b    = rbind(b,c("No treatment",nrow(NeverTr),NA))
+colnames(b)     = c("Treatment","Number of participants","Median treatment duration (IQR)")
+row.names(b)      = NULL
+
+
+Trt_brand_Table2 = sapply(PatientID,function(x){
+  tmp2 = MS_trt[MS_trt$PatientID==x,]
+  if(dim(tmp2)[1]>0){
+    sapply(1:length(Trt_brand_copy),function(j){
+      a   = 0
+      for(k in 1:length(Trt_brand_copy[[j]])){
+        tmp3 = tmp2[grepl(Trt_brand_copy[[j]][k],tmp2$medication_desc),]
+        a = a+sum(with(tmp3,(stop_year-start_year)*12+(stop_month-start_month)+(stop_day-start_day)/30)) 
+      }
+      a
+    })
+  } else{numeric(length(Trt_brand_copy))}
+})
+Trt_dura2 = data.frame(PatientID=PatientID,t(Trt_brand_Table2),stringsAsFactors=FALSE)
+colnames(Trt_dura2)[-1] <- Trt_Used_Table2
+
+## Bootstrap median treatment duration
+if (readinboot) {
+  boot_treat_dura <- read.table("paper1/BootstrapResult/Table2_median_treat_dura.dat")
+} else {
+  set.seed(1234)
+  boot_treat_dura = replicate(n = sims, expr = {
+    resam         = sample(nrow(Trt_dura2), nrow(Trt_dura2), replace = TRUE)
+    Trt_dura2_boot = Trt_dura2[resam,]
+    tmp  = apply(Trt_dura2_boot[,-1],2,function(x) median(x[x>0], na.rm = TRUE))
+    tmp
+    })
+  boot_treat_dura <- as.data.frame(boot_treat_dura)
+  write.table(boot_treat_dura,"paper1/BootstrapResult/Table2_median_treat_dura.dat",row.names = FALSE, col.names = FALSE)
+}
+
+
+### median CI
+tmp  = apply(Trt_dura2[,-1],2,function(x) median(x[x>0]))
+tmp2 = apply(boot_treat_dura,1,function(x) quantile(x[x>0], 0.025, na.rm = TRUE))
+tmp3 = apply(boot_treat_dura,1,function(x) quantile(x[x>0], 0.975, na.rm = TRUE))
+b2    = cbind(b_copy,paste0(round(tmp,2),
+                      " (",signif(tmp2,3), ", ", signif(tmp3, 3), ")"))
+b2    = rbind(b2,c("No treatment",nrow(NeverTr),NA))
+colnames(b2)     = c("Treatment","Number of participants","Median treatment duration (95% CI)")
+row.names(b2)      = NULL
+b2$Treatment[b2$Treatment == "dimethyal fumarate"] <- "dimethyl fumarate"
+
+# kable(b)
+kable(b2,caption = "Table 2: Prescription pattern of disease-modifying treatments.")
+
+
+### IQR version without bootstrap
+### median CI
+tmp  = apply(Trt_dura2[,-1],2,function(x) median(x[x>0]))
+tmp2 = apply(Trt_dura2[,-1],2,function(x) IQR(x[x>0]))
+b22    = cbind(b_copy,paste0(round(tmp,2),
+                      " (",round(tmp2,2), ")"))
+b22    = rbind(b22,c("No treatment",nrow(NeverTr),NA))
+colnames(b22)     = c("Treatment","Number of participants","Median treatment duration (IQR)")
+row.names(b22)      = NULL
+b22$Treatment[b22$Treatment == "dimethyal fumarate"] <- "dimethyl fumarate"
+
+# kable(b)
+kable(b22, caption = "Table 2: Prescription pattern of disease-modifying treatments.")
+```
+
+<!--Figure 1 .-->
+Figure 1 . Temporal trend of relapse rate in relation to any MS treatment, relative incident relapse rate, 25-OH vitamin D level, and disease duration
+```{r Fig1, echo=FALSE,message=FALSE, warning=FALSE,fig.width=7, fig.height=9,dpi=300}
+### Fig 1A: relapse rate over year
+rate  = num_r/num_p
+df    = data.frame(year = year,rate = rate) 
+df    = data.frame(df, lwr = rate - qnorm(0.975)*sqrt(rate*(1-rate)/num_p),
+                   upr = rate + qnorm(0.975)*sqrt(rate*(1-rate)/num_p))
+
+### Fig 1B: Percent of total participants receiving MS treatments over time
+num_trt     = sapply(1:length(year),function(i) apply(Combined[0:(length(PatientID)-1)*length(year)+i,Trt_Used],2,sum))
+num_trt     = data.frame(year = year, t(num_trt))
+rate_trt_any = sapply(1:length(year),function(i) sum(apply(Combined[0:(length(PatientID)-1)*length(year)+i,Trt_Used],1,sum)>0))/num_p  
+tmp          = qnorm(0.975)*sqrt(rate_trt_any*(1-rate_trt_any)/num_p)
+rate_trt_any = data.frame(year=year,rate = rate_trt_any,lwr = rate_trt_any - tmp, upr = rate_trt_any + tmp)
+
+### Fig 1C: relative incident relapse rate
+tmp       = apply(Combined[,Trt_Used]==0,1,all)
+tmp2      = Combined$Enroll==1
+num_p_byTrt = aggregate(tmp*tmp2,by=list(Combined$Year),FUN=sum)
+colnames(num_p_byTrt) = c("year","Untreated")
+num_p_byTrt = data.frame(num_p_byTrt,"Treated"=num_p-num_p_byTrt[,2])
+PlaceboRR = t(sapply(year,function(yy){
+  c(mean(Combined$relapse[with(Combined,Year==yy & tmp & tmp2)]>0),
+    mean(Combined$relapse[with(Combined,Year==yy & {!tmp} & tmp2)]>0))###
+}))
+colnames(PlaceboRR) = c("Untreated","Treated")
+PlaceboRR = data.frame(year=year,PlaceboRR)
+
+
+### Fig 1D: VD
+VD_num  = sapply(seq_along(year),function(i){
+  sum(!is.na(Combined$VD[0:(length(PatientID)-1)*length(year)+i])) ###############!!!!!!!!!!!!
+}) # number of patients with VD measure over years
+
+VD_log_median = sapply(1:length(year),function(i){
+  tmp = !is.na(Combined$VD[0:(length(PatientID)-1)*length(year)+i])
+  if(sum(tmp)>0){
+    median(log(Combined$VD[0:(length(PatientID)-1)*length(year)+i][tmp]))
+  } else{
+    NA
+  }
+})
+VD_log_sd   = sapply(1:length(year),function(i){
+  tmp = !is.na(Combined$VD[0:(length(PatientID)-1)*length(year)+i])
+  if(sum(tmp)>0){
+    sd(log((Combined$VD[0:(length(PatientID)-1)*length(year)+i])[tmp]))
+  } else{
+    NA
+  }
+})
+tmp     = ifelse(VD_num>0,qnorm(0.975)*VD_log_sd/sqrt(VD_num),0)
+VD_CI   = data.frame(year = year, VD = exp(VD_log_median), lwr = exp(VD_log_median-tmp), upr = exp(VD_log_median+tmp))
+
+### Fig 1E: disease duration
+AvgDisDur = sapply(1:length(year),function(i){
+  tmp  = Combined$DiseaseDur[0:(length(PatientID)-1)*length(year)+i]
+  tmp2 = tmp>0 & !is.na(tmp)
+  median(tmp[tmp2],na.rm=TRUE)
+})
+tmp   = sapply(1:length(year),function(i){
+  tmp  = Combined$DiseaseDur[0:(length(PatientID)-1)*length(year)+i]
+  tmp2 = tmp>0 & !is.na(tmp)
+  a    = tmp[tmp2]
+  sd(a,na.rm=TRUE)/sqrt(sum(a,na.rm=TRUE))
+})
+tmp   = qnorm(0.975)*tmp
+AvgDisDur = data.frame(year = year, AvgDisDur = AvgDisDur, 
+                       lwr = exp(log(AvgDisDur)-tmp), 
+                       upr = exp(log(AvgDisDur)+tmp))
+
+######################### Bootstrap: measure of trend #########################
+meanrate <- read.table("paper1/BootstrapResult/meanrate.dat")
+### Figure 1A
+yyear = year-year[1]
+### bootstrap
+est     = lm(rate~yyear)$coef[2]
+bootest = sapply(1:500,function(i){
+  lm(as.numeric(meanrate[i,seq_along(year)+2])~yyear)$coef[2]
+})
+bootsd  = sd(bootest)
+trend   = c(est,bootsd,2*pnorm(-abs(est/bootsd)))
+### Figure 1B - 1E
+NP = length(PatientID)
+if (readinboot) {
+  boot = read.table(paste0("paper1/","BootstrapResult/Figure1boot.dat"),header = TRUE)
+  colnames(boot) = c("Trt Percent","Untreated Relapse Rate","Treated Relapse Rate","VD","Trt Duration")
+} else{
+  set.seed(1234)
+  boot = replicate(n=sims,expr = {
+    resam         = sample(NP,NP,replace = TRUE)
+    Combined_boot = Combined[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NP),]
+    num_p_boot    = sapply(1:length(year),function(i) with(Combined_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                           sum(Enroll==1, na.rm =TRUE)))
+    rate_trt_any_boot = sapply(1:length(year),function(i) sum(apply(Combined_boot[0:(length(PatientID)-1)*length(year)+i,Trt_Used],1,sum)>0,na.rm=TRUE))/num_p_boot  ###!!!!!!!! take care of NAs
+    
+    tmp            = apply(Combined_boot[,Trt_Used]==0,1,all)
+    tmp2           = Combined_boot$Enroll==1
+    PlaceboRR_boot = t(sapply(year,function(yy){
+      c(mean(Combined_boot$relapse[with(Combined_boot,Year==yy & tmp & tmp2)]>0),
+        mean(Combined_boot$relapse[with(Combined_boot,Year==yy & {!tmp} & tmp2)]>0))###
+    }))
+    
+    VD_center_boot = sapply(1:length(year),function(i){
+      tmp = !is.na(Combined_boot$VD[0:(length(PatientID)-1)*length(year)+i])
+      if(sum(tmp)>0){
+        median(Combined_boot$VD[0:(length(PatientID)-1)*length(year)+i][tmp])
+      } else{
+        NA
+      }
+    })
+    AvgDisDur_boot = sapply(1:length(year),function(i){
+      tmp  = Combined_boot$DiseaseDur[0:(length(PatientID)-1)*length(year)+i]
+      tmp2 = tmp>0 & !is.na(tmp)
+      median(tmp[tmp2],na.rm=TRUE)
+    })
+    c(lm(rate_trt_any_boot~yyear)$coef[2],
+      lm(PlaceboRR_boot[,1]~yyear)$coef[2],
+      lm(PlaceboRR_boot[,2]~yyear)$coef[2],
+      lm(VD_center_boot~yyear)$coef[2],
+      lm(AvgDisDur_boot~yyear)$coef[2])
+  })
+  boot = t(boot)
+  colnames(boot) = c("Trt Percent","Untreated Relapse Rate","Treated Relapse Rate","VD","Dis Duration")
+  write.table(boot,"paper1/BootstrapResult/Figure1boot.dat",row.names = FALSE)
+}
+
+est = c(lm(rate_trt_any$rate~yyear)$coef[2],
+        lm(PlaceboRR$Untreated~yyear)$coef[2],
+        lm(PlaceboRR$Treated~yyear)$coef[2],
+        lm(VD_CI$VD~yyear)$coef[2],
+        lm(AvgDisDur$AvgDisDur~yyear)$coef[2])
+names(est) = c("Trt Percent","Untreated Relapse Rate","Treated Relapse Rate","VD","Dis Duration")
+bootsd = apply(boot,2,sd)
+trend  = rbind("Incident Rate"=trend,cbind(est,bootsd,2*pnorm(-abs(est/bootsd))))
+colnames(trend)  = c("est","bootsd","P-value")
+
+### Get Figures
+# title = "Figure 1 A: Incident Rate over Years"
+df   = addNA(df)
+p_1A = ggplot(df, aes(year,rate))+
+  geom_line(data = df)+
+  xlab("")+ylab("Incident\n Relapse Rate")+
+  ylim(0,0.3)+
+  scale_x_continuous(breaks=c(year[1]-1,year),labels=c("N",num_p),position = "top",expand=c(0,0))+
+  geom_ribbon(data = df, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  theme_minimal()+
+  theme(axis.text.x.top = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2013, y=0.22, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend["Incident Rate",3])),family = "Times")
+  
+
+# title = "Figure 1B: Percent of total participants receiving any MS treatment over time"
+rate_trt_any = addNA(rate_trt_any)
+p_1B = ggplot(rate_trt_any,aes(x=year, y=rate))+
+  geom_line()+
+  xlab("Year")+ylab("Percentage of Participants\n on Any DMT")+
+  scale_x_continuous(breaks = year, labels = year,expand=c(0,0)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr),alpha = 0.3) + 
+  theme_minimal()+
+  theme(axis.text.x = element_blank(),axis.title.x=element_blank(),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2013, y=0.4, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend["Trt Percent",3])),family="Times")
+
+# title = "Figure 1C: Expected incident relapse rate relative to the placebo"
+### relapse rate, treated vs untreated
+PlaceboRR   = addNA(PlaceboRR)
+num_p_byTrt = addNA(num_p_byTrt)
+PlaceboRR   = melt(PlaceboRR,id="year")
+colnames(PlaceboRR) = c("year","TorUT","rate")
+tmp         = qnorm(0.975)*unlist(sqrt(PlaceboRR[,3]*(1-PlaceboRR[,3])/unlist(num_p_byTrt[,-1])),use.names = FALSE)
+PlaceboRR   = data.frame(PlaceboRR,lwr = PlaceboRR$rate-tmp,upr = PlaceboRR$rate+tmp)
+p_1C = ggplot(PlaceboRR, aes(x=year, y=rate, colour=TorUT))+
+  geom_line(aes(x=year, y=rate, group = TorUT))+
+  geom_point(aes(shape = TorUT), size = 1.5) +
+  geom_ribbon(aes(ymin=lwr,ymax=upr,fill=TorUT),alpha=0.2,colour=NA)+
+  xlab("")+ylab("Incident\n Relapse Rate")+
+  ylim(0,0.3)+
+  scale_x_continuous(breaks = year, labels = year,expand=c(0,0)) +
+  theme_minimal()+
+  scale_colour_manual("", 
+                      values = c("Untreated"="red", "Treated"="green"))+
+  scale_fill_manual("",values = c("Untreated"="red", "Treated"="green"))+
+  scale_shape_manual("", values=c(19,17))+
+  theme(axis.text.x = element_blank(),axis.title.x=element_blank(),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2012, y=0.02, label = paste0("P-value for linear trend; Untreated = ",sprintf("%4.1e",trend["Untreated Relapse Rate",3])),family="Times")+
+  annotate("text", x = 2012, y=0.22, label = paste0("P-value for linear trend; Treated = ",sprintf("%4.1e",trend["Treated Relapse Rate",3])),family="Times")
+
+# title = "Figure 1D: average disease duration over time"
+AvgDisDur = addNA(AvgDisDur)
+p_1D = ggplot(AvgDisDur, aes(x=year, y=AvgDisDur))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("Year")+ylab("Median Disease\n Duration")+
+  scale_x_continuous(breaks = year, labels = year,expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_blank(),axis.title.x=element_blank(),
+        text=element_text(size=12,family="Times")) +
+  annotate("text", x = 2013, y=7.5, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend["Dis Duration",3])),family="Times")
+
+# title = "Figure 1E: Median 25-OH Vitamin D Level Over Years"
+VD_CI = addNA(VD_CI)
+p_1E = ggplot(VD_CI, aes(x=year, y=VD))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("Year")+ylab("Median Serum\n Vitamin D Level")+
+  scale_x_continuous(breaks = year, labels = year,
+                     sec.axis = sec_axis(~ ., breaks = c(year[1]-1,year),
+                                         labels = c("n",VD_num), name = ""),
+                     expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2013, y=25, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend["VD",3])),family="Times")
+
+tiff("paper1/Fig1.tiff", units="in", width=7, height=9, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_1A,p_1B,p_1C,p_1D,p_1E,ncol=1))
+dev.off()
+
+### p-value table for the trend
+trend = sprintf("%4.1e", trend)
+trend = matrix(trend,ncol=3)
+colnames(trend)  = c("est","bootsd","P-value")
+row.names(trend) = c("Incident Rate","Trt Percent","Untreated Relapse Rate","Treated Relapse Rate","VD","Disease Dur")
+
+kable(trend,caption = "Trend analysis for Figure 1.")
+```
+
+<!--Figure 2.-->
+Figure 2 . Temporal trend of MS treatment prescription.
+
+```{r Fig2,echo=FALSE, message=FALSE, warning=FALSE,fig.width=8,dpi=300}
+# title = "Figure 2: Percent of total participants receiving a given MS treatment over time"
+rate_trt = melt(data.frame(year=year,num_trt[,-1]/num_p),id="year")
+colnames(rate_trt) = c("year","treatment","rate")
+tmp      = qnorm(0.975)*unlist(sqrt(num_trt[,-1]*(num_p-num_trt[,-1])/num_p^3),use.names = FALSE)
+rate_trt = data.frame(rate_trt,lwr = rate_trt$rate-tmp,upr = rate_trt$rate+tmp)
+# # Reorder
+# tmp <- rate_trt[rate_trt$treatment %in% c("dimethyl_fumarate","fingolimod","glatiramer_acetate","interferon","natalizumab"),]
+# tmp <- rbind(tmp, rate_trt[rate_trt$treatment == "rituximab", ])
+# tmp <- rbind(tmp, rate_trt[rate_trt$treatment == "teriflunomide", ])
+# rate_trt <- tmp
+Trt_Used_fig2 <- Trt_Used[2:6]
+Trt_Used_fig2[6] <- "rituximab"
+Trt_Used_fig2[7] <- Trt_Used[7]
+
+p1 = ggplot(rate_trt,aes(x=year, y=rate, colour=treatment)) +
+  geom_line(aes(x=year, y=rate, group = treatment)) +
+  geom_point(aes(shape = treatment), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=treatment),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "DMT", values=c("red", "deepskyblue", "green", "magenta", "goldenrod", "gray48", "orange"),
+                     breaks=Trt_Used_fig2,
+                    labels=c("Dimethyl Fumarate","Fingolimod","Glatiramer Acetate", 
+                             "Interferon","Natalizumab","Rituximab","Teriflunomide"))+
+  scale_fill_manual(name = "DMT", values=c("red", "deepskyblue", "green", "magenta", "goldenrod", "gray48", "orange"),
+                    breaks=Trt_Used_fig2,
+                    labels=c("Dimethyl Fumarate","Fingolimod","Glatiramer Acetate", 
+                             "Interferon","Natalizumab","Rituximab","Teriflunomide"))+
+  scale_shape_discrete(name  ="DMT",
+                       breaks=Trt_Used_fig2,
+                       labels=c("Dimethyl Fumarate","Fingolimod","Glatiramer Acetate", 
+                             "Interferon","Natalizumab","Rituximab","Teriflunomide"))+
+  xlab("Year")+ylab("Percentage of Participants\n under a Given DMT")+
+  scale_x_continuous(breaks = year, labels = year) +
+  theme_minimal()+
+  theme(plot.margin=unit(c(4,rep(0.5,3)), "lines"),axis.text.x = element_text(size=8),text=element_text(size=12,family="Times"))
+p1 <- ggplot_gtable(ggplot_build(p1))
+p1$layout$clip[p1$layout$name == "panel"] <- "off"
+
+
+tiff("paper1/Fig2.tiff", units="in", width=7,height = 3.5, res=300)
+grid.newpage()
+grid.draw(p1) 
+dev.off()
+```
+
+
+<!--Figure 3.-->
+Figure 3 . Trend of diagnostic code for MS, any diagnostic code, and adjusted MS diagnostic code by notes, any diagnostic codes, and baseline variables.
+
+```{r MS_code, echo=FALSE, message=FALSE,warning=FALSE,fig.width=7,fig.height=9,dpi=300}
+### Extract only patients in cohort with EHR
+Combined_EHR = Combined[Combined$PatientID%in%PatientID_EHR,]
+
+CodifiedData = t(sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, Year==year[i] & Enroll==1)
+  c(apply(Combined_EHR[tmp,ICDvars],2,mean,na.rm=TRUE),
+    apply(Combined_EHR[tmp,ICDvars],2,sd,na.rm=TRUE),
+    sum(tmp))
+}))
+####
+num_pp             = CodifiedData[,2*length(ICDvars)+1]
+CodifiedData[,1:length(ICDvars)+length(ICDvars)] = CodifiedData[,1:length(ICDvars)+length(ICDvars)]*qnorm(0.975)/sqrt(num_pp)
+#### code 340
+code340            = data.frame(year=year,rate=CodifiedData[,1],
+                                lwr = CodifiedData[,1]-CodifiedData[,length(ICDvars)+1],
+                                upr = CodifiedData[,1]+CodifiedData[,length(ICDvars)+1])
+#### any ICD
+anyICD             = data.frame(year=year,rate=CodifiedData[,2],
+                                lwr = CodifiedData[,2]-CodifiedData[,length(ICDvars)+2],
+                                upr = CodifiedData[,2]+CodifiedData[,length(ICDvars)+2])
+
+#### Bootstrap: measure of trend
+NPE            = length(PatientID_EHR)
+if (readinboot) {
+  est_boot = read.table("paper1/BootstrapResult/Figure3_estboot.dat",header=TRUE)
+  ICD_boot = read.table("paper1/BootstrapResult/Figure3_ICDboot.dat",header=TRUE)
+  ICD_boot = array(unlist(ICD_boot),dim=c(length(year),length(ICDvars)+length(ICDvars_adj)/length(year),sims))
+} else{
+  set.seed(1234)
+  ICD_boot = replicate(sims,expr={
+    resam           = sample(1:NPE,NPE,replace = TRUE)
+    Combined_EHR_boot  = Combined_EHR[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NPE),]
+    
+    CodifiedData_boot = t(sapply(1:length(year),function(i){
+      tmp = with(Combined_EHR_boot, Year==year[i] & Enroll==1)
+      apply(Combined_EHR_boot[tmp,ICDvars],2,mean,na.rm=TRUE)
+    }))
+    CodifiedData_boot = cbind(CodifiedData_boot,
+                              apply(Combined_EHR_boot[Combined_EHR_boot$Enroll==1,ICDvars_adj],2,mean,na.rm=TRUE))
+    
+    est = apply(CodifiedData_boot,2,function(x) lm(x~yyear)$coefficients[2]) 
+    return(list(est=est, ICD_boot = CodifiedData_boot))
+  }, simplify = FALSE)
+  
+  est_boot = do.call(rbind,lapply(ICD_boot,`[[`,1))
+  ICD_boot = simplify2array(lapply(ICD_boot,`[[`,2))
+  colnames(est_boot) = c("code340","anyICD","code340_adj")
+  write.table(est_boot,"paper1/BootstrapResult/Figure3_estboot.dat",row.names = FALSE)
+  write.table(ICD_boot,"paper1/BootstrapResult/Figure3_ICDboot.dat",row.names = FALSE)
+}
+
+#### adjusted code 340
+tmp         = apply(Combined_EHR[Combined_EHR$Enroll==1,ICDvars_adj],2,mean,na.rm=TRUE)
+tmp         = cbind(tmp,qnorm(0.975)*apply(ICD_boot[,3,],1,sd))
+code340_Adj = data.frame(year=year, rate=tmp[,1], lwr = tmp[,1]-tmp[,2], upr = tmp[,1]+tmp[,2])
+
+est      = c(lm(code340$rate~yyear)$coefficients[2],
+             lm(anyICD$rate~yyear)$coefficients[2],
+             lm(code340_Adj$rate~yyear)$coefficients[2])
+bootsd   = apply(est_boot,2,sd)
+trend3   = cbind(est,bootsd,2*pnorm(-abs(est/bootsd)))
+colnames(trend3)  = c("est","bootsd","P-value")
+row.names(trend3) = c("code340","anyICD","code340_adj")
+
+### number of patients with code
+num_c = t(sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, Year==year[i] & Enroll==1)
+  apply(Combined_EHR[tmp,c("Code340_count","ICD_count")]>0,2,sum,na.rm=TRUE)
+}))
+
+### Figures
+# title = "Figure 3A: Average Number of Code 340 Over Years"
+code340 = addNA(code340)
+p_3A = ggplot(code340,aes(x=year, y=rate))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("")+ylab("Mean Count of\n ICD code for MS")+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("N\nn",paste(num_pp,num_c[,1],sep="\n")),position = "top",
+                     expand = c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x.top = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2013, y = 2.2, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend3["code340",3])),family="Times")
+
+# title = "Figure 3B: Average Number of any ICD Over Years"
+anyICD = addNA(anyICD)
+p_3B = ggplot(anyICD,aes(x=year, y=rate))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("")+ylab("Mean Count of\n any ICD")+
+  scale_x_continuous(breaks = year,labels = year,expand=c(0,0))+
+  theme_minimal()+
+  theme(axis.text.x = element_blank(),axis.title.x=element_blank(),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2013, y = 7, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend3["anyICD",3])),family="Times")
+
+# title = "Figure 3C: Average Number of Code 340 Over Years adjusted by total"
+code340_Adj = addNA(code340_Adj)
+p_3C = ggplot(code340_Adj,aes(x=year, y=rate))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("Year")+ylab("Adjusted Mean Count\n of ICD Code for MS")+
+  scale_x_continuous(breaks = year,labels = year,expand=c(0,0))+
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2013, y = 5, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend3["code340_adj",3])),family="Times")
+
+tiff("paper1/Fig3.tiff", units="in", width=7, height=8, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_3A,p_3B,p_3C,ncol=1))
+dev.off()
+
+trend3 = sprintf("%4.1e", trend3)
+trend3 = matrix(trend3,ncol=3)
+colnames(trend3)  = c("est","bootsd","P-value")
+row.names(trend3) = c("code340","anyICD","code340_adj")
+
+kable(trend3,caption = "Trend analysis for Figure 3.")
+```
+
+<!--Figure 4.-->
+Figure 4 . Trend of NLP mentions over time.
+
+```{r NLP, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=8,dpi=300}
+NLPData = t(sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, year==year[i] & Enroll==1)
+  c(apply(Combined_EHR[tmp,NLPvars],2,mean,na.rm=TRUE),
+    apply(Combined_EHR[tmp,NLPvars],2,sd,na.rm=TRUE))
+}))
+NLPData[,1:length(NLPvars)+length(NLPvars)] = NLPData[,1:length(NLPvars)+length(NLPvars)]*qnorm(0.975)/sqrt(num_pp)
+for(i in 1:length(NLPvars)){
+  txt = paste0(NLPvars[i],"_NLP=data.frame(year=year,avg=NLPData[,",i,"],
+                 lwr=NLPData[,",i,"]-NLPData[,",i+length(NLPvars),"],
+                 upr=NLPData[,",i,"]+NLPData[,",i+length(NLPvars),"])")
+  eval(parse(text=txt))
+}
+
+#### Bootstrap: measure of trend
+if(readinboot){
+  est_boot = read.table("paper1/BootstrapResult/Figure4_estboot.dat",header=TRUE)
+  NLP_boot = read.table("paper1/BootstrapResult/Figure4_NLPboot.dat",header=TRUE)
+  NLP_boot = array(unlist(NLP_boot),dim=c(length(year),length(NLPvars)*2,sims))
+} else{
+  set.seed(1234)
+  NLP_boot = replicate(sims,expr={
+    resam           = sample(1:NPE,NPE,replace = TRUE)
+    Combined_EHR_boot  = Combined_EHR[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NPE),]
+    
+    NLPData_boot = t(sapply(1:length(year),function(i){
+      tmp = with(Combined_EHR_boot, year==year[i] & Enroll==1)
+      apply(Combined_EHR_boot[tmp,NLPvars],2,mean,na.rm=TRUE)
+    }))
+    NLPData_boot = cbind(NLPData_boot,matrix(apply(Combined_EHR_boot[Combined_EHR_boot$Enroll==1,NLPvars_adj],2,mean,na.rm=TRUE),ncol=length(NLPvars)))
+    
+    est = apply(NLPData_boot,2,function(x) lm(x~yyear)$coefficients[2]) 
+    return(list(est=est,NLP_boot = NLPData_boot))
+  }, simplify = FALSE)
+  
+  
+  est_boot     = do.call(rbind,lapply(NLP_boot,`[[`,1))
+  NLP_boot     = simplify2array(lapply(NLP_boot,`[[`,2))
+  colnames(est_boot) = c(NLPvars,paste0(NLPvars,"_Adj"))
+  
+  write.table(est_boot,"paper1/BootstrapResult/Figure4_estboot.dat",row.names = FALSE)
+  write.table(NLP_boot,"paper1/BootstrapResult/Figure4_NLPboot.dat",row.names = FALSE)
+}
+
+tmp = matrix(apply(Combined_EHR[Combined_EHR$Enroll==1,NLPvars_adj],2,mean,na.rm=TRUE),
+             ncol=length(NLPvars))
+tmp = cbind(tmp,qnorm(0.975)*apply(NLP_boot,c(1,2),sd)[,1:length(NLPvars)+length(NLPvars)])
+for(i in 1:length(NLPvars)){
+  txt = paste0(NLPvars[i],"_Adj_NLP=data.frame(year=year,avg=tmp[,",i,"],
+                 lwr=tmp[,",i,"]-tmp[,",i+length(NLPvars),"],
+                 upr=tmp[,",i,"]+tmp[,",i+length(NLPvars),"])")
+  eval(parse(text=txt))
+}
+
+
+est      = sapply(c(NLPvars,paste0(NLPvars,"_Adj")),function(x){
+  txt = paste0("lm(",x,"_NLP$avg~yyear)$coefficients[2]")
+  eval(parse(text=txt))
+})
+bootsd   = apply(est_boot,2,sd)
+trend4   = cbind(est,bootsd,2*pnorm(-abs(est/bootsd)))
+colnames(trend4)  = c("est","bootsd","P-value")
+row.names(trend4) = c(NLPvars,paste0(NLPvars,"_Adj"))
+
+### number of patients with code
+num_NLP = t(sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, Year==year[i] & Enroll==1)
+  apply(Combined_EHR[tmp,NLPvars]>0,2,sum,na.rm=TRUE)
+}))
+
+# title = "Figure 4A: average number of NLP mention of the phrase "multiple sclerosis" per patient over time; using visit level NLP data
+MultiSc_NLP = addNA(MultiSc_NLP)
+p_4A = ggplot(MultiSc_NLP, aes(year,avg))+
+  geom_line()+
+  geom_ribbon(data = MultiSc_NLP, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("")+ylab("Mean Count of\n \"Multiple Sclerosis\"")+
+  ylim(0.1,1)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("N\nn",paste(num_pp,num_NLP[,"MultiSc"],sep="\n")),position = "top",expand = c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2013,y=0.5,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend4["MultiSc",3])),family="Times")
+
+
+# title = "Figure 4B: average number of NLP mention of the phrase "relapse" per patient over time; using visit level NLP data
+Relapse_NLP        = addNA(Relapse_NLP)
+MultiScRelapse_NLP = addNA(MultiScRelapse_NLP)
+Relapse_NLP        = rbind(data.frame(Relapse_NLP,Group="Relapse"),
+                           data.frame(MultiScRelapse_NLP,Group="Relapse+MS"))
+p_4B = ggplot(Relapse_NLP, aes(year,avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  # geom_ribbon(data = Relapse_NLP, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("")+ylab("Mean Count of\n \"Relapse\"")+
+  ylim(0.1,1)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("n",num_NLP[,"Relapse"]),
+                     position = "top",expand = c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2013,y=0.8,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend4["Relapse",3])),family="Times")+
+  annotate("text",x=2013,y=0.3,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend4["MultiScRelapse",3])),family="Times",colour = "red")
+
+# title = "Figure 4C: average number of NLP mention of the phrase "DMT" per patient over time; using visit level NLP data
+DMT_NLP        = addNA(DMT_NLP)
+MultiScDMT_NLP = addNA(MultiScDMT_NLP)
+DMT_NLP        = rbind(data.frame(DMT_NLP,Group="DMT"),
+                       data.frame(MultiScDMT_NLP,Group="DMT+MS"))
+p_4C = ggplot(DMT_NLP, aes(year,avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  # geom_ribbon(data = DMT_NLP, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("Year")+ylab("Mean Count\n of \"DMT\"")+
+  ylim(0.1,1)+
+  scale_x_continuous(breaks= year,labels = year,
+                     sec.axis = sec_axis(~ ., breaks = c(year[1]-1,year),
+                                         labels = c("n",num_NLP[,"DMT"]), name = ""),
+                     expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2013,y=0.9,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend4["DMT",3])),family="Times")+
+  annotate("text",x=2013,y=0.5,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend4["MultiScDMT",3])),family="Times",colour = "red")
+
+
+#  title = "Figure 4D: adjusted 'Multiple Sclerosis'" 
+MultiSc_Adj_NLP = addNA(MultiSc_Adj_NLP)
+p_4D = ggplot(MultiSc_Adj_NLP, aes(year,avg))+
+  geom_line()+
+  geom_ribbon(data = MultiSc_Adj_NLP, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("")+ylab("Adjusted Median Count\n of \"Multiple Sclerosis\"")+
+  ylim(0.2,0.9)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("N\nn",paste(num_pp,num_NLP[,"MultiSc"],sep="\n")),position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2013,y=0.6,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend4["MultiSc_Adj",3])),family="Times")
+
+#  title = "Figure 4E: adjusted 'relapse'"
+Relapse_Adj_NLP = addNA(Relapse_Adj_NLP)
+MultiScRelapse_Adj_NLP = addNA(MultiScRelapse_Adj_NLP)
+Relapse_Adj_NLP        = rbind(data.frame(Relapse_Adj_NLP,Group="Relapse"),
+                               data.frame(MultiScRelapse_Adj_NLP,Group="Relapse+MS"))
+p_4E = ggplot(Relapse_Adj_NLP, aes(year,avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  # geom_ribbon(data = Relapse_Adj_NLP, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("")+ylab("Adjusted Mean Count\n of \"Relapse\"")+
+  ylim(0.2,0.9)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("n",num_NLP[,"Relapse"]),position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2013,y=0.7,label = paste0("P-value for linear trend < 1e-323"),family="Times")+
+  annotate("text",x=2013,y=0.3,label = paste0("P-value for linear trend < 1e-323"),family="Times",colour = "red")
+# paste0("P-value for linear trend=",sprintf("%4.1e",trend4["Relapse_Adj",3]))
+
+
+#  title = "Figure 4F: adjusted 'DMT'"
+DMT_Adj_NLP = addNA(DMT_Adj_NLP)
+MultiScDMT_Adj_NLP = addNA(MultiScDMT_Adj_NLP)
+DMT_Adj_NLP        = rbind(data.frame(DMT_Adj_NLP,Group="DMT"),
+                               data.frame(MultiScDMT_Adj_NLP,Group="DMT+MS"))
+p_4F = ggplot(DMT_Adj_NLP, aes(year,avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  # geom_ribbon(data = DMT_Adj_NLP, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("Year")+ylab("Adjusted Mean Count\n of \"DMT\"")+
+  ylim(0.2,0.9)+
+  scale_x_continuous(breaks = year, labels = year,
+                     sec.axis = sec_axis(~ ., breaks = c(year[1]-1,year),
+                                         labels = c("n",num_NLP[,"DMT"]), name = ""),
+                     expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2013,y=0.9,label = paste0("P-value for linear trend < 1e-323"),family="Times")+
+  annotate("text",x=2013,y=0.5,label = paste0("P-value for linear trend < 1e-323"),family="Times",colour = "red")
+
+tiff("paper1/Fig4-1.tiff", units="in", width=7, height=8, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_4A,p_4B,p_4C,ncol=1))
+dev.off()
+```
+
+
+Figure 4-2. Trend of NLP mentions over time adjusted by notes, any diagnostic codes, and baseline variables.
+
+```{r NLPCont, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=8,dpi=300}
+tiff("paper1/Fig4-2.tiff", units="in", width=7, height=8, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_4D,p_4E,p_4F,ncol=1))
+dev.off()
+
+### p-values
+trend4 = sprintf("%4.1e", trend4)
+trend4 = matrix(trend4,ncol=3)
+colnames(trend4)  = c("est","bootsd","P-value")
+row.names(trend4) = c(NLPvars,paste0(NLPvars,"_Adj"))
+kable(trend4,caption = "Trend analysis of Figure 4.")
+```
+
+
+<!--Figure 5.-->
+Figure 5. Trend of health utilization over time.
+
+```{r CPT, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=8,dpi=300}
+### CPT count
+CPTdata = t(sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, Year==year[i] & Enroll==1)
+  c(apply(Combined_EHR[tmp,CPTvars],2,mean,na.rm=TRUE),
+    apply(Combined_EHR[tmp,CPTvars],2,sd,na.rm=TRUE),
+    apply(Combined_EHR[tmp,CPTvars],2,function(x) sum(x>0,na.rm=TRUE)))
+}))
+CPTdata[year<2006,c(4,8)] = NA
+CPTdata[,1:length(CPTvars)+length(CPTvars)] = CPTdata[,1:length(CPTvars)+length(CPTvars)]*qnorm(0.975)/sqrt(num_pp)
+for(i in 1:length(CPTvars)){
+  txt = paste0(CPTvars[i],"_CPT=data.frame(year=year,avg=CPTdata[,",i,"],
+                 lwr=CPTdata[,",i,"]-CPTdata[,",i+length(CPTvars),"],
+                 upr=CPTdata[,",i,"]+CPTdata[,",i+length(CPTvars),"])")
+  eval(parse(text=txt))
+}
+### number of patients with CPT
+num_cpt = CPTdata[,1:4+2*length(CPTvars)]
+### Proposition
+tmp     = num_cpt/num_pp
+tmp     = cbind(tmp,sqrt(tmp*(1-tmp)/num_pp)*qnorm(0.975)) 
+for(i in 1:length(CPTvars)){
+  txt = paste0(CPTvars[i],"_Prop_CPT=data.frame(year=year,avg=tmp[,i],
+               lwr=tmp[,i]-tmp[,i+length(CPTvars)],
+               upr=tmp[,i]+tmp[,i+length(CPTvars)])")
+  eval(parse(text=txt))
+}
+
+#### Bootstrap: measure of trend
+if(readinboot){
+  est_boot = read.table("paper1/BootstrapResult/Figure5_estboot.dat",header=TRUE)
+  CPT_boot = read.table("paper1/BootstrapResult/Figure5_CPTboot.dat",header=TRUE)
+  CPT_boot = array(unlist(CPT_boot),dim=c(length(year),length(CPTvars)*3,sims))
+} else{
+  set.seed(1234)
+  CPT_boot = replicate(sims,expr={
+    resam           = sample(1:NPE,NPE,replace = TRUE)
+    Combined_EHR_boot  = Combined_EHR[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NPE),]
+    
+    CPTdata_boot = t(sapply(1:length(year),function(i){
+      tmp = with(Combined_EHR_boot, year==year[i] & Enroll==1)
+      c(apply(Combined_EHR_boot[tmp,CPTvars],2,mean,na.rm=TRUE),
+        apply(Combined_EHR_boot[tmp,CPTvars],2,function(x) sum(x>0,na.rm=TRUE)))
+    }))
+    
+    num_cpt_boot = CPTdata_boot[,1:length(CPTvars)+length(CPTvars)]
+    CPTdata_boot = CPTdata_boot[,1:length(CPTvars)]
+    num_pp_boot  = sapply(1:length(year),function(i) sum(with(Combined_EHR_boot, Year==year[i] & Enroll==1)))
+    
+    CPTdata_boot = cbind(CPTdata_boot,matrix(apply(Combined_EHR_boot[Combined_EHR_boot$Enroll==1,CPTvars_adj],2,mean,na.rm=TRUE),ncol=length(CPTvars)))
+    CPTdata_boot[,8] = apply(Combined_EHR_boot[Combined_EHR_boot$Enroll==1 & Combined_EHR_boot$Year>=2006,paste0("Solu_Adj_Year",year)],2,mean,na.rm=TRUE)
+    
+    CPTdata_boot = cbind(CPTdata_boot,num_cpt_boot/num_pp_boot)
+    CPTdata_boot[year<2006,c(4,8,12)] = NA
+    
+    est = sapply(1:ncol(CPTdata_boot),function(x){
+      if(x%%4==0){
+        lm(CPTdata_boot[year>=2006,x]~yyear[year>=2006])$coefficients[2]
+      } else{
+        lm(CPTdata_boot[,x]~yyear)$coefficients[2]
+      }
+    }) 
+    return(list(est = est, CPT_boot = CPTdata_boot))
+  }, simplify = FALSE)
+  
+  est_boot = do.call(rbind,lapply(CPT_boot,`[[`,1))
+  CPT_boot = simplify2array(lapply(CPT_boot,`[[`,2))
+  colnames(est_boot) = c(CPTvars,paste0(CPTvars,"_Adj"),paste0(CPTvars,"_Prop"))
+  write.table(est_boot,"paper1/BootstrapResult/Figure5_estboot.dat",row.names = FALSE)
+  write.table(CPT_boot,"paper1/BootstrapResult/Figure5_CPTboot.dat",row.names = FALSE)
+}
+
+tmp = matrix(apply(Combined_EHR[Combined_EHR$Enroll==1,CPTvars_adj],2,mean,na.rm=TRUE),
+             ncol=length(CPTvars))
+tmp[,4] = apply(Combined_EHR[Combined_EHR$Enroll==1 & Combined_EHR$Year>=2006,paste0("Solu_Adj_Year",year)],2,mean,na.rm=TRUE)
+tmp     = cbind(tmp,qnorm(0.975)*apply(CPT_boot,c(1,2),sd)[,1:length(CPTvars)+length(CPTvars)])
+tmp[year<2006,c(4,8)] = NA
+for(i in 1:length(CPTvars)){
+  txt = paste0(CPTvars[i],"_Adj_CPT=data.frame(year=year,avg=tmp[,",i,"],
+                 lwr=tmp[,",i,"]-tmp[,",i+length(CPTvars),"],
+                 upr=tmp[,",i,"]+tmp[,",i+length(CPTvars),"])")
+  eval(parse(text=txt))
+}
+
+est      = sapply(c(CPTvars,paste0(CPTvars,"_Adj"),paste0(CPTvars,"_Prop")),function(x){
+  if(x%in%c("Solu","Solu_Adj","Solu_Prop")){
+    txt = paste0("lm(",x,"_CPT$avg[year>=2006]~yyear[year>=2006])$coefficients[2]")
+  } else{
+    txt = paste0("lm(",x,"_CPT$avg~yyear)$coefficients[2]")
+  }
+  eval(parse(text=txt))
+})
+bootsd   = apply(est_boot,2,sd)
+trend5   = cbind(est,bootsd,2*pnorm(-abs(est/bootsd)))
+colnames(trend5)  = c("est","bootsd","P-value")
+row.names(trend5) = c(CPTvars,paste0(CPTvars,"_Adj"),paste0(CPTvars,"_Prop"))
+
+### Figures
+# title = "Figure 5A: average number of MRI per patient over time"
+MRI_CPT      = addNA(MRI_CPT)
+MRI_Prop_CPT = addNA(MRI_Prop_CPT)
+MRI_CPT      = rbind(data.frame(MRI_CPT,Group="Count"),
+                     data.frame(MRI_Prop_CPT,Group="Prop"))
+p_5A = ggplot(MRI_CPT,aes(x=year, y=avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  xlab("")+ylab("Mean Count of\n MRI Scan")+
+  ylim(0,1)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("N\nn",paste(num_pp,num_cpt[,"MRI"],sep="\n")),position = "top",
+                     expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"),
+        legend.position = "none")+
+  annotate("text",x=2013,y=1,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["MRI",3])),family="Times")+
+  annotate("text",x=2013,y=0.4,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["MRI_Prop",3])),family="Times",colour = "red")
+# title = Figure 5B: average number of hospital discharge per patient over time
+HD_CPT = addNA(HD_CPT)
+HD_Prop_CPT = addNA(HD_Prop_CPT)
+HD_CPT      = rbind(data.frame(HD_CPT,Group="Count"),
+                    data.frame(HD_Prop_CPT,Group="Prop"))
+p_5B = ggplot(HD_CPT,aes(x=year, y=avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  xlab("")+ylab("Mean  Count of\n Hospital Admission")+
+  ylim(0,1)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("n",num_cpt[,"HD"]),position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"),
+        legend.position = "none")+
+  annotate("text",x=2013,y=0.25,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["HD",3])),family="Times")+
+  annotate("text",x=2013,y=0,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["HD_Prop",3])),family="Times",colour = "red")
+# title = Figure 5C: average number of ED visit per patient over time
+ED_CPT = addNA(ED_CPT)
+ED_Prop_CPT = addNA(ED_Prop_CPT)
+ED_CPT      = rbind(data.frame(ED_CPT,Group="Count"),
+                    data.frame(ED_Prop_CPT,Group="Prop"))
+p_5C = ggplot(ED_CPT,aes(x=year, y=avg,colour=Group))+
+  geom_line()+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  xlab("Year")+ylab("Mean Count of\n Emergency Department Visit")+
+  ylim(0,1)+
+  scale_x_continuous(breaks = year, labels = year,
+                     sec.axis = sec_axis(~ ., breaks = c(year[1]-1,year),
+                                         labels = c("n",num_cpt[,"ED"]), name = ""),expand=c(0,0))+
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"),
+        legend.position = "none")+
+  annotate("text",x=2013,y=0.25,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["ED",3])),family="Times")+
+  annotate("text",x=2013,y=0,label = paste0("P-value for linear trend = ",
+                                            sprintf("%4.1e",trend5["ED",3])),family="Times",colour = "red")
+# title = Figure 5D: average number of Solumedrol per patient over time
+Solu_CPT = Solu_CPT[year>=2006,]
+Solu_CPT = addNA(Solu_CPT)
+Solu_CPT[1,1] = 2005
+p_5D = ggplot(Solu_CPT,aes(x=year, y=avg))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("")+ylab("Mean Count of\n Methylprednisolone Infusion")+
+  scale_x_continuous(breaks = c(2005,year[year>=2006]), labels = c("n",num_cpt[year>=2006,"Solu"]),position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2014,y=1.25,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["Solu",3])),family="Times")
+
+tiff("paper1/Fig5-1.tiff", units="in", width=7, height=8, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_5A,p_5B,p_5C,ncol=1))
+dev.off()
+```
+
+Figure 5-2. Trend of health utilization over time adjusted by notes, any diagnostic codes, and baseline variables.
+```{r CPTCont, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=8,dpi=300}
+# title = "Figure 5E: average adjusted number of MRI per patient over time"
+MRI_Adj_CPT = addNA(MRI_Adj_CPT)
+MRI_Adj_CPT = rbind(data.frame(MRI_Adj_CPT,Group="Count"),
+                    data.frame(MRI_Prop_CPT,Group="Prop"))
+p_5E = ggplot(MRI_Adj_CPT,aes(x=year, y=avg, colour=Group))+
+  geom_line(aes(linetype=Group))+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  scale_linetype_discrete(name="")+
+  xlab("")+ylab("")+
+  ylim(0,1.5)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("N\nn",paste(num_pp,num_cpt[,"MRI"],sep = "\n")),position = "top",expand=c(0,0)) +
+  scale_y_continuous(
+    "Adjusted Mean Count of\n MRI Scan", limits=c(0,1.5),
+    sec.axis = sec_axis(~., labels = c(0.0,0.5,1.0,""),name = "Proportions of Participants with\n any MRI Scan"))+
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"),
+        axis.text.y.right = element_text(color = "red"),
+        axis.title.y.right = element_text(color = "red"),
+        legend.position = "none")+
+  annotate("text",x=2013,y=1.0,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["MRI_Adj",3])),family="Times")+
+  annotate("text",x=2013,y=0.2,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["MRI_Prop",3])),family="Times",colour="red")
+# 
+# title = Figure 5F: average adjusted number of hospital discharge per patient over time
+HD_Adj_CPT = addNA(HD_Adj_CPT)
+HD_Adj_CPT = rbind(data.frame(HD_Adj_CPT,Group="Count"),
+                   data.frame(HD_Prop_CPT,Group="Prop"))
+p_5F = ggplot(HD_Adj_CPT,aes(x=year, y=avg, colour=Group))+
+  geom_line(aes(linetype=Group))+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  scale_linetype_discrete(name="")+
+  xlab("")+ylab("")+
+  ylim(0,1.5)+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("n",num_cpt[,"HD"]),position = "top",expand=c(0,0)) +
+  scale_y_continuous(
+    "Adjusted Mean Count of\n Hospital Admission", limits=c(0,1.5),
+    sec.axis = sec_axis(~., labels = c(0.0,0.5,1.0,""), name = "Proportions of Participants with\n any Hospital Admission"))+
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"),
+        axis.text.y.right = element_text(color = "red"),
+        axis.title.y.right = element_text(color = "red"),
+        legend.position = "none")+
+  annotate("text",x=2013,y=0.25,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["HD_Adj",3])),family="Times")+
+  annotate("text",x=2013,y=0,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["HD_Prop",3])),family="Times",colour="red")
+# title = Figure 5G: average adjusted number of ED visit per patient over time
+ED_Adj_CPT = addNA(ED_Adj_CPT)
+ED_Adj_CPT = rbind(data.frame(ED_Adj_CPT,Group="Count"),
+                   data.frame(ED_Prop_CPT,Group="Prop"))
+p_5G = ggplot(ED_Adj_CPT,aes(x=year, y=avg, colour=Group))+
+  geom_line(aes(linetype=Group))+
+  geom_point(aes(shape = Group), size = 1.5) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=Group),alpha = 0.2,colour=NA) +
+  scale_color_manual(name = "", values=c("black", "red"))+
+  scale_fill_manual(name = "", values=c("black", "red"))+
+  scale_shape_discrete(name  ="")+
+  scale_linetype_discrete(name="")+
+  xlab("Year")+ylab("")+
+  ylim(0,1.5)+
+  scale_x_continuous(breaks = year, labels = year,
+                     sec.axis = sec_axis(~ ., breaks = c(year[1]-1,year),
+                                         labels = c("n",num_cpt[,"ED"]), name = ""),expand=c(0,0))+
+  scale_y_continuous(
+    "Adjusted Mean Count of\n Emergency Department Visit", limits=c(0,1.5),
+    sec.axis = sec_axis(~., labels = c(0.0,0.5,1.0,""), name = "Proportions of Participants with\n any Emergency Department Visit"))+
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"),
+        axis.text.y.right = element_text(color = "red"),
+        axis.title.y.right = element_text(color = "red"),
+        legend.position = "none")+
+  annotate("text",x=2013,y=0.25,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["ED_Adj",3])),family="Times")+
+  annotate("text",x=2013,y=0,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["ED_Prop",3])),family="Times",colour="red")
+# title = Figure 5H: average number of adjusted Solumedrol per patient over time
+Solu_Adj_CPT = Solu_Adj_CPT[year>=2006,]
+Solu_Adj_CPT = addNA(Solu_Adj_CPT)
+Solu_Adj_CPT[1,1] = 2005
+p_5H = ggplot(Solu_Adj_CPT,aes(x=year, y=avg))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("")+ylab("Adjusted Mean Count of\n Methylprednisolone Prescription")+
+  ylim(0,1.7)+
+  scale_x_continuous(breaks = c(2005,year[year>=2006]), labels = c("N\nn",paste(num_pp[year>=2006],num_cpt[year>=2006,"Solu"],sep="\n")), position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2008,y=0.3,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trend5["Solu_Adj",3])),family="Times")
+
+tiff("paper1/Fig5-2.tiff", units="in", width=7, height=8, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_5E,p_5F,p_5G,ncol=1))
+dev.off()
+
+### p-values
+trendS2 = trend5[c(4,8),]
+trend5 = sprintf("%4.1e", trend5)
+trend5 = matrix(trend5,ncol=3)
+colnames(trend5)  = c("est","bootsd","P-value")
+row.names(trend5) = c(CPTvars,paste0(CPTvars,"_Adj"),paste0(CPTvars,"_Prop"))
+kable(trend5[-c(4,8,12),],caption = "Trend analysis of Figure 5.")
+```
+
+
+Supplementary Table 1: published results. 
+```{r supp table1, echo=FALSE,message=FALSE}
+RR          = c(0.488, 0.557, 0.350, 0.276, 0.604, 0.310) # reduction rate
+RR2         = c(0.195, 0.263, 0.269, 0.277, 0.242, 0.306)
+tmp = rbind(c(NA,0.464),cbind(RR,RR2))
+row.names(tmp) = c("placebo",Trt_Used[-1])
+kable(tmp,col.names = c("Average reduction rate","Average relapse rate"),caption = "Table 3. Average reduction rate of DMTs over placebo extracted from various literatures.")
+```
+
+Supplementary Figure 1: Temporal trend of incident clinical and radiographic relapse rate.
+```{r suppF1, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=6,dpi=300}
+### clinical/radiological relapses
+num_r_clin = sapply(year, function(s) with(MS_attack,sum(clinical[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) 
+num_r_radi = sapply(year, function(s) with(MS_attack,sum(radiographic[onset_year==s & format(FIRST_DATE,"%Y")<=s & format(LAST_DATE,"%Y")>=s]))) 
+
+rate  = num_r_clin/num_p
+df    = data.frame(year = year,rate = rate) 
+df    = data.frame(df, lwr = rate - qnorm(0.975)*sqrt(rate*(1-rate)/num_p),
+                   upr = rate + qnorm(0.975)*sqrt(rate*(1-rate)/num_p))
+est   = lm(rate~yyear)$coefficients[2] 
+bootest = sapply(1:500,function(i){
+  lm(as.numeric(meanrate[i,seq_along(year)+length(year)+2])~yyear)$coef[2]
+})
+bootsd  = sd(bootest)
+trendS  = c(est,bootsd,2*pnorm(-abs(est/bootsd)))
+# title = "S-Fig 1A: Incident Clinical Relapse Rate over Years"
+df    = addNA(df)
+p_cli = ggplot(df, aes(year,rate))+
+  geom_line(data = df)+
+  xlab("")+ylab("Clinical\n Incident Relapse Rate")+
+  ylim(0,0.16)+
+  geom_ribbon(data = df, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  theme_minimal()+
+  scale_x_continuous(breaks = c(year[1]-1,year),labels = c("N",num_p),position = "top",expand=c(0,0))+
+  theme(axis.text.x.top = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2003,y=0.05,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trendS[3])),family="Times")
+
+rate  = num_r_radi/num_p
+df    = data.frame(year = year,rate = rate) 
+df    = data.frame(df, lwr = rate - qnorm(0.975)*sqrt(rate*(1-rate)/num_p),
+                   upr = rate + qnorm(0.975)*sqrt(rate*(1-rate)/num_p))
+est   = lm(rate~yyear)$coefficients[2]
+bootest = sapply(1:500,function(i){
+  lm(as.numeric(meanrate[i,seq_along(year)+2*length(year)+2])~yyear)$coef[2]
+})
+bootsd  = sd(bootest)
+trendS  = rbind(trendS,c(est,bootsd,2*pnorm(-abs(est/bootsd))))
+# title = "S-Fig 1B: Incident Radiographic Relapse Rate over Years"
+df    = addNA(df)
+p_rad = ggplot(df, aes(year,rate))+
+  geom_line(data = df)+
+  xlab("Year")+ylab("Radiographic\n Incident Relapse Rate")+
+  ylim(0,0.16)+
+  scale_x_continuous(breaks= year,labels = year,expand=c(0,0)) +
+  geom_ribbon(data = df, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2003,y=0.1,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trendS[2,3])),family="Times")
+
+tiff("paper1/FigS-1.tiff", units="in", width=7, height=6, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_cli,p_rad,ncol=1)) 
+dev.off()
+
+### p-values
+trendS = sprintf("%4.1e", trendS)
+trendS = matrix(trendS,ncol=3)
+colnames(trendS)  = c("est","bootsd","P-value")
+row.names(trendS) = c("Clinical Incident Relapse","Radiographic Incident Relapse")
+kable(trendS,caption = "Trend analysis of Figure S1.")
+```
+
+
+Supplementary Figure 2: proportion of patients under each treatment. 
+```{r suppF2, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=6,dpi=300}
+ITFData = t(sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, Year==year[i] & Enroll==1)
+  c(mean(Combined_EHR[tmp,ITFvars],na.rm=TRUE),
+    sd(Combined_EHR[tmp,ITFvars],na.rm=TRUE))
+}))
+ITFData[year<2006,] = NA
+####
+ITFData[,1:length(ITFvars)+length(ITFvars)] = ITFData[,1:length(ITFvars)+length(ITFvars)]*qnorm(0.975)/sqrt(num_pp)
+#### interferon
+ITF     = data.frame(year=year,rate=ITFData[,1],
+                     lwr = ITFData[,1]-ITFData[,length(ITFvars)+1],
+                     upr = ITFData[,1]+ITFData[,length(ITFvars)+1])
+
+#### Bootstrap: measure of trend
+if (readinboot) {
+  est_boot = read.table("paper1/BootstrapResult/FigureS2_estboot.dat",header=TRUE)
+  ITF_boot = read.table("paper1/BootstrapResult/FigureS2_ITFboot.dat",header=TRUE)
+  ITF_boot = array(unlist(ITF_boot),dim=c(length(year),length(ITFvars)*2,sims))
+} else{
+  set.seed(1234)
+  ITF_boot = replicate(sims,expr={
+    resam           = sample(1:NPE,NPE,replace = TRUE)
+    Combined_EHR_boot  = Combined_EHR[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NPE),]
+    ITFdata_boot = sapply(1:length(year),function(i){
+      tmp = with(Combined_EHR_boot, year==year[i] & Enroll==1)
+      mean(Combined_EHR_boot[tmp,ITFvars],na.rm=TRUE)
+    })
+    ITFdata_boot = cbind(ITFdata_boot,apply(Combined_EHR_boot[Combined_EHR_boot$Enroll==1 & Combined_EHR_boot$Year>=2006,ITFvars_adj],2,mean,na.rm=TRUE))
+    ITFdata_boot[year<2006,] = NA
+    
+    est = apply(ITFdata_boot[year>=2006,],2,function(x) lm(x~yyear[year>=2006])$coefficients[2]) 
+    return(list(est = est, ITF_boot = ITFdata_boot))
+  }, simplify = FALSE)
+  
+  
+  est_boot  = do.call(rbind,lapply(ITF_boot,`[[`,1))
+  ITF_boot  = simplify2array(lapply(ITF_boot,`[[`,2))
+  colnames(est_boot) = c(ITFvars,"Interferon_Adj")
+  write.table(est_boot,"paper1/BootstrapResult/FigureS2_estboot.dat",row.names = FALSE)
+  write.table(ITF_boot,"paper1/BootstrapResult/FigureS2_ITFboot.dat",row.names = FALSE)
+}
+
+#### adjusted interferon
+tmp     = apply(Combined_EHR[Combined_EHR$Enroll==1 & Combined_EHR$Year>=2006,ITFvars_adj],2,mean,na.rm=TRUE)
+tmp     = cbind(tmp,qnorm(0.975)*apply(ITF_boot[year>=2006,2,],1,sd))
+tmp[year<2006,] = NA
+ITF_Adj = data.frame(year=year, rate=tmp[,1], lwr = tmp[,1]-tmp[,2], upr = tmp[,1]+tmp[,2])
+row.names(ITF_Adj) = NULL
+
+est      = c(lm(ITF$rate[year>=2006]~yyear[year>=2006])$coefficients[2],
+             lm(ITF_Adj$rate[year>=2006]~yyear[year>=2006])$coefficients[2] )
+bootsd   = apply(est_boot,2,sd)
+trendS2 = rbind(trendS2,cbind(est,bootsd,2*pnorm(-abs(est/bootsd))))
+colnames(trendS2)  = c("est","bootsd","P-value")
+row.names(trendS2) = c("Methylprednisolone","Methylprednisolone_Adj",
+                       ITFvars,"Interferon_Adj")
+
+
+num_ITF = sapply(1:length(year),function(i){
+  tmp = with(Combined_EHR, Year==year[i] & Enroll==1)
+  sum(Combined_EHR[tmp,ITFvars]>0)
+})
+
+ITF_Adj = ITF_Adj[year>=2006,]
+ITF_Adj = addNA(ITF_Adj)
+ITF_Adj[1,1] = 2005
+p_S2 = ggplot(ITF_Adj,aes(x=year, y=rate))+
+  geom_line()+
+  geom_ribbon(aes(ymin=lwr,ymax=upr),alpha=0.3)+
+  xlab("Year")+ylab("Adjusted Mean Count of\n IFN-beta Prescription")+
+  ylim(0,1.62)+
+  scale_x_continuous(breaks = year[year>=2006], labels = year[year>=2006],
+                     sec.axis = sec_axis(~ ., breaks = c(2005,year[year>=2006]),
+                                         labels = c("n",num_ITF[year>=2006]), name = ""),expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text",x=2008,y=1.,label = paste0("P-value for linear trend = ",sprintf("%4.1e",trendS2["Interferon_Adj",3])),family="Times")
+
+tiff("paper1/FigS-2.tiff", units="in", width=7, height=6, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_5H,p_S2,ncol=1))
+dev.off()
+
+### p-values
+trendS2 = sprintf("%4.1e", trendS2)
+trendS2 = matrix(trendS2,ncol=3)
+colnames(trendS2)  = c("est","bootsd","P-value")
+row.names(trendS2) = c("Methylprednisolone","Methylprednisolone_Adj",ITFvars,"Interferon_Adj")
+kable(trendS2[-c(1,3),],caption = "Trend analysis of Figure S2.")
+```
+
+
+Supplementary Figure 3: frequency of NLP mentions. 
+```{r suppF3, echo=FALSE,message=FALSE,warning=FALSE,fig.width=7, fig.height=6,dpi=300}
+aa = t(sapply(year,function(x){
+  tmp = with(Combined_EHR,Year==x & Enroll==1)
+  c(apply(Combined_EHR[tmp,NLPvarsRaw]/Combined_EHR$Encounters[tmp],2,mean,na.rm=TRUE),
+    apply(Combined_EHR[tmp,NLPvarsRaw]/Combined_EHR$Encounters[tmp],2,sd,na.rm=TRUE))
+}))
+aa[,seq_along(NLPvarsRaw)+length(NLPvarsRaw)] = qnorm(0.975)*aa[,seq_along(NLPvarsRaw)+length(NLPvarsRaw)]/sqrt(num_pp)
+
+
+if (readinboot) {
+  est_boot  = read.table("paper1/BootstrapResult/FigureS3_estboot.dat",header=TRUE)
+  NLPf_boot = read.table("paper1/BootstrapResult/FigureS3_NLPfboot.dat",header=TRUE)
+  NLPf_boot = array(unlist(NLPf_boot),dim=c(length(year),length(NLPvarsRaw),sims))
+} else{
+  set.seed(1234)
+  NLPf_boot = replicate(sims,expr={
+    resam           = sample(1:NPE,NPE,replace = TRUE)
+    Combined_EHR_boot  = Combined_EHR[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NPE),]
+    
+    NLPfdata_boot = t(sapply(year,function(x){
+      tmp = with(Combined_EHR_boot,Year==x & Enroll==1)
+      apply(Combined_EHR_boot[tmp,NLPvarsRaw]/Combined_EHR_boot$Encounters[tmp],2,mean,na.rm=TRUE)
+    }))
+    
+    est = sapply(1:length(NLPvarsRaw),function(x){
+      lm(NLPfdata_boot[,x]~yyear)$coefficients[2]
+    }) 
+    return(list(est = est, NLPf_boot = NLPfdata_boot))
+  }, simplify = FALSE)
+  
+  est_boot  = do.call(rbind,lapply(NLPf_boot,`[[`,1))
+  NLPf_boot = simplify2array(lapply(NLPf_boot,`[[`,2))
+  colnames(est_boot) = NLPvarsRaw
+  write.table(est_boot,"paper1/BootstrapResult/FigureS3_estboot.dat",row.names = FALSE)
+  write.table(NLPf_boot,"paper1/BootstrapResult/FigureS3_NLPfboot.dat",row.names = FALSE)
+}
+est      = sapply(1:length(NLPvarsRaw),function(x){
+  lm(aa[,x]~yyear)$coefficients[2]
+})
+bootsd   = apply(est_boot,2,sd)
+trendS3   = cbind(est,bootsd,2*pnorm(-abs(est/bootsd)))
+colnames(trendS3)  = c("est","bootsd","P-value")
+row.names(trendS3) = NLPvarsRaw
+
+
+
+df    = data.frame(year=year,freq=aa[,1],lwr = aa[,1] - aa[,1+length(NLPvarsRaw)],
+                   upr = aa[,1] + aa[,1+length(NLPvarsRaw)])
+
+df    = addNA(df)
+p_S3A = ggplot(df,aes(x=year, y=freq))+
+  geom_line()+
+  geom_ribbon(data = df, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("")+ylab("Average Frequency\n of \"Multiple Sclerosis\"")+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("N\nn",paste(num_pp,num_NLP[,"MultiSc"],sep="\n")),position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2003, y=0.35, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trendS3["MultiSc.Raw",3])),family = "Times")
+
+
+df    = data.frame(year=year,freq=aa[,2],lwr = aa[,2] - aa[,2+length(NLPvarsRaw)],
+                   upr = aa[,2] + aa[,2+length(NLPvarsRaw)])
+df    = addNA(df)
+p_S3B = ggplot(df,aes(x=year, y=freq))+
+  geom_line()+
+  geom_ribbon(data = df, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("")+ylab("Average Frequency\n of \"Relapse\"")+
+  scale_x_continuous(breaks = c(year[1]-1,year), labels = c("n",num_NLP[,"Relapse"]),position = "top",expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2003, y=0.175, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trendS3["Relapse.Raw",3])),family = "Times")
+
+df    = data.frame(year=year,freq=aa[,3],lwr = aa[,3] - aa[,3+length(NLPvarsRaw)],
+                   upr = aa[,3] + aa[,3+length(NLPvarsRaw)])
+df    = addNA(df)
+p_S3C = ggplot(df,aes(x=year, y=freq))+
+  geom_line()+
+  geom_ribbon(data = df, aes(ymin = lwr, ymax = upr), alpha = 0.3) +
+  xlab("Year")+ylab("Average Frequency\n of \"DMT\"")+
+  scale_x_continuous(breaks = year, labels = year,
+                     sec.axis = sec_axis(~ ., breaks = c(year[1]-1,year),
+                                         labels = c("n",num_NLP[,"DMT"]), name = ""),
+                     expand=c(0,0)) +
+  theme_minimal()+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times"))+
+  annotate("text", x = 2003, y=0.4, label = paste0("P-value for linear trend = ",sprintf("%4.1e",trendS3["DMT.Raw",3])),family = "Times")
+
+tiff("paper1/FigS-3.tiff", units="in", width=7, height=8, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_S3A,p_S3B,p_S3C,ncol=1))
+dev.off()
+
+
+### p-values
+trendS3 = sprintf("%4.1e", trendS3)
+trendS3 = matrix(trendS3,ncol=3)
+colnames(trendS3)  = c("est","bootsd","P-value")
+row.names(trendS3) = NLPvarsRaw
+kable(trendS3,caption = "Trend analysis of Figure S3.")
+
+```
+Supplementary Figure 4: higher vs standard efficacy drugs
+```{r suppF4, echo=FALSE, message=FALSE, warning=FALSE}
+### Supp Fig 4A: Percent of total participants receiving higher vs. standard efficacy MS treatments over time
+higher_eff <- c("rituximab", "natalizumab")
+standard_eff <- c("dimethyl_fumarate","fingolimod","glatiramer_acetate","interferon","teriflunomide")
+num_trt     = sapply(1:length(year),function(i) apply(Combined[0:(length(PatientID)-1)*length(year)+i,Trt_Used],2,sum))
+num_trt     = data.frame(year = year, t(num_trt))
+num_trt <- cbind(num_trt$year, with(num_trt, rituximab+natalizumab), with(num_trt, dimethyl_fumarate+fingolimod+glatiramer_acetate+interferon+teriflunomide))
+colnames(num_trt) <- c("year", "higher_efficacy", "standard_efficacy")
+
+rate_trt_higher <- sapply(1:length(year),function(i) sum(apply(Combined[0:(length(PatientID)-1)*length(year)+i,higher_eff],1,sum)>0))/num_p  
+tmp <- qnorm(0.975)*sqrt(rate_trt_higher*(1-rate_trt_higher)/num_p)
+rate_trt_higher = data.frame(year=year,rate = rate_trt_higher,lwr = rate_trt_higher - tmp, upr = rate_trt_higher + tmp)
+
+rate_trt_standard <- sapply(1:length(year),function(i) sum(apply(Combined[0:(length(PatientID)-1)*length(year)+i,standard_eff],1,sum)>0))/num_p
+tmp <- qnorm(0.975)*sqrt(rate_trt_standard*(1-rate_trt_standard)/num_p)
+rate_trt_standard = data.frame(year=year,rate = rate_trt_standard,lwr = rate_trt_standard - tmp, upr = rate_trt_standard + tmp)
+
+### Supp Fig 4B: relative incident relapse rate of untreated vs. treated with standard efficacy vs treated with higher efficacy
+tmp       = apply(Combined[,Trt_Used]==0,1,all)
+tmp2      = Combined$Enroll==1
+num_p_byTrt = aggregate(tmp*tmp2,by=list(Combined$Year),FUN=sum)
+colnames(num_p_byTrt) = c("year","Untreated")
+tmp3       = apply(Combined[,higher_eff] != 0,1,any)
+tmp4 = aggregate(tmp3*tmp2,by=list(Combined$Year),FUN=sum)
+num_p_byTrt = data.frame(num_p_byTrt, "treated_higher_eff"=tmp4$x)
+num_p_byTrt$treated_standard_eff = num_p - with(num_p_byTrt, Untreated+treated_higher_eff)
+PlaceboRR = t(sapply(year,function(yy){
+  c(mean(Combined$relapse[with(Combined,Year==yy & tmp & tmp2)]>0),
+    mean(Combined$relapse[with(Combined,Year==yy & tmp3 & tmp2)]>0),
+    mean(Combined$relapse[with(Combined,Year==yy & !(tmp | tmp3) & tmp2)]>0))
+}))
+colnames(PlaceboRR) = c("Untreated","treated_higher_eff","treated_standard_eff")
+PlaceboRR = data.frame(year=year,PlaceboRR)
+
+
+
+######################### Bootstrap: measure of trend #########################
+if(readinboot){
+  boot = read.table("paper1/BootstrapResult/FigureS4boot.dat",header = TRUE)
+  colnames(boot) = c("Trt Higher Percent","Trt Standard Percent", "Untreated Relapse Rate","Treated Higher Relapse Rate", "Treated Standard Relapse Rate")
+} else{
+  set.seed(1234)
+  boot = replicate(n=sims,expr = {
+    resam         = sample(NP,NP,replace = TRUE)
+    Combined_boot = Combined[rep((resam-1)*length(year),each=length(year))+rep(1:length(year),NP),]
+    num_p_boot    = sapply(1:length(year),function(i) with(Combined_boot[0:(length(PatientID)-1)*length(year)+i,],
+                                                           sum(Enroll==1, na.rm =TRUE)))
+    
+    rate_trt_higher_boot <- sapply(1:length(year),function(i) sum(apply(Combined_boot[0:(length(PatientID)-1)*length(year)+i,higher_eff],1,sum)>0))/num_p_boot  
+
+rate_trt_standard_boot <- sapply(1:length(year),function(i) sum(apply(Combined_boot[0:(length(PatientID)-1)*length(year)+i,standard_eff],1,sum)>0))/num_p_boot
+    
+    tmp            = apply(Combined_boot[,Trt_Used]==0,1,all)
+    tmp2           = Combined_boot$Enroll==1
+    PlaceboRR_boot = t(sapply(year,function(yy){
+      c(mean(Combined_boot$relapse[with(Combined_boot,Year==yy & tmp & tmp2)]>0),
+        mean(Combined_boot$relapse[with(Combined_boot,Year==yy & {!tmp} & tmp2)]>0))###
+    }))
+    
+    tmp       = apply(Combined_boot[,Trt_Used]==0,1,all)
+    tmp2      = Combined_boot$Enroll==1
+    tmp3       = apply(Combined_boot[,higher_eff] != 0,1,any)
+    PlaceboRR_boot = t(sapply(year,function(yy){
+      c(mean(Combined_boot$relapse[with(Combined_boot,Year==yy & tmp & tmp2)]>0),
+        mean(Combined_boot$relapse[with(Combined_boot,Year==yy & tmp3 & tmp2)]>0),
+        mean(Combined_boot$relapse[with(Combined_boot,Year==yy & !(tmp | tmp3) & tmp2)]>0))
+    }))
+
+    c(lm(rate_trt_higher_boot~yyear)$coef[2],
+      lm(rate_trt_standard_boot~yyear)$coef[2],
+      lm(PlaceboRR_boot[,1]~yyear)$coef[2],
+      lm(PlaceboRR_boot[,2]~yyear)$coef[2],
+      lm(PlaceboRR_boot[,3]~yyear)$coef[2])
+  })
+  boot = t(boot)
+  colnames(boot) = c("Trt Higher Percent","Trt Standard Percent", "Untreated Relapse Rate","Treated Higher Relapse Rate", "Treated Standard Relapse Rate")
+  write.table(boot,"paper1/BootstrapResult/FigureS4boot.dat",row.names = FALSE)
+}
+
+est = c(lm(rate_trt_higher$rate~yyear)$coef[2],
+        lm(rate_trt_standard$rate~yyear)$coef[2],
+        lm(PlaceboRR$Untreated~yyear)$coef[2],
+        lm(PlaceboRR$treated_higher_eff~yyear)$coef[2],
+        lm(PlaceboRR$treated_standard_eff~yyear)$coef[2])
+names(est) = c("Trt Higher Percent","Trt Standard Percent", "Untreated Relapse Rate","Treated Higher Relapse Rate", "Treated Standard Relapse Rate")
+bootsd = apply(boot,2,sd)
+trendS4  = cbind(est,bootsd,2*pnorm(-abs(est/bootsd)))
+colnames(trendS4)  = c("est","bootsd","P-value")
+
+### Get Figures
+# title = "Supplementary Figure 4A: Percent of total participants receiving higher vs. standard efficacy MS treatment over time"
+rate_trt_higher = addNA(rate_trt_higher)
+rate_trt_higher$group <- rep(1, nrow(rate_trt_higher))
+rate_trt_standard = addNA(rate_trt_standard)
+rate_trt_standard$group <- rep(0, nrow(rate_trt_standard))
+rate_trt_grouped <- rbind(rate_trt_higher, rate_trt_standard)
+rate_trt_grouped$group <- ifelse(rate_trt_grouped$group == 0, "Standard-Efficacy", "High-Efficacy")
+rate_trt_grouped$group <- factor(rate_trt_grouped$group, levels=c("Standard-Efficacy", "High-Efficacy"))
+
+p_S4A = ggplot(rate_trt_grouped, aes(x=year, y=rate, group=group))+
+  geom_point(aes(shape = group, colour=group), size = 1.5)+
+  geom_line(aes(colour=group))+
+  xlab("Year")+ylab("Percentage of Participants")+
+  scale_x_continuous(breaks = year, labels = year,expand=c(0,0)) +
+  geom_ribbon(aes(ymin = lwr, ymax = upr, fill=group),alpha = 0.3) + 
+  theme_minimal()+
+  theme(axis.text.x = element_blank(),axis.title.x=element_blank(),
+        text=element_text(size=12,family="Times"))+
+  scale_colour_manual("", 
+                      values = c("Standard-Efficacy"="green", "High-Efficacy"="blue"))+
+  scale_fill_manual("",values = c("Standard-Efficacy"="green", "High-Efficacy"="blue"))+
+  scale_shape_manual("", values=c(17,15))+
+  annotate("text", x = 2009, y=0.2, label = paste0("P-value for linear trend; High-Efficacy = ",sprintf("%4.1e",as.numeric(trendS4["Trt Higher Percent",3]))),family="Times",size=3)+
+  annotate("text", x = 2006.5, y=0.7, label = paste0("P-value for linear trend; Standard-Efficacy = ",sprintf("%4.1e",as.numeric(trendS4["Trt Standard Percent",3]))),family="Times",size=3)
+
+
+# title = "Supplementary Figure 4B: Expected incident relapse rate relative to the placebo"
+### relapse rate, treated with higher efficacy vs treated with standard efficacy vs untreated
+PlaceboRR   = addNA(PlaceboRR)
+num_p_byTrt = addNA(num_p_byTrt)
+PlaceboRR   = melt(PlaceboRR,id="year")
+colnames(PlaceboRR) = c("year","TorUT","rate")
+tmp         = qnorm(0.975)*unlist(sqrt(PlaceboRR[,3]*(1-PlaceboRR[,3])/unlist(num_p_byTrt[,-1])),use.names = FALSE)
+PlaceboRR   = data.frame(PlaceboRR,lwr = PlaceboRR$rate-tmp,upr = PlaceboRR$rate+tmp)
+PlaceboRR$TorUT <- as.character(PlaceboRR$TorUT)
+PlaceboRR$TorUT[PlaceboRR$TorUT == "treated_higher_eff"] = "Treated High-Efficacy"
+PlaceboRR$TorUT[PlaceboRR$TorUT == "treated_standard_eff"] = "Treated Standard-Efficacy"
+PlaceboRR$TorUT <- factor(PlaceboRR$TorUT, levels = c("Untreated", "Treated Standard-Efficacy", "Treated High-Efficacy"))
+
+
+
+p_S4B = ggplot(PlaceboRR, aes(x=year, y=rate, colour=TorUT))+
+  geom_line(aes(x=year, y=rate, group = TorUT))+
+  geom_point(aes(shape = TorUT), size = 1.5) +
+  geom_ribbon(aes(ymin=lwr,ymax=upr,fill=TorUT),alpha=0.2,colour=NA)+
+  xlab("Year")+ylab("Incident\n Relapse Rate")+
+  ylim(0,0.6)+
+  scale_x_continuous(breaks = year, labels = year,expand=c(0,0)) +
+  theme_minimal()+
+  scale_colour_manual("", 
+                      values = c("Untreated"="red", "Treated Standard-Efficacy"="green", "Treated High-Efficacy"="blue"))+
+  scale_fill_manual("",values = c("Untreated"="red", "Treated Standard-Efficacy"="green","Treated High-Efficacy"="blue"))+
+  scale_shape_manual("", values=c(19,17,15))+
+  theme(axis.text.x = element_text(size=8),
+        text=element_text(size=12,family="Times")) +
+  annotate("text", x = 2009, y=0.02, label = paste0("P-value for linear trend; Untreated = ",sprintf("%4.1e",trendS4 ["Untreated Relapse Rate",3])),family="Times",size=3)+
+  annotate("text", x = 2012.5, y=0.35, label = paste0("P-value for linear trend; Treated Standard-Efficacy= ",sprintf("%4.1e",trendS4["Treated Standard Relapse Rate",3])),family="Times",size=3)+
+  annotate("text", x = 2009, y=0.5, label = paste0("P-value for linear trend; Treated High-Efficacy= ",sprintf("%4.1e",trendS4["Treated Higher Relapse Rate",3])),family="Times",size=3)
+
+
+## Combine and output
+tiff("paper1/FigS-4.tiff", units="in", width=9, height=5, res=300)
+grid.newpage()
+grid.draw(ggarrange(p_S4A,p_S4B, ncol=1))
+dev.off()
+
+# Print table of coefficients
+trendS4 = sprintf("%4.1e", trendS4)
+trendS4 = matrix(trendS4,ncol=3)
+colnames(trendS4)  = c("est","bootsd","P-value")
+row.names(trendS4) = names(est)
+kable(trendS4, caption="Trend analysis of Figure S4.")
+
+```
+
+
+Supplementary Table 2: list of CUIs. 
+```{r suppT2, echo=FALSE,message=FALSE}
+df = NLP_list[,c("Group","CUI","Description","CodeFound")]
+kable(df,caption = "List of CUIs.",
+      col.names = c("Category","Code","Description","Codes Found in the Cohort (Yes/No)"),
+      row.names = FALSE)
+```
+
+
+Supplementary Table 3: list of CPT codes. 
+```{r supp8, echo=FALSE,message=FALSE}
+df = CPT_list[,c("Category","CPT_code","Description","CodeFound")]
+df[df[,1]=="HD",1] = "Hospital Admission"
+df[df[,1]=="ED",1] = "Emergency Department Visit"
+df[df[,1]=="Solu",1] = "Methylprednisolone Infusion"
+
+df2 = df[df[,1]=="Methylprednisolone Infusion",]
+df  = df[df[,1]!="Methylprednisolone Infusion",]
+
+kable(df, caption = "List of CPT codes.",col.names = c("Category","CPT_code","Description","Codes Found in the Cohort (Yes/No)"),row.names = FALSE)
+```
+
+
+Supplementary Table 4: List of electronic prescription codes.
+```{r supp9, echo=FALSE,message=FALSE}
+colnames(df2)[2]="Code"
+tmp = data.frame(Category="ITF-beta",Code=Interferon_list$C_BASECODE,Description=Interferon_list$C_NAME,
+                 CodeFound=Interferon_list$CodeFound,stringsAsFactors = FALSE)
+df2 = rbind(df2,tmp)
+kable(df2,col.names = c("Category","Code","Description","Codes Found in the Cohort (Yes/No)"),caption = "List of electronic prescription codes.",row.names = FALSE)
+```
+
+
+
+## References
